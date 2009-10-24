@@ -13,18 +13,20 @@ function load_jquery() {
     }
 }
 
+// we need this because dynamically loading jquery is not-instant
 function after_load() {
     if (typeof(jQuery) == 'undefined') {
-        alert("jquery not loaded");
+        // try again
+        setTimeout("after_load()",50);
     } else {
         groove_get_songs();
     }
 }
-
-load_jquery();
 
 function groove_get_songs() {
     $("h4").each(function (i) {
         alert($(this).html());
     });
 }
+
+load_jquery();
