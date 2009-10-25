@@ -52,10 +52,11 @@ function after_load() {
         // cycle through depots and return songs
         songs = get_songs();
 
-        // post to playgrub.com/post
-        $.post("/post", songs);
-
-        alert("master songs-> "+songs);
+        if(songs && songs.length > 0) {
+            // post to playgrub.com/post
+            $.post("http://localhost:8080/post", songs, function() {alert("posted"); });
+            alert("master songs-> "+songs);
+        }
     }
 }
 
