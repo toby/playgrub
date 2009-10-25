@@ -2,15 +2,20 @@
 function SongDepot(d,s,e) {
     // domain is regex for site
     this.domain = d;
-    // scrape is function to return songs [{artist,song},...]
+    // scrape is function to return songs [[artist, song],...]
     this.scrape = s;
     // error is user message if no songs foudn
     this.error = e;
+    // songs get loaded with scrape function
+    this.songs = [];
     // TODO playlist title
 }
 
 // array of supported depots
 depots = [];
+
+// master list of songs for playlist
+master_songs = [];
 
 // load jquery from google
 // http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
@@ -34,23 +39,32 @@ function after_load() {
         setTimeout("after_load()",50);
     } else {
         // create depots
-        groove_domain = 'grooveshark.com';
-        groove_scrape = function() {
-            $("h4").each(function (i) {
-                alert($(this).html());
+        var groove_domain = 'grooveshark.com';
+        var groove_scrape = function() {
+            var temp_songs = [];
+            $("h4").each(function () {
+                var song_result = $(this).html().split(" - ");
+                temp_songs.push([song_result[1], song_result[0]]);
             });
+            this.songs = temp_songs;
         }
-        groove_error = "You have to go to the widget building page to run this";
-        groove_depot = new SongDepot(groove_domain, groove_scrape, groove_error);
+        var groove_error = "You have to go to the widget building page to run this";
+        var groove_depot = new SongDepot(groove_domain, groove_scrape, groove_error);
         depots.push(groove_depot);
 
         look_for_songs();
+        alert("master songs-> "+master_songs);
     }
 }
 
 function look_for_songs() {
-    for(d in depots) {
-        depots[d].scrape();
+    for(var i = 0; i < depots.length; i++ ) {
+        depots[i].scrape();
+        if(depots[i].songs.length > 0) {
+            master_songs = master_songs.concat(depots[i].songs);
+        } else {
+            alert(depots[i].error);
+        }
     }
 }
 
