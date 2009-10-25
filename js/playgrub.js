@@ -36,7 +36,10 @@ function after_load() {
         // try again
         setTimeout("after_load()",50);
     } else {
-        // create depots
+        // create depots...
+
+        // ----- Grooveshark ----- //
+
         var groove_domain = 'grooveshark.com';
         var groove_scrape = function() {
             var depot_songs = [];
@@ -49,6 +52,7 @@ function after_load() {
         var groove_error = "You have to go to the widget building page to run this";
         var groove_depot = new SongDepot(groove_domain, groove_scrape, groove_error);
         depots.push(groove_depot);
+
 
         // cycle through depots and return songs
         songs = get_songs();
