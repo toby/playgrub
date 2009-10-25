@@ -16,6 +16,7 @@ depots = [];
 
 // load jquery from google
 // http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
+// TODO load easyXDM
 function load_jquery() {
     if (typeof(jQuery) == 'undefined') {
         host = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/';
@@ -54,7 +55,9 @@ function after_load() {
 
         if(songs && songs.length > 0) {
             // post to playgrub.com/post
-            $.post("http://localhost:8080/post", songs, function() {alert("posted"); });
+            $.post("http://localhost:8080/post", songs, function(data) {
+                alert("posted -> "+data);
+            });
             alert("master songs-> "+songs);
         }
     }

@@ -16,6 +16,7 @@ class IndexHandler(webapp.RequestHandler):
 class PlaylistPublishHandler(webapp.RequestHandler):
 
   def post(self):
+    self.response.headers['Content-Type'] = 'text/plain'
     self.response.out.write('Hello world!')
 
 
