@@ -3,7 +3,7 @@ from google.appengine.ext import webapp
 
 class PlaylistPublishHandler(webapp.RequestHandler):
 
-  def get(self):
+  def post(self):
     self.response.out.write('Hello world!')
 
 

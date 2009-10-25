@@ -14,9 +14,6 @@ function SongDepot(d,s,e) {
 // array of supported depots
 depots = [];
 
-// master list of songs for playlist
-master_songs = [];
-
 // load jquery from google
 // http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
 function load_jquery() {
@@ -41,23 +38,25 @@ function after_load() {
         // create depots
         var groove_domain = 'grooveshark.com';
         var groove_scrape = function() {
-            var temp_songs = [];
+            var depot_songs = [];
             $("h4").each(function () {
                 var song_result = $(this).html().split(" - ");
-                temp_songs.push([song_result[1], song_result[0]]);
+                depot_songs.push([song_result[1], song_result[0]]);
             });
-            this.songs = temp_songs;
+            this.songs = depot_songs;
         }
         var groove_error = "You have to go to the widget building page to run this";
         var groove_depot = new SongDepot(groove_domain, groove_scrape, groove_error);
         depots.push(groove_depot);
 
-        look_for_songs();
-        alert("master songs-> "+master_songs);
+        songs = get_songs();
+
+        alert("master songs-> "+songs);
     }
 }
 
-function look_for_songs() {
+function get_songs() {
+    var master_songs = [];
     for(var i = 0; i < depots.length; i++ ) {
         depots[i].scrape();
         if(depots[i].songs.length > 0) {
@@ -66,6 +65,7 @@ function look_for_songs() {
             alert(depots[i].error);
         }
     }
+    return master_songs;
 }
 
 load_jquery();
