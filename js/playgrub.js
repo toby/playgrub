@@ -49,7 +49,11 @@ function after_load() {
         var groove_depot = new SongDepot(groove_domain, groove_scrape, groove_error);
         depots.push(groove_depot);
 
+        // cycle through depots and return songs
         songs = get_songs();
+
+        // post to playgrub.com/post
+        $.post("/post", songs);
 
         alert("master songs-> "+songs);
     }
