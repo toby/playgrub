@@ -1,6 +1,25 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+PGHOST = 'http://localhost:8080/';
+// PGHOST = 'http://www.playgrub.com/';
+
 current_date = new Date();
+
+// array of supported depots
+depots = [];
+
+// song index for playlist
+broadcast_index = 0;
+
+// regular expression escape utility method
+RegExp.escape = function(str) {
+    var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
+    return str.replace(specials, "\\$&");
+}
+
+// load md5 js
+inject_script(PGHOST+'js/md5.js');
+
+// load jquery - will start after_load() when done
+load_jquery();
 
 // SongDepot : object for song services
 function SongDepot(d,s,e) {
@@ -15,25 +34,20 @@ function SongDepot(d,s,e) {
     // TODO playlist title
 }
 
-// array of supported depots
-depots = [];
-
-// regular expression escape utility method
-RegExp.escape = function(str) {
-    var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
-    return str.replace(specials, "\\$&");
+// loads external javascript into page
+function inject_script(script) {
+    // alert('script! -> '+script);
+    var script_element = document.createElement('SCRIPT');
+    script_element.type = 'text/javascript';
+    script_element.src = script;
+    document.getElementsByTagName('head')[0].appendChild(script_element);
 }
 
 // load jquery from google
 // http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
 function load_jquery() {
     if (typeof(jQuery) == 'undefined') {
-        var host = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/';
-        var jquery_script = document.createElement('SCRIPT');
-        jquery_script.type = 'text/javascript';
-        jquery_script.src = host+'jquery.min.js';
-        document.getElementsByTagName('head')[0].appendChild(jquery_script);
-
+        inject_script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
         setTimeout("after_load()",50);
     } else {
         // document set up, start doing stuff
@@ -42,32 +56,6 @@ function load_jquery() {
 
 }
 
-function load_md5() {
-        var md5_script = document.createElement('SCRIPT');
-        md5_script.type = 'text/javascript';
-        md5_script.src = PGHOST+'js/md5.js';
-        document.getElementsByTagName('head')[0].appendChild(md5_script);
-}
-
-function load_terminal() {
-    // load terminal.html iframe for listening
-    var host = PGHOST+'iframe/';
-    var tdiv = document.createElement('div');
-    tdiv.innerHTML = '<iframe style="border: 0px; width: 0px; height: 0px;" id="playgrubterminal" src="'+host+'terminal.html"></iframe>';
-    document.getElementsByTagName('body')[0].appendChild(tdiv);
-    // global terminal
-    terminal = document.getElementById('playgrubterminal');
-
-    /*
-    if(document.getElementById('playgrubterminal')) {
-        alert('playgrubterminal: '+document.getElementById('playgrubterminal'));
-    } else {
-        alert("broken");
-    }
-    */
-}
-
-
 // we need this because dynamically loading jquery is not-instant
 function after_load() {
     if (typeof(jQuery) == 'undefined') {
@@ -75,9 +63,6 @@ function after_load() {
         setTimeout("after_load()",50);
     } else {
 
-        // load md5 and terminal iframe to talk to playgrub.com
-        load_md5();
-        load_terminal();
 
         // create depots...
 
@@ -102,8 +87,7 @@ function after_load() {
 
         if(songs && songs.length > 0) {
             // alert('song length: '+songs.length);
-            // how long should we wait?
-            broadcast_interval = setInterval("broadcast_songs()",50);
+            setTimeout('broadcast_songs()', 50);
             // alert("master songs-> "+songs);
         }
     }
@@ -111,21 +95,24 @@ function after_load() {
 
 function broadcast_songs() {
     // alert('song.length: '+songs.length);
+
     if(songs.length == 0) {
-        clearInterval(broadcast_interval);
         return true;
     }
-    var data = PGHOST+'iframe/terminal.html?artist='+songs[0][0]+'&track='+songs[0][1];
-    if(data != terminal.src) {
-        if(terminal.src == PGHOST+'iframe/terminal.html') {
-            broadcast_index = 1;
-            playlist_id = MD5.hex(window.location+current_date.getTime());
-        } else {
-            broadcast_index++;
-        }
-        terminal.src = data+'&index='+broadcast_index+'&playlist='+playlist_id;
-        songs.shift();
+
+    // first song in playlist
+    if(broadcast_index == 0) {
+        broadcast_index = 1;
+        playlist_id = MD5.hex(window.location+current_date.getTime());
+    } else {
+        broadcast_index++;
     }
+
+    var data = PGHOST+'post.js?artist='+songs[0][0]+'&track='+songs[0][1]+
+        '&index='+broadcast_index+'&playlist='+playlist_id;
+    inject_script(data);
+
+    songs.shift();
 }
 
 function get_songs() {
@@ -148,4 +135,3 @@ function get_songs() {
     return master_songs;
 }
 
-load_jquery();

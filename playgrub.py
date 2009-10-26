@@ -15,13 +15,12 @@ class IndexHandler(webapp.RequestHandler):
 
 class PlaylistPublishHandler(webapp.RequestHandler):
 
-  def post(self):
-    self.response.headers['Content-Type'] = 'text/plain'
-    self.response.out.write('Hello world!')
+  def get(self):
+    self.response.out.write('broadcast_songs();')
 
 
 def main():
-  application = webapp.WSGIApplication([('/post', PlaylistPublishHandler),('/', IndexHandler)],
+  application = webapp.WSGIApplication([('/post.js', PlaylistPublishHandler),('/', IndexHandler)],
                                        debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
