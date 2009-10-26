@@ -102,21 +102,16 @@ function after_load() {
 }
 
 function broadcast_songs() {
-
     // alert('song.length: '+songs.length);
     if(songs.length == 0) {
         clearInterval(broadcast_interval);
         return true;
     }
-
     var data = PGHOST+'iframe/terminal.html?artist='+songs[0][0]+'&track='+songs[0][1];
-
     if(data != terminal.src) {
-
         if(terminal.src == PGHOST+'iframe/terminal.html') {
             broadcast_index = 1;
         } else {
-
             broadcast_index++;
         }
         terminal.src = data+'&index='+broadcast_index;
