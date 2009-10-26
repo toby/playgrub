@@ -1,7 +1,4 @@
-Playgrub will be a bookmarklet that scrapes sites for songs, 
-generates and stores a xspf on playgrub.com, opens the xspf 
-in Playlick and broadcasts the playable URL on Playgrub sites
-such as http://twitter.com/playgrub.
+Playgrub is a bookmarklet that scrapes sites for songs, generates and stores a xspf on playgrub.com, opens the xspf in Playlick and broadcasts the playable URL on Playgrub accounts such as http://twitter.com/playgrub.
 
 Playgrub is a work in progess and is non-function ATM. Stay Tuned.
 
