@@ -31,7 +31,7 @@ function load_jquery() {
         // document set up, start doing stuff
         after_load();
     }
-    load_terminal();
+
 }
 
 function load_terminal() {
@@ -41,9 +41,9 @@ function load_terminal() {
     tdiv.innerHTML = '<iframe style="border: 0px; width: 0px; height: 0px;" id="playgrubterminal" src="'+host+'terminal.html"></iframe>';
     document.getElementsByTagName('body')[0].appendChild(tdiv);
     // global terminal
-    // terminal = document.getElementById('playgrubterminal');
+    terminal = document.getElementById('playgrubterminal');
     if(document.getElementById('playgrubterminal')) {
-        alert(document.getElementById('playgrubterminal'));
+        alert('playgrubterminal: '+document.getElementById('playgrubterminal'));
     } else {
         alert("broken");
     }
@@ -56,6 +56,10 @@ function after_load() {
         // try again
         setTimeout("after_load()",50);
     } else {
+
+        // load terminal iframe to talk to playgrub.com
+        load_terminal();
+
         // create depots...
 
         // ----- Grooveshark ----- //
@@ -83,7 +87,7 @@ function after_load() {
             }
             alert("master songs-> "+songs);
         }
-        // terminal.src = terminal.src+'?artist=';
+        terminal.src = terminal.src+'?artist=';
     }
 }
 
