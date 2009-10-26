@@ -1,4 +1,5 @@
-PGHOST = 'http://localhost:8080/';
+// PGHOST = 'http://localhost:8080/';
+PGHOST = 'http://www.playgrub.com/';
 current_date = new Date();
 
 // SongDepot : object for song services
