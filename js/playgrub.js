@@ -112,9 +112,13 @@ function broadcast_songs() {
     var data = PGHOST+'iframe/terminal.html?artist='+songs[0][0]+'&track='+songs[0][1];
 
     if(data != terminal.src) {
-        if(terminal.src && terminal.src != '')
+        if(terminal.src && terminal.src != PGHOST+'iframe/terminal.html') {
             songs.shift();
-        terminal.src = data;
+            broadcast_index++;
+        } else {
+            broadcast_index = 1;
+        }
+        terminal.src = data+'&index='+broadcast_index;
     }
 }
 
@@ -123,7 +127,6 @@ function get_songs() {
     // check all depots
     for(var i = 0; i < depots.length; i++) {
         // check to see if this depot's url matches the current url
-        var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g");
         regex = new RegExp(RegExp.escape(depots[i].url)+'.*');
         if(regex.exec(window.location)) {
             // run depot's scraping function
