@@ -1,3 +1,5 @@
+PGHOST = 'http://localhost:8080/';
+
 // SongDepot : object for song services
 function SongDepot(d,s,e) {
     // domain is regex for site
@@ -36,17 +38,20 @@ function load_jquery() {
 
 function load_terminal() {
     // load terminal.html iframe for listening
-    var host = 'http://localhost:8080/iframe/';
+    var host = PGHOST+'iframe/';
     var tdiv = document.createElement('div');
     tdiv.innerHTML = '<iframe style="border: 0px; width: 0px; height: 0px;" id="playgrubterminal" src="'+host+'terminal.html"></iframe>';
     document.getElementsByTagName('body')[0].appendChild(tdiv);
     // global terminal
     terminal = document.getElementById('playgrubterminal');
+
+    /*
     if(document.getElementById('playgrubterminal')) {
         alert('playgrubterminal: '+document.getElementById('playgrubterminal'));
     } else {
         alert("broken");
     }
+    */
 }
 
 
@@ -82,12 +87,30 @@ function after_load() {
         songs = get_songs();
 
         if(songs && songs.length > 0) {
-            for(var i = 0; i < songs.length; i++) {
-                // terminal.src = terminal.src+'?artist='+songs[i][0];
-            }
+            alert('song length: '+songs.length);
+
+            broadcast_interval = setInterval("broadcast_songs()",5000);
+
             alert("master songs-> "+songs);
         }
-        terminal.src = terminal.src+'?artist=';
+        // terminal.src = terminal.src+'?artist=';
+    }
+}
+
+function broadcast_songs() {
+
+    // alert('song.length: '+songs.length);
+    if(songs.length == 0) {
+        clearInterval(broadcast_interval);
+        return true;
+    }
+
+    var data = PGHOST+'iframe/terminal.html?artist='+songs[0][0]+'&track='+songs[0][1];
+
+    if(data != terminal.src) {
+        if(terminal.src && terminal.src != '')
+            songs.shift();
+        terminal.src = data;
     }
 }
 
