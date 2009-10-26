@@ -8,7 +8,7 @@ function SongDepot(d,s,e) {
     this.url = d;
     // scrape is function to return songs [[artist, song],...]
     this.scrape = s;
-    // error is user message if no songs foudn
+    // error is user message if no songs found
     this.error = e;
     // songs get loaded with scrape function
     this.songs = [];
@@ -26,7 +26,6 @@ RegExp.escape = function(str) {
 
 // load jquery from google
 // http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
-// TODO load easyXDM
 function load_jquery() {
     if (typeof(jQuery) == 'undefined') {
         var host = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/';
