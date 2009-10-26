@@ -1,6 +1,12 @@
-Check URL to load scraping module
-	- each module has success or failure options
-		- "To export your Grooveshark playlists goto..."
+Playgrub will be a bookmarklet that scrapes sites for songs, 
+generates and stores a xspf on playgrub.com, opens the xspf 
+in Playlick and broadcasts the playable URL on Playgrub sites
+such as http://twitter.com/playgrub.
+
+Playgrub is a work in progess and is non-function ATM. Stay Tuned.
+
+
+Ideas:
 
 UI
 --
