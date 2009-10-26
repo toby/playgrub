@@ -2,8 +2,8 @@ PGHOST = 'http://localhost:8080/';
 
 // SongDepot : object for song services
 function SongDepot(d,s,e) {
-    // domain is regex for site
-    this.domain = d;
+    // url is regex for site
+    this.url = d;
     // scrape is function to return songs [[artist, song],...]
     this.scrape = s;
     // error is user message if no songs foudn
@@ -69,7 +69,7 @@ function after_load() {
 
         // ----- Grooveshark ----- //
 
-        var groove_domain = 'grooveshark.com';
+        var groove_url = 'http://widgets.grooveshark.com/add_songs';
         var groove_scrape = function() {
             var depot_songs = [];
             $("h4").each(function () {
@@ -79,7 +79,7 @@ function after_load() {
             this.songs = depot_songs;
         }
         var groove_error = "You have to go to the widget building page to run this";
-        var groove_depot = new SongDepot(groove_domain, groove_scrape, groove_error);
+        var groove_depot = new SongDepot(groove_url, groove_scrape, groove_error);
         depots.push(groove_depot);
 
 
@@ -87,13 +87,11 @@ function after_load() {
         songs = get_songs();
 
         if(songs && songs.length > 0) {
-            alert('song length: '+songs.length);
-
-            broadcast_interval = setInterval("broadcast_songs()",5000);
-
-            alert("master songs-> "+songs);
+            // alert('song length: '+songs.length);
+            // how long should we wait?
+            broadcast_interval = setInterval("broadcast_songs()",50);
+            // alert("master songs-> "+songs);
         }
-        // terminal.src = terminal.src+'?artist=';
     }
 }
 
@@ -116,12 +114,18 @@ function broadcast_songs() {
 
 function get_songs() {
     var master_songs = [];
+    // check all depots
     for(var i = 0; i < depots.length; i++) {
-        depots[i].scrape();
-        if(depots[i].songs.length > 0) {
-            master_songs = master_songs.concat(depots[i].songs);
-        } else {
-            alert(depots[i].error);
+        // check to see if this depot's url matches the current url
+        if(depots[i].url) {
+            // run depot's scraping function
+            depots[i].scrape();
+            if(depots[i].songs.length > 0) {
+                // add to songs from other depots
+                master_songs = master_songs.concat(depots[i].songs);
+            } else {
+                alert(depots[i].error);
+            }
         }
     }
     return master_songs;
