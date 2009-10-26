@@ -19,16 +19,36 @@ depots = [];
 // TODO load easyXDM
 function load_jquery() {
     if (typeof(jQuery) == 'undefined') {
-        host = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/';
-        jquery_script = document.createElement('SCRIPT');
+        var host = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/';
+        var jquery_script = document.createElement('SCRIPT');
         jquery_script.type = 'text/javascript';
         jquery_script.src = host+'jquery.min.js';
         document.getElementsByTagName('head')[0].appendChild(jquery_script);
+        // find a better place to set up the terminal iframe
+
         setTimeout("after_load()",50);
     } else {
+        // document set up, start doing stuff
         after_load();
     }
+    load_terminal();
 }
+
+function load_terminal() {
+    // load terminal.html iframe for listening
+    var host = 'http://localhost:8080/iframe/';
+    var tdiv = document.createElement('div');
+    tdiv.innerHTML = '<iframe style="border: 0px; width: 0px; height: 0px;" id="playgrubterminal" src="'+host+'terminal.html"></iframe>';
+    document.getElementsByTagName('body')[0].appendChild(tdiv);
+    // global terminal
+    // terminal = document.getElementById('playgrubterminal');
+    if(document.getElementById('playgrubterminal')) {
+        alert(document.getElementById('playgrubterminal'));
+    } else {
+        alert("broken");
+    }
+}
+
 
 // we need this because dynamically loading jquery is not-instant
 function after_load() {
@@ -58,18 +78,18 @@ function after_load() {
         songs = get_songs();
 
         if(songs && songs.length > 0) {
-            // post to playgrub.com/post
-            $.post("http://localhost:8080/post", songs, function(data) {
-                alert("posted -> "+data);
-            });
+            for(var i = 0; i < songs.length; i++) {
+                // terminal.src = terminal.src+'?artist='+songs[i][0];
+            }
             alert("master songs-> "+songs);
         }
+        // terminal.src = terminal.src+'?artist=';
     }
 }
 
 function get_songs() {
     var master_songs = [];
-    for(var i = 0; i < depots.length; i++ ) {
+    for(var i = 0; i < depots.length; i++) {
         depots[i].scrape();
         if(depots[i].songs.length > 0) {
             master_songs = master_songs.concat(depots[i].songs);
