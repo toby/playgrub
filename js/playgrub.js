@@ -16,6 +16,12 @@ function SongDepot(d,s,e) {
 // array of supported depots
 depots = [];
 
+// regular expression escape utility method
+RegExp.escape = function(str) {
+    var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
+    return str.replace(specials, "\\$&");
+}
+
 // load jquery from google
 // http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
 // TODO load easyXDM
@@ -117,7 +123,9 @@ function get_songs() {
     // check all depots
     for(var i = 0; i < depots.length; i++) {
         // check to see if this depot's url matches the current url
-        if(depots[i].url) {
+        var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g");
+        regex = new RegExp(RegExp.escape(depots[i].url)+'.*');
+        if(regex.exec(window.location)) {
             // run depot's scraping function
             depots[i].scrape();
             if(depots[i].songs.length > 0) {
