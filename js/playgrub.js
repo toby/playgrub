@@ -1,4 +1,5 @@
 PGHOST = 'http://localhost:8080/';
+current_date = new Date();
 
 // SongDepot : object for song services
 function SongDepot(d,s,e) {
@@ -32,7 +33,6 @@ function load_jquery() {
         jquery_script.type = 'text/javascript';
         jquery_script.src = host+'jquery.min.js';
         document.getElementsByTagName('head')[0].appendChild(jquery_script);
-        // find a better place to set up the terminal iframe
 
         setTimeout("after_load()",50);
     } else {
@@ -40,6 +40,13 @@ function load_jquery() {
         after_load();
     }
 
+}
+
+function load_md5() {
+        var md5_script = document.createElement('SCRIPT');
+        md5_script.type = 'text/javascript';
+        md5_script.src = PGHOST+'js/md5.js';
+        document.getElementsByTagName('head')[0].appendChild(md5_script);
 }
 
 function load_terminal() {
@@ -68,7 +75,8 @@ function after_load() {
         setTimeout("after_load()",50);
     } else {
 
-        // load terminal iframe to talk to playgrub.com
+        // load md5 and terminal iframe to talk to playgrub.com
+        load_md5();
         load_terminal();
 
         // create depots...
@@ -111,10 +119,11 @@ function broadcast_songs() {
     if(data != terminal.src) {
         if(terminal.src == PGHOST+'iframe/terminal.html') {
             broadcast_index = 1;
+            playlist_id = MD5.hex(window.location+current_date.getTime());
         } else {
             broadcast_index++;
         }
-        terminal.src = data+'&index='+broadcast_index;
+        terminal.src = data+'&index='+broadcast_index+'&playlist='+playlist_id;
         songs.shift();
     }
 }
