@@ -1,5 +1,5 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+PGHOST = 'http://localhost:8080/';
+// PGHOST = 'http://www.playgrub.com/';
 
 current_date = new Date();
 
@@ -65,11 +65,14 @@ function after_load() {
 
 
         // create depots...
+        var depot;
+        var depot_url;
+        var depot_scrape;
+        var depot_error;
 
         // ----- Grooveshark ----- //
-
-        var groove_url = 'http://widgets.grooveshark.com/add_songs';
-        var groove_scrape = function() {
+        depot_url = 'http://widgets\.grooveshark\.com/add_songs.*';
+        depot_scrape = function() {
             var depot_songs = [];
             $("h4").each(function () {
                 var song_result = $(this).html().split(" - ");
@@ -77,10 +80,24 @@ function after_load() {
             });
             this.songs = depot_songs;
         }
-        var groove_error = "You have to go to the widget building page to run this";
-        var groove_depot = new SongDepot(groove_url, groove_scrape, groove_error);
-        depots.push(groove_depot);
+        depot_error = "You have to go to the widget building page to run this";
+        depot = new SongDepot(depot_url, depot_scrape, depot_error);
+        depots.push(depot);
 
+        // ----- Musicbrainz Release ----- //
+        depot_url = 'http://musicbrainz\.org.*/release.*';
+        depot_scrape = function() {
+            var depot_songs = [];
+            var artist = $('table.artisttitle td.title a').html();
+            $("tr.track").each(function () {
+                var song_result = $(this).children('td.title').children('a').text();
+                depot_songs.push([artist, song_result]);
+            });
+            this.songs = depot_songs;
+        }
+        depot_error = "please check your musicbrainz url";
+        depot = new SongDepot(depot_url, depot_scrape, depot_error);
+        depots.push(depot);
 
         // cycle through depots and return songs
         songs = get_songs();
@@ -116,7 +133,7 @@ function get_songs() {
     // check all depots
     for(var i = 0; i < depots.length; i++) {
         // check to see if this depot's url matches the current url
-        regex = new RegExp(RegExp.escape(depots[i].url)+'.*');
+        regex = new RegExp(depots[i].url);
         if(regex.exec(window.location)) {
             // run depot's scraping function
             depots[i].scrape();
