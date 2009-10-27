@@ -101,11 +101,11 @@ function broadcast_songs() {
     // first song in playlist
     if(broadcast_index == 0) {
         playlist_id = MD5.hex(window.location+current_date.getTime());
-        data = PGHOST+'playlist_header.js?playlist='+playlist_id+'&title=test title';
+        data = PGHOST+'playlist_header.js?playlist='+playlist_id+'&title='+encodeURIComponent('test title');
         inject_script(data);
     } else {
-        data = PGHOST+'playlist_track.js?artist='+songs[0][0]+'&track='+songs[0][1]+
-            '&index='+broadcast_index+'&playlist='+playlist_id;
+        data = PGHOST+'playlist_track.js?artist='+encodeURIComponent(songs[0][0])+'&track='+encodeURIComponent(songs[0][1])+
+            '&index='+encodeURIComponent(broadcast_index)+'&playlist='+encodeURIComponent(playlist_id);
         inject_script(data);
         songs.shift();
     }
