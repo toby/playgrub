@@ -54,6 +54,17 @@ class PlaylistTrackHandler(webapp.RequestHandler):
 class XSPFHandler(webapp.RequestHandler):
 
   def get(self):
+    playlist_key = self.request.path.rstrip('.xspf')
+    playlist_key = playlist_key.lstrip('/')
+    logging.error("XSPF key --> %s", playlist_key)
+    q = PlaylistTrack.all()
+    q.filter('playlist =',playlist_key)
+    q.order('index')
+    results = q.fetch(200)
+    for r in results:
+        logging.error("index -> %s", r.index)
+        logging.error("artist -> %s", r.artist)
+        logging.error("track -> %s", r.track)
     template_values = {}
     path = os.path.join(os.path.dirname(__file__), 'template.xspf')
     self.response.headers['Content-Type'] = 'application/xspf+xml'
