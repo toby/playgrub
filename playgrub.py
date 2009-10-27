@@ -35,7 +35,7 @@ class PlaylistHeaderHandler(webapp.RequestHandler):
                                    create_date = datetime.datetime.now())
 
     playlist_header.put()
-    logging.error("playlist_header --> %s", playlist_header.title)
+    # logging.error("playlist_header --> %s", playlist_header.title)
     self.response.out.write('broadcast_index++; broadcast_songs();')
 
 class PlaylistTrackHandler(webapp.RequestHandler):
@@ -48,12 +48,19 @@ class PlaylistTrackHandler(webapp.RequestHandler):
                                    create_date = datetime.datetime.now())
 
     playlist_track.put()
-    logging.error("playlist_track --> %s", playlist_track.artist)
+    # logging.error("playlist_track --> %s", playlist_track.artist)
     self.response.out.write('broadcast_index++; broadcast_songs();')
 
+class XSPFHandler(webapp.RequestHandler):
+
+  def get(self):
+    template_values = {}
+    path = os.path.join(os.path.dirname(__file__), 'template.xspf')
+    self.response.headers['Content-Type'] = 'application/xspf+xml'
+    self.response.out.write(template.render(path, template_values))
 
 def main():
-  application = webapp.WSGIApplication([('/playlist_header.js', PlaylistHeaderHandler),('/playlist_track.js', PlaylistTrackHandler),('/', IndexHandler)],
+  application = webapp.WSGIApplication([('/playlist_header.js', PlaylistHeaderHandler),('/playlist_track.js', PlaylistTrackHandler),('/', IndexHandler),('/.*\.xspf', XSPFHandler)],
                                        debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
