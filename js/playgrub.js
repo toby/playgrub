@@ -94,25 +94,21 @@ function after_load() {
 }
 
 function broadcast_songs() {
-    // alert('song.length: '+songs.length);
-
+    var data;
     if(songs.length == 0) {
         return true;
     }
-
     // first song in playlist
     if(broadcast_index == 0) {
-        broadcast_index = 1;
         playlist_id = MD5.hex(window.location+current_date.getTime());
+        data = PGHOST+'playlist_header.js?playlist='+playlist_id+'&title=test title';
+        inject_script(data);
     } else {
-        broadcast_index++;
+        data = PGHOST+'playlist_track.js?artist='+songs[0][0]+'&track='+songs[0][1]+
+            '&index='+broadcast_index+'&playlist='+playlist_id;
+        inject_script(data);
+        songs.shift();
     }
-
-    var data = PGHOST+'post.js?artist='+songs[0][0]+'&track='+songs[0][1]+
-        '&index='+broadcast_index+'&playlist='+playlist_id;
-    inject_script(data);
-
-    songs.shift();
 }
 
 function get_songs() {
