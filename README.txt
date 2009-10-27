@@ -5,12 +5,13 @@ Playgrub is a work in progess and is non-function ATM. Stay Tuned.
 
 Ideas:
 
-UI
---
-Highlight songs on page
-Songs slidedown
-If no songs suggest some sites with songs
-	- recommendations
+New Depots
+----------
+
+musicbrainz
+	- http://musicbrainz.org/release/e33609a4-fcda-4ebe-b845-b6503a6c0405.html
+last.fm
+haudio
 
 User Actions
 ------------

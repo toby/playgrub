@@ -4,10 +4,12 @@
     <creator>Jane Doe</creator>
     <info>http://example.com/~jane</info>
     <trackList>
+        {% for song in songs %}
         <track>
-            <creator>Led Zeppelin</creator>
-            <title>No Quarter</title>
+            <creator>{{ song.artist }}</creator>
+            <title>{{ song.track }}</title>
         </track>
+        {% endfor %}
     </trackList>
 </playlist>
 
