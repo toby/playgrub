@@ -34,6 +34,7 @@ Broadcast to Playgrub sites
 
 Code
 ----
+playlist js object with index
 give own namespace
 easy to add new modules
 

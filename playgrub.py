@@ -1,8 +1,18 @@
+import logging
+
 import os
+import datetime
 import wsgiref.handlers
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.ext import db
 
+class PlaylistTrack(db.Model):
+  artist = db.StringProperty(required=True)
+  track = db.StringProperty(required=True)
+  index = db.IntegerProperty(required=True)
+  playlist = db.StringProperty(required=True)
+  create_date = db.DateTimeProperty(required=True)
 
 class IndexHandler(webapp.RequestHandler):
 
@@ -16,6 +26,14 @@ class IndexHandler(webapp.RequestHandler):
 class PlaylistPublishHandler(webapp.RequestHandler):
 
   def get(self):
+    playlist_track = PlaylistTrack(artist = self.request.get('artist'),
+                                   track = self.request.get('track'),
+                                   index = int(self.request.get('index')),
+                                   playlist = self.request.get('playlist'),
+                                   create_date = datetime.datetime.now())
+
+    playlist_track.put()
+    logging.error("playlist--> %s", playlist_track.artist)
     self.response.out.write('broadcast_songs();')
 
 

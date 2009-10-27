@@ -1,5 +1,5 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+PGHOST = 'http://localhost:8080/';
+// PGHOST = 'http://www.playgrub.com/';
 
 current_date = new Date();
 
@@ -87,7 +87,7 @@ function after_load() {
 
         if(songs && songs.length > 0) {
             // alert('song length: '+songs.length);
-            setTimeout('broadcast_songs()', 50);
+            setTimeout('broadcast_songs()', 150);
             // alert("master songs-> "+songs);
         }
     }
