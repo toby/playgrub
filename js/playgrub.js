@@ -1,5 +1,5 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+PGHOST = 'http://localhost:8080/';
+// PGHOST = 'http://www.playgrub.com/';
 
 // load MD5 functions from end of file
 var MD5 = (load_md5)();
