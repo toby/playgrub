@@ -16,6 +16,7 @@ class PlaylistTrack(db.Model):
 
 class PlaylistHeader(db.Model):
   title = db.StringProperty(required=True)
+  url= db.StringProperty(required=True)
   playlist = db.StringProperty(required=True)
   create_date = db.DateTimeProperty(required=True)
 
@@ -31,6 +32,7 @@ class PlaylistHeaderHandler(webapp.RequestHandler):
 
   def get(self):
     playlist_header= PlaylistHeader(title = self.request.get('title'),
+                                   url = self.request.get('url'),
                                    playlist = self.request.get('playlist'),
                                    create_date = datetime.datetime.now())
 
@@ -56,18 +58,28 @@ class XSPFHandler(webapp.RequestHandler):
   def get(self):
     playlist_key = self.request.path.rstrip('.xspf')
     playlist_key = playlist_key.lstrip('/')
-    logging.error("XSPF key --> %s", playlist_key)
+
+    # logging.error("XSPF key --> %s", playlist_key)
+
+    q = PlaylistHeader.all()
+    q.filter('playlist =',playlist_key)
+    head = q.fetch(1)[0]
+    # logging.error("head -> %s",head.title)
+
     q = PlaylistTrack.all()
     q.filter('playlist =',playlist_key)
     q.order('index')
-    results = q.fetch(200)
-    # for r in results:
+    songs = q.fetch(200)
+    # for r in songs:
         # logging.error("index -> %s", r.index)
         # logging.error("artist -> %s", r.artist)
         # logging.error("track -> %s", r.track)
+
     template_values = {
-        'songs': results,
+        'header': head,
+        'songs': songs,
         }
+
     path = os.path.join(os.path.dirname(__file__), 'xspf-template.html')
     self.response.headers['Content-Type'] = 'application/xspf+xml'
     self.response.out.write(template.render(path, template_values))
