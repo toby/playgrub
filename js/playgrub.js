@@ -1,5 +1,5 @@
-PGHOST = 'http://localhost:8080/';
-// PGHOST = 'http://www.playgrub.com/';
+// PGHOST = 'http://localhost:8080/';
+PGHOST = 'http://www.playgrub.com/';
 
 // load MD5 functions from end of file
 var MD5 = (load_md5)();
@@ -87,13 +87,15 @@ function after_load() {
             $("a").filter(function() {
                     match = $(this).attr('href').match('.*\/music\/([^+][^\/]*)\/[^+][^\/]*\/([^+][^\?]*)');
                     if(match) {
-                        uartist = unique_songs[match[1]];
+                        artist = match[1];
+                        song = match[2];
+                        uartist = unique_songs[artist];
                         if(typeof(uartist) != 'undefined')
                             usong = uartist[match[2]];
                         if((typeof(uartist) == 'undefined') || (typeof(usong) == 'undefined')) {
-                            unique_songs[match[1]] = {};
-                            unique_songs[match[1]][match[2]] = {};
-                            depot_songs.push([match[1], match[2]]);
+                            unique_songs[artist] = {};
+                            unique_songs[artist][song] = {};
+                            depot_songs.push([decodeURIComponent(artist), decodeURIComponent(song).replace('+',' ')]);
                         }
                     }
                 });
