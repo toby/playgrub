@@ -1,5 +1,5 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+PGHOST = 'http://localhost:8080/';
+// PGHOST = 'http://www.playgrub.com/';
 
 // load MD5 functions from end of file
 var MD5 = (load_md5)();
@@ -95,7 +95,7 @@ function after_load() {
                         if((typeof(uartist) == 'undefined') || (typeof(usong) == 'undefined')) {
                             unique_songs[artist] = {};
                             unique_songs[artist][song] = {};
-                            depot_songs.push([decodeURIComponent(artist), decodeURIComponent(song).replace('+',' ')]);
+                            depot_songs.push([decodeURIComponent(artist), decodeURIComponent(song).replace(/\+/g, ' ')]);
                         }
                     }
                 });
