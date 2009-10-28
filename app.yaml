@@ -7,8 +7,5 @@ handlers:
 - url: /js
   static_dir: js
 
-- url: /iframe
-  static_dir: iframe
-
 - url: /.*
   script: playgrub.py
