@@ -1,6 +1,7 @@
 PGHOST = 'http://localhost:8080/';
 // PGHOST = 'http://www.playgrub.com/';
 
+// load MD5 functions from end of file
 var MD5 = (load_md5)();
 
 current_date = new Date();
@@ -79,17 +80,26 @@ function after_load() {
         var depot_error;
 
         // ----- Last.fm ----- //
-        depot_url = 'http://last.fm.*';
+        depot_url = 'http://.*last.fm.*';
         depot_scrape = function() {
             var depot_songs = [];
-            $("a:regex(href, /^\/music\/([^+][^\/]*)\/([^+][^\/]*)\/([^+][^\/]*)/)").each(function () {
-                alert(this.html());
-                var song_result = $(this).html().split(" - ");
-                depot_songs.push([song_result[1], song_result[0]]);
-            });
+            var unique_songs = {};
+            $("a").filter(function() {
+                    match = $(this).attr('href').match('.*\/music\/([^+][^\/]*)\/[^+][^\/]*\/([^+][^\?]*)');
+                    if(match) {
+                        uartist = unique_songs[match[1]];
+                        if(typeof(uartist) != 'undefined')
+                            usong = uartist[match[2]];
+                        if((typeof(uartist) == 'undefined') || (typeof(usong) == 'undefined')) {
+                            unique_songs[match[1]] = {};
+                            unique_songs[match[1]][match[2]] = {};
+                            depot_songs.push([match[1], match[2]]);
+                        }
+                    }
+                });
             this.songs = depot_songs;
         }
-        depot_error = "You have to go to the widget building page to run this";
+        depot_error = "Check your Last.fm url";
         depot = new SongDepot(depot_url, depot_scrape, depot_error);
         depots.push(depot);
 
@@ -121,7 +131,6 @@ function after_load() {
         depot_error = "please check your musicbrainz url";
         depot = new SongDepot(depot_url, depot_scrape, depot_error);
         depots.push(depot);
-
         // cycle through depots and return songs
         songs = get_songs();
 
