@@ -1,5 +1,5 @@
-PGHOST = 'http://localhost:8080/';
-// PGHOST = 'http://www.playgrub.com/';
+// PGHOST = 'http://localhost:8080/';
+PGHOST = 'http://www.playgrub.com/';
 
 current_date = new Date();
 
