@@ -38,6 +38,7 @@ Code
 playlist js object with index
 give own namespace
 easy to add new modules
+only allow one playlist per page/load
 
 Infrastructure
 --------------

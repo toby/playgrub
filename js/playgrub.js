@@ -9,12 +9,6 @@ depots = [];
 // song index for playlist
 broadcast_index = 0;
 
-// regular expression escape utility method
-RegExp.escape = function(str) {
-    var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
-    return str.replace(specials, "\\$&");
-}
-
 // load jquery - will start after_load() when done
 load_jquery();
 
@@ -53,6 +47,10 @@ function load_jquery() {
 
 }
 
+function ui_contents() {
+    return "<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a>";
+}
+
 // we need this because dynamically loading jquery is not-instant
 function after_load() {
     if (typeof(jQuery) == 'undefined') {
@@ -60,6 +58,7 @@ function after_load() {
         setTimeout("after_load()",50);
     } else {
 
+        $('body').prepend("<div id='yoyo' style='width: 100%; border: 1px solid white; position: absolute; top: 0px; left: 0px; z-index: 1000; height: 85px; background: #FFFFFF;'>"+ui_contents()+"</div>");
 
         // create depots...
         var depot;
@@ -110,12 +109,11 @@ function after_load() {
 function broadcast_songs() {
     var data;
     if(songs.length == 0) {
-        alert(PGHOST+playlist_id+'.xspf');
+        // alert(PGHOST+playlist_id+'.xspf');
         return true;
     }
     // first song in playlist
     if(broadcast_index == 0) {
-        playlist_id = MD5.hex(window.location+current_date.getTime());
         data = PGHOST+'playlist_header.js?playlist='+playlist_id+'&title='+encodeURIComponent(document.title)+'&url='+encodeURIComponent(window.location);
         inject_script(data);
     } else {
@@ -402,3 +400,7 @@ function binl2b64(binarray) {
     }
   };
 })();
+
+// id for this playlist
+playlist_id = MD5.hex(window.location+current_date.getTime());
+
