@@ -48,7 +48,14 @@ function load_jquery() {
 }
 
 function ui_contents() {
-    return "<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a>";
+    var contents;
+    contents = "Title: "+document.title;
+    contents = contents+"<br />";
+    contents = contents+"Share: "+PGHOST+playlist_id;
+    contents = contents+"<br />";
+    contents = contents+"<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a> ";
+    contents = contents+"<a href='"+"http://www.spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>Play in spiffdar</a>";;
+    return contents;
 }
 
 // we need this because dynamically loading jquery is not-instant
