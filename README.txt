@@ -1,5 +1,9 @@
 Playgrub is a bookmarklet that scrapes sites for songs, generates and stores a xspf on playgrub.com, opens the xspf in Playlick and broadcasts the playable URL on Playgrub accounts such as http://twitter.com/playgrub.
 
+Install
+-------
+Bookmark top link on http://www.playgrub.com
+
 Bookmarkable Sites
 ------------------
 Last.fm - any page with songs
