@@ -110,6 +110,7 @@ function after_load() {
 function broadcast_songs() {
     var data;
     if(songs.length == 0) {
+        alert(PGHOST+playlist_id+'.xspf');
         return true;
     }
     // first song in playlist
