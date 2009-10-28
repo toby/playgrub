@@ -1,7 +1,12 @@
 PGHOST = 'http://localhost:8080/';
 // PGHOST = 'http://www.playgrub.com/';
 
+var MD5 = (load_md5)();
+
 current_date = new Date();
+
+// id for this playlist
+playlist_id = MD5.hex(window.location+current_date.getTime());
 
 // array of supported depots
 depots = [];
@@ -72,6 +77,21 @@ function after_load() {
         var depot_url;
         var depot_scrape;
         var depot_error;
+
+        // ----- Last.fm ----- //
+        depot_url = 'http://last.fm.*';
+        depot_scrape = function() {
+            var depot_songs = [];
+            $("a:regex(href, /^\/music\/([^+][^\/]*)\/([^+][^\/]*)\/([^+][^\/]*)/)").each(function () {
+                alert(this.html());
+                var song_result = $(this).html().split(" - ");
+                depot_songs.push([song_result[1], song_result[0]]);
+            });
+            this.songs = depot_songs;
+        }
+        depot_error = "You have to go to the widget building page to run this";
+        depot = new SongDepot(depot_url, depot_scrape, depot_error);
+        depots.push(depot);
 
         // ----- Grooveshark ----- //
         depot_url = 'http://widgets\.grooveshark\.com/add_songs.*';
@@ -160,7 +180,8 @@ function get_songs() {
  * See http://pajhome.org.uk/crypt/md5 for more info.
  */
 
-var MD5 = (function() {
+
+function load_md5() {
 /*
  * Calculate the MD5 of an array of little-endian words, and a bit length
  */
@@ -406,8 +427,6 @@ function binl2b64(binarray) {
       return this.hex("abc") == "900150983cd24fb0d6963f7d28e17f72";
     }
   };
-})();
+}
 
-// id for this playlist
-playlist_id = MD5.hex(window.location+current_date.getTime());
 
