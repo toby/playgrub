@@ -57,9 +57,10 @@ function ui_contents() {
     var contents;
     contents = "Title: "+document.title;
     contents = contents+"<br />";
-    contents = contents+"Share: "+PGHOST+playlist_id+' '+clippy(PGHOST+playlist_id);
+    // contents = contents+"Share: "+PGHOST+playlist_id+' '+clippy(PGHOST+playlist_id);
+    contents = contents+"Share: "+PGHOST+playlist_id;
     contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>Play in Playlick</a>";
+    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+PGHOST+playlist_id+".xspf"+"' target='_blank'>Play in Playlick</a>";
     contents = contents+"<br />";
     contents = contents+"<a href='"+"http://www.spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>Play in Spiffdar</a>";
     contents = contents+"<br />";
