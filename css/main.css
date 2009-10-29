@@ -1,0 +1,47 @@
+body {
+    font-family: Arial,Helvetica;
+}
+
+h3 {
+    margin-bottom: 15px;
+}
+
+#bookmarklets {
+    float: right;
+}
+
+.playlist {
+    margin-bottom: 15px;
+}
+
+.playlist-title a:link {
+    text-decoration: none;
+}
+.playlist-title a:active {
+    text-decoration: none;
+}
+.playlist-title a:hover {
+    text-decoration: none;
+}
+.playlist-title a:visited {
+    text-decoration: none;
+}
+
+.playlist-controls {
+    display: block;
+    font-size: .75em;
+}
+
+.playlist-controls a:link {
+    text-decoration: none;
+}
+.playlist-controls a:active {
+    text-decoration: none;
+}
+.playlist-controls a:hover {
+    text-decoration: none;
+}
+.playlist-controls a:visited {
+    text-decoration: none;
+}
+
