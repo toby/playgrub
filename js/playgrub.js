@@ -1,5 +1,5 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+PGHOST = 'http://localhost:8080/';
+// PGHOST = 'http://www.playgrub.com/';
 
 // load MD5 functions from end of file
 var MD5 = (load_md5)();
@@ -171,7 +171,7 @@ function broadcast_songs() {
     }
     // first song in playlist
     if(broadcast_index == 0) {
-        data = PGHOST+'playlist_header.js?playlist='+playlist_id+'&title='+encodeURIComponent(document.title)+'&url='+encodeURIComponent(window.location);
+        data = PGHOST+'playlist_header.js?playlist='+playlist_id+'&songs='+songs.length+'&title='+encodeURIComponent(document.title)+'&url='+encodeURIComponent(window.location);
         inject_script(data);
     } else {
         data = PGHOST+'playlist_track.js?artist='+encodeURIComponent(songs[0][0])+'&track='+encodeURIComponent(songs[0][1])+

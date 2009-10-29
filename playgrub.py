@@ -18,6 +18,7 @@ class PlaylistHeader(db.Model):
   title = db.StringProperty(required=True)
   url= db.StringProperty(required=True)
   playlist = db.StringProperty(required=True)
+  songs = db.StringProperty(required=True)
   create_date = db.DateTimeProperty(required=True)
 
 class IndexHandler(webapp.RequestHandler):
@@ -36,6 +37,7 @@ class PlaylistHeaderHandler(webapp.RequestHandler):
   def get(self):
     playlist_header= PlaylistHeader(title = self.request.get('title'),
                                    url = self.request.get('url'),
+                                   songs = self.request.get('songs'),
                                    playlist = self.request.get('playlist'),
                                    create_date = datetime.datetime.now())
 
