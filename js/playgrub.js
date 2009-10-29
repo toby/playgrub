@@ -1,5 +1,5 @@
-PGHOST = 'http://localhost:8080/';
-// PGHOST = 'http://www.playgrub.com/';
+// PGHOST = 'http://localhost:8080/';
+PGHOST = 'http://www.playgrub.com/';
 
 // load MD5 functions from end of file
 var MD5 = (load_md5)();
@@ -64,7 +64,7 @@ function ui_contents() {
     contents = contents+"<br />";
     contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+PGHOST+playlist_id+".xspf"+"' target='_blank'>&#9654; Playlick</a>";
     contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://www.spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>";
+    contents = contents+"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>";
     contents = contents+"<br />";
     contents = contents+"<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a>";
     contents = contents+"</div>";

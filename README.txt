@@ -12,7 +12,8 @@ Groove Shark Playilsts (export, next step on song list page)
 
 Players
 -------
-Spiffdar (http://www.spiffdar.org)
+Playlick http://www.playlick.com
+Spiffdar http://spiffdar.org
 
 Ideas:
 
