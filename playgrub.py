@@ -23,7 +23,10 @@ class PlaylistHeader(db.Model):
 class IndexHandler(webapp.RequestHandler):
 
   def get(self):
-    template_values = {}
+    heads = PlaylistHeader.gql("order by create_date desc limit 25");
+    template_values = {
+        'headers': heads,
+        }
     path = os.path.join(os.path.dirname(__file__), 'index.html')
     self.response.out.write(template.render(path, template_values))
 
