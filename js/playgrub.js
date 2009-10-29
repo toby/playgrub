@@ -1,5 +1,5 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+PGHOST = 'http://localhost:8080/';
+// PGHOST = 'http://www.playgrub.com/';
 
 // load MD5 functions from end of file
 var MD5 = (load_md5)();
@@ -55,16 +55,19 @@ function load_jquery() {
 
 function ui_contents() {
     var contents;
-    contents = "Title: "+document.title;
+    contents = "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px; left: 0px; z-index: 1000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>";
+    contents = contents+"<div style='position: absolute; top: 15px; right: 25px;'><a href='' id='playgrub-bookmarklet-close'>close</a></div>";
+    contents = contents+"Title: "+document.title;
     contents = contents+"<br />";
     // contents = contents+"Share: "+PGHOST+playlist_id+' '+clippy(PGHOST+playlist_id);
     contents = contents+"Share: "+PGHOST+playlist_id;
     contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+PGHOST+playlist_id+".xspf"+"' target='_blank'>Play in Playlick</a>";
+    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+PGHOST+playlist_id+".xspf"+"' target='_blank'>&#9654; Playlick</a>";
     contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://www.spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>Play in Spiffdar</a>";
+    contents = contents+"<a href='"+"http://www.spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>";
     contents = contents+"<br />";
     contents = contents+"<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a>";
+    contents = contents+"</div>";
     return contents;
 }
 
@@ -87,7 +90,7 @@ function after_load() {
         setTimeout("after_load()",50);
     } else {
 
-        $('body').prepend("<div id='yoyo' style='width: 100%; border: 1px solid white; position: absolute; top: 0px; left: 0px; z-index: 1000; height: 85px; background: #FFFFFF;'>"+ui_contents()+"</div>");
+        $('body').prepend(ui_contents());
 
         // create depots...
         var depot;
