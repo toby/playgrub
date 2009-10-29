@@ -1,11 +1,14 @@
 application: playgrub
-version: 12
+version: 13
 runtime: python
 api_version: 1
 
 handlers:
 - url: /js
   static_dir: js
+
+- url: /static
+  static_dir: static
 
 - url: /.*
   script: playgrub.py

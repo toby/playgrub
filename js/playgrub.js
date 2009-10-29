@@ -1,5 +1,5 @@
-PGHOST = 'http://localhost:8080/';
-// PGHOST = 'http://www.playgrub.com/';
+// PGHOST = 'http://localhost:8080/';
+PGHOST = 'http://www.playgrub.com/';
 
 // load MD5 functions from end of file
 var MD5 = (load_md5)();
@@ -57,11 +57,26 @@ function ui_contents() {
     var contents;
     contents = "Title: "+document.title;
     contents = contents+"<br />";
-    contents = contents+"Share: "+PGHOST+playlist_id;
+    contents = contents+"Share: "+PGHOST+playlist_id+' '+clippy(PGHOST+playlist_id);
     contents = contents+"<br />";
-    contents = contents+"<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a> ";
-    contents = contents+"<a href='"+"http://www.spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>Play in spiffdar</a>";;
+    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>Play in Playlick</a>";
+    contents = contents+"<br />";
+    contents = contents+"<a href='"+"http://www.spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>Play in Spiffdar</a>";
+    contents = contents+"<br />";
+    contents = contents+"<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a>";
     return contents;
+}
+
+function clippy(clip_text) {
+    render = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" id="clippy" >';
+    render = render+'<param name="movie" value="'+PGHOST+'static/clippy.swf"/>';
+    render = render+'<param name="allowScriptAccess" value="always" />';
+    render = render+'<param name="quality" value="high" />';
+    render = render+'<param name="scale" value="noscale" />';
+    render = render+'<param NAME="FlashVars" value="text='+clip_text+'">';
+    render = render+'<param name="bgcolor" value="#FFFFFF">';
+    render = render+'<embed src="/flash/clippy.swf" width="110" height="14" name="clippy" quality="high" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" FlashVars="text='+clip_text+'" bgcolor="#FFFFFF" />';
+    render = render+'</object>';
 }
 
 // we need this because dynamically loading jquery is not-instant
