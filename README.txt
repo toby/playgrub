@@ -1,7 +1,7 @@
 Playgrub is a bookmarklet that scrapes sites for songs, generates and stores a xspf on playgrub.com, opens the xspf in Playlick and broadcasts the playable URL on Playgrub accounts such as http://twitter.com/playgrub.
 
-Install
--------
+User Install
+------------
 Bookmark top link on http://www.playgrub.com
 
 Bookmarkable Sites
@@ -15,36 +15,6 @@ Players
 Playlick http://www.playlick.com
 Spiffdar http://spiffdar.org
 
-Ideas:
-
-New Depots
-----------
-haudio
-
-User Actions
-------------
-Play in Playlick
-Play in Popup mini player
-Publish to Last.fm
-
-Settings http://www.playgrub.com/settings
-	- cookie based
-	- post url
-
-Publish Options
----------------
-Tweet this playlist
-Broadcast to Playgrub sites
-	- http://twitter.com/playgrub
-	- facebook
-	- http://delicious.com/playgrub
-
-Code
-----
-give own namespace
-easy to add new modules
-only allow one playlist per page/load
-
-Infrastructure
---------------
-ping the echo nest resolver when we find a mp3 url?
+Development
+-----------
+Playgrub is a Google App Engine Python application. If you would like to deploy your own version, sign up to Google App Engine (http://code.google.com/appengine/) and edit the app.yaml file with your settings.
