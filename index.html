@@ -7,15 +7,15 @@
 
 <div id='bookmarklets'>
 <!-- change host to location of playgrub.js -->
-<a href="javascript:(function(){ host='http://www.playgrub.com/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();">playgrub</a>&nbsp;
-<a href="javascript:(function(){ host='http://localhost:8080/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();">playgrub local</a>
+<a href="javascript:(function(){ host='http://www.playgrub.com/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();">playgrub bookmarklet</a>
+<!-- <a href="javascript:(function(){ host='http://localhost:8080/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();">playgrub local</a> -->
 </div>
 
 <div id='playlists'>
 <h3>New Playlists</h3>
 {% for header in headers %}
 <div class='playlist'>
-    <span class='playlist-title'><a href='http://www.playlick.com/#xspf=http://www.playgrub.com/{{ header.playlist}}i.xspf'>&#9654; {{ header.title|escape }}</a></span>
+    <span class='playlist-title'><a href='http://www.playlick.com/#xspf=http://www.playgrub.com/{{ header.playlist}}.xspf' target='_blank'>&#9654; {{ header.title|escape }}</a></span>
     <div class='playlist-controls'>
         <span class='playlist-tracks'>{{ header.songs }} tracks</span>
         <span class='playlist-url'><a href='{{ header.url }}'> - source</a></span>
