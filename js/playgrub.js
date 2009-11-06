@@ -157,8 +157,8 @@ function after_load() {
         depot_url = 'http://new\.music\.yahoo\.com/blogs/yradish/*';
         depot_scrape = function() {
             var depot_songs = [];
-            $("span.ymp-btn-page-play a").each(function () {
-                var song_result = $(this).html().split(" - ");
+	    $("div.ymusic-text-article p").each(function () {
+                var song_result = $(this).text().split(" - ");
                 depot_songs.push([song_result[1], song_result[0]]);
             });
             this.songs = depot_songs;
