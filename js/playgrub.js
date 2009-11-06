@@ -1,13 +1,21 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+Playgrub = {
+    PGHOST: 'http://localhost:8080/',
+    VERSION: '0.2',
+    playlist: null,
+    client: null,
+    player: null
+}
 
-// load MD5 functions from end of file
-var MD5 = (load_md5)();
+Playgrub.Playlist = function() {
+    Playgrub.playlist = this;
+    var MD5 = (load_md5)();
+    this.id = MD5.hex(window.location + new Date().getTime());
+}
 
-current_date = new Date();
-
-// id for this playlist
-playlist_id = MD5.hex(window.location+current_date.getTime());
+Playgrub.Playlist.prototype = {
+    title: null,
+    url: null,
+}
 
 // array of supported depots
 depots = [];
