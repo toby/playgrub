@@ -152,6 +152,21 @@ function after_load() {
         depot_error = "please check your musicbrainz url";
         depot = new SongDepot(depot_url, depot_scrape, depot_error);
         depots.push(depot);
+        
+        // ----- Robert Radish on Yahoo Music ----- //
+        depot_url = 'http://new\.music\.yahoo\.com/blogs/yradish/*';
+        depot_scrape = function() {
+            var depot_songs = [];
+            $("span.ymp-btn-page-play a").each(function () {
+                var song_result = $(this).html().split(" - ");
+                depot_songs.push([song_result[1], song_result[0]]);
+            });
+            this.songs = depot_songs;
+        }
+        depot_error = "Check your Robert Radish URL.";
+        depot = new SongDepot(depot_url, depot_scrape, depot_error);
+        depots.push(depot);
+
         // cycle through depots and return songs
         songs = get_songs();
 
