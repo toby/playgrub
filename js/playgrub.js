@@ -8,6 +8,8 @@ Playgrub = {
 
 Playgrub.Playlist = function() {
     Playgrub.playlist = this;
+
+    // generate id for playlist from current url and time md5
     var MD5 = (load_md5)();
     this.id = MD5.hex(window.location + new Date().getTime());
 };
@@ -24,6 +26,8 @@ Playgrub.Playlist.prototype = {
 };
 
 Playgrub.Client = function(p) {
+    Playgrub.client = this;
+
     playlist = p;
     broadcast_index = 0;
 
@@ -46,6 +50,26 @@ Playgrub.Client = function(p) {
                 encodeURIComponent(playlist_tracks[broadcast_index-1][1])+'&index='+encodeURIComponent(broadcast_index)+'&playlist='+playlist.id;
             inject_script(data);
         }
+    }
+};
+
+Playgrub.Bookmarklet = {
+    html:  "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px;"
+        +"left: 0px; z-index: 1000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>"
+        +"<div style='position: absolute; top: 15px; right: 25px;'><a href='' id='playgrub-bookmarklet-close'>close</a></div>"
+        +"Title: "+document.title
+        +"<br />"
+        +"Share: "+Playgrub.PGHOST+Playgrub.playlist.id+'.xspf'
+        +"<br />"
+        +"<a href='"+"http://www.playlick.com/#xspf="+Playgrub.PGHOST+Playgrub.playlist.id+".xspf"+"' target='_blank'>&#9654; Playlick</a>"
+        +"<br />"
+        +"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>"
+        +"<br />"
+        +"<a href='"+Playgrub.PGHOST+Playgrub.playlist.id+".xspf'>Download XSPF</a>"
+        +"</div>",
+
+    render: function() {
+        $('body').prepend(this.html);
     }
 }
 
@@ -90,36 +114,6 @@ function load_jquery() {
 
 }
 
-function ui_contents() {
-    var contents;
-    contents = "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px; left: 0px; z-index: 1000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>";
-    contents = contents+"<div style='position: absolute; top: 15px; right: 25px;'><a href='' id='playgrub-bookmarklet-close'>close</a></div>";
-    contents = contents+"Title: "+document.title;
-    contents = contents+"<br />";
-    // contents = contents+"Share: "+PGHOST+playlist_id+' '+clippy(PGHOST+playlist_id);
-    contents = contents+"Share: "+Playgrub.PGHOST+playlist_id;
-    contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+Playgrub.PGHOST+playlist_id+".xspf"+"' target='_blank'>&#9654; Playlick</a>";
-    contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+playlist_id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>";
-    contents = contents+"<br />";
-    contents = contents+"<a href='"+Playgrub.PGHOST+playlist_id+".xspf'>Download XSPF</a>";
-    contents = contents+"</div>";
-    return contents;
-}
-
-function clippy(clip_text) {
-    render = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" id="clippy" >';
-    render = render+'<param name="movie" value="'+Playgrub.PGHOST+'static/clippy.swf"/>';
-    render = render+'<param name="allowScriptAccess" value="always" />';
-    render = render+'<param name="quality" value="high" />';
-    render = render+'<param name="scale" value="noscale" />';
-    render = render+'<param NAME="FlashVars" value="text='+clip_text+'">';
-    render = render+'<param name="bgcolor" value="#FFFFFF">';
-    render = render+'<embed src="/flash/clippy.swf" width="110" height="14" name="clippy" quality="high" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" FlashVars="text='+clip_text+'" bgcolor="#FFFFFF" />';
-    render = render+'</object>';
-}
-
 // we need this because dynamically loading jquery is not-instant
 function after_load() {
     if (typeof(jQuery) == 'undefined') {
@@ -127,7 +121,7 @@ function after_load() {
         setTimeout("after_load()",50);
     } else {
 
-        $('body').prepend(ui_contents());
+        Playgrub.Bookmarklet.render();
 
         // create depots...
         var depot;
