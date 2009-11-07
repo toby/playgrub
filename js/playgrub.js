@@ -3,14 +3,19 @@ Playgrub = {
     VERSION: '0.2',
     playlist: {},
     client: {},
-    player: {}
+    player: {},
+
+    init: function() {
+        new Playgrub.Playlist();
+        new Playgrub.Bookmarklet();
+    }
 };
 
 Playgrub.Playlist = function() {
     Playgrub.playlist = this;
 
     // generate id for playlist from current url and time md5
-    var MD5 = (load_md5)();
+    MD5 = (load_md5)();
     this.id = MD5.hex(window.location + new Date().getTime());
 };
 
@@ -53,9 +58,9 @@ Playgrub.Client = function(p) {
     }
 };
 
-Playgrub.Bookmarklet = {
-    html:  "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px;"
-        +"left: 0px; z-index: 1000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>"
+Playgrub.Bookmarklet = function() {
+    html =  "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px;"
+        +"left: 0px; z-index: 10000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>"
         +"<div style='position: absolute; top: 15px; right: 25px;'><a href='' id='playgrub-bookmarklet-close'>close</a></div>"
         +"Title: "+document.title
         +"<br />"
@@ -66,11 +71,9 @@ Playgrub.Bookmarklet = {
         +"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>"
         +"<br />"
         +"<a href='"+Playgrub.PGHOST+Playgrub.playlist.id+".xspf'>Download XSPF</a>"
-        +"</div>",
+        +"</div>";
 
-    render: function() {
-        $('body').prepend(this.html);
-    }
+    $('body').prepend(html);
 }
 
 // array of supported depots
@@ -121,7 +124,7 @@ function after_load() {
         setTimeout("after_load()",50);
     } else {
 
-        Playgrub.Bookmarklet.render();
+        Playgrub.init();
 
         // create depots...
         var depot;
