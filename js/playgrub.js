@@ -55,7 +55,7 @@ function load_jquery() {
 
 function ui_contents() {
     var contents;
-    contents = "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px; left: 0px; z-index: 1000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>";
+    contents = "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px; left: 0px; z-index: 10000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>";
     contents = contents+"<div style='position: absolute; top: 15px; right: 25px;'><a href='' id='playgrub-bookmarklet-close'>close</a></div>";
     contents = contents+"Title: "+document.title;
     contents = contents+"<br />";
