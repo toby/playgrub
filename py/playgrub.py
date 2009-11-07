@@ -28,7 +28,7 @@ class IndexHandler(webapp.RequestHandler):
     template_values = {
         'headers': heads,
         }
-    path = os.path.join(os.path.dirname(__file__), 'index.html')
+    path = os.path.join(os.path.dirname(__file__), '../html/index.html')
     self.response.out.write(template.render(path, template_values))
 
 
@@ -85,7 +85,7 @@ class XSPFHandler(webapp.RequestHandler):
         'songs': songs,
         }
 
-    path = os.path.join(os.path.dirname(__file__), 'xspf-template.html')
+    path = os.path.join(os.path.dirname(__file__), '../html/xspf-template.xspf')
     self.response.headers['Content-Type'] = 'application/xspf+xml'
     self.response.out.write(template.render(path, template_values))
 
