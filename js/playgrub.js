@@ -157,13 +157,16 @@ function after_load() {
         depot_url = 'http://new\.music\.yahoo\.com/blogs/yradish/*';
         depot_scrape = function() {
             var depot_songs = [];
+            var regex = /(^\s*[0-9]+\. )/;
             $("div.ymusic-text-article p").each(function () {
-                txt = $(this).text();
-                if( txt.match(/^\s*[0-9]+/) ){
+                var txt = $(this).text();
+                if( txt.match(regex) ){
+                    txt = txt.replace(regex,"");
                     var song_result = txt.split(" - ");
                     depot_songs.push([song_result[1], song_result[0]]);
                 } 
             });
+            console.log(depot_songs);
             this.songs = depot_songs;
         }
         depot_error = "Check your Robert Radish URL.";
