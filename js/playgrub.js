@@ -6,18 +6,11 @@ Playgrub = {
     player: {},
 
     init: function() {
+        MD5 = (load_md5)();
         new Playgrub.Playlist();
         new Playgrub.Bookmarklet();
         new Playgrub.Client();
     }
-};
-
-Playgrub.Playlist = function() {
-    Playgrub.playlist = this;
-
-    // generate id for playlist from current url and time md5
-    MD5 = (load_md5)();
-    this.id = MD5.hex(window.location + new Date().getTime());
 };
 
 Playgrub.Playlist.prototype = {
@@ -31,6 +24,13 @@ Playgrub.Playlist.prototype = {
     }
 };
 
+Playgrub.Playlist = function() {
+    Playgrub.playlist = this;
+
+    // generate id for playlist from current url and time md5
+    this.id = MD5.hex(window.location + new Date().getTime());
+};
+
 Playgrub.Client = function() {
     Playgrub.client = this;
 
@@ -39,8 +39,7 @@ Playgrub.Client = function() {
     function write_playlist(playlist) {
         var data;
 
-        if(playlist.tracks.length == 0) {
-            // no playlist
+        if(playlist.tracks.length == 0 || broadcast_index > playlist.tracks.length) {
             return false;
         }
 
