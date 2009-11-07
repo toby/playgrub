@@ -157,9 +157,12 @@ function after_load() {
         depot_url = 'http://new\.music\.yahoo\.com/blogs/yradish/*';
         depot_scrape = function() {
             var depot_songs = [];
-	    $("div.ymusic-text-article p").each(function () {
-                var song_result = $(this).text().split(" - ");
-                depot_songs.push([song_result[1], song_result[0]]);
+            $("div.ymusic-text-article p").each(function () {
+                txt = $(this).text();
+                if( txt.match(/^\s*[0-9]+/) ){
+                    var song_result = txt.split(" - ");
+                    depot_songs.push([song_result[1], song_result[0]]);
+                } 
             });
             this.songs = depot_songs;
         }
