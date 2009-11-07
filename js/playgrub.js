@@ -1,27 +1,56 @@
 Playgrub = {
     PGHOST: 'http://localhost:8080/',
     VERSION: '0.2',
-    playlist: null,
-    client: null,
-    player: null
-}
+    playlist: {},
+    client: {},
+    player: {}
+};
 
 Playgrub.Playlist = function() {
     Playgrub.playlist = this;
     var MD5 = (load_md5)();
     this.id = MD5.hex(window.location + new Date().getTime());
-}
+};
 
 Playgrub.Playlist.prototype = {
-    title: null,
-    url: null,
+    id: '',
+    title: '',
+    url: '',
+    tracks: [],
+
+    add_track: function(artist, song) {
+        tracks.push([artist, song]);
+    }
+};
+
+Playgrub.Client = function(p) {
+    playlist = p;
+    broadcast_index = 0;
+
+    function write_playlist() {
+        var data;
+
+        if(playlist.tracks.length == 0) {
+            // no playlist
+            return false;
+        }
+
+        if(broadcast_index == 0) {
+            // first song in playlist, write header
+            data = Playdar.PGHOST+'playlist_header.js?playlist='+playlist.id+'&songs='+playlist.tracks.length+
+                '&title='+encodeURIComponent(playlist.title)+'&url='+encodeURIComponent(playlist.url);
+            inject_script(data);
+        } else {
+            // write current track
+            data = Playdar.PGHOST+'playlist_track.js?artist='+encodeURIComponent(playlist.tracks[broadcast_index-1][0])+'&track='+
+                encodeURIComponent(playlist_tracks[broadcast_index-1][1])+'&index='+encodeURIComponent(broadcast_index)+'&playlist='+playlist.id;
+            inject_script(data);
+        }
+    }
 }
 
 // array of supported depots
 depots = [];
-
-// song index for playlist
-broadcast_index = 0;
 
 // load jquery - will start after_load() when done
 load_jquery();
@@ -168,24 +197,6 @@ function after_load() {
             setTimeout('broadcast_songs()', 150);
             // alert("master songs-> "+songs);
         }
-    }
-}
-
-function broadcast_songs() {
-    var data;
-    if(songs.length == 0) {
-        // alert(PGHOST+playlist_id+'.xspf');
-        return true;
-    }
-    // first song in playlist
-    if(broadcast_index == 0) {
-        data = PGHOST+'playlist_header.js?playlist='+playlist_id+'&songs='+songs.length+'&title='+encodeURIComponent(document.title)+'&url='+encodeURIComponent(window.location);
-        inject_script(data);
-    } else {
-        data = PGHOST+'playlist_track.js?artist='+encodeURIComponent(songs[0][0])+'&track='+encodeURIComponent(songs[0][1])+
-            '&index='+encodeURIComponent(broadcast_index)+'&playlist='+encodeURIComponent(playlist_id);
-        inject_script(data);
-        songs.shift();
     }
 }
 
