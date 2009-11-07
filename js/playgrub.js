@@ -8,6 +8,7 @@ Playgrub = {
     init: function() {
         new Playgrub.Playlist();
         new Playgrub.Bookmarklet();
+        new Playgrub.Client();
     }
 };
 
@@ -30,13 +31,12 @@ Playgrub.Playlist.prototype = {
     }
 };
 
-Playgrub.Client = function(p) {
+Playgrub.Client = function() {
     Playgrub.client = this;
 
-    playlist = p;
     broadcast_index = 0;
 
-    function write_playlist() {
+    function write_playlist(playlist) {
         var data;
 
         if(playlist.tracks.length == 0) {
