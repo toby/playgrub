@@ -97,20 +97,20 @@ function ui_contents() {
     contents = contents+"Title: "+document.title;
     contents = contents+"<br />";
     // contents = contents+"Share: "+PGHOST+playlist_id+' '+clippy(PGHOST+playlist_id);
-    contents = contents+"Share: "+PGHOST+playlist_id;
+    contents = contents+"Share: "+Playgrub.PGHOST+playlist_id;
     contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+PGHOST+playlist_id+".xspf"+"' target='_blank'>&#9654; Playlick</a>";
+    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+Playgrub.PGHOST+playlist_id+".xspf"+"' target='_blank'>&#9654; Playlick</a>";
     contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>";
+    contents = contents+"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+playlist_id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>";
     contents = contents+"<br />";
-    contents = contents+"<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a>";
+    contents = contents+"<a href='"+Playgrub.PGHOST+playlist_id+".xspf'>Download XSPF</a>";
     contents = contents+"</div>";
     return contents;
 }
 
 function clippy(clip_text) {
     render = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" id="clippy" >';
-    render = render+'<param name="movie" value="'+PGHOST+'static/clippy.swf"/>';
+    render = render+'<param name="movie" value="'+Playgrub.PGHOST+'static/clippy.swf"/>';
     render = render+'<param name="allowScriptAccess" value="always" />';
     render = render+'<param name="quality" value="high" />';
     render = render+'<param name="scale" value="noscale" />';
