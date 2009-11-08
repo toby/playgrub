@@ -83,7 +83,8 @@ Playgrub.Scraper = function() {
     Playgrub.Util.inject_script(Playgrub.PGHOST+'scraper.js?url='+encodeURIComponent(window.location));
 
     this.start = function() {
-        if(this.scrape) {
+        var regex = new RegExp(this.url);
+        if(this.scrape && regex.exec(window.location)) {
             this.scrape();
         } else {
             return false;
@@ -95,26 +96,6 @@ Playgrub.Scraper.prototype = {
     url: '',
     error: '',
     scrape: null
-}
-
-function get_songs() {
-    var master_songs = [];
-    // check all depots
-    for(var i = 0; i < depots.length; i++) {
-        // check to see if this depot's url matches the current url
-        regex = new RegExp(depots[i].url);
-        if(regex.exec(window.location)) {
-            // run depot's scraping function
-            depots[i].scrape();
-            if(depots[i].songs.length > 0) {
-                // add to songs from other depots
-                master_songs = master_songs.concat(depots[i].songs);
-            } else {
-                alert(depots[i].error);
-            }
-        }
-    }
-    return master_songs;
 }
 
 Playgrub.Util = {
