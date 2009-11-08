@@ -1,5 +1,6 @@
 import logging
 import os
+import urlparse
 import datetime
 import wsgiref.handlers
 from google.appengine.ext import webapp
@@ -92,7 +93,7 @@ class ScrapeHandler(webapp.RequestHandler):
 
   def get(self):
     url = self.request.get('url')
-    domain = url
+    domain = urlparse.urlparse(url).netloc.lstrip('www.')
     scraper_path = os.path.join(os.path.dirname(__file__), 'scrapers/'+domain+'.js')
     logging.error("scraper_path -> %s",scraper_path)
 
