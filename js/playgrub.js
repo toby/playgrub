@@ -4,6 +4,7 @@ Playgrub = {
     playlist: {},
     client: {},
     player: {},
+    scraper: {},
 
     init: function() {
         MD5 = (load_md5)();
@@ -11,6 +12,13 @@ Playgrub = {
         new Playgrub.Bookmarklet();
         new Playgrub.Client();
     }
+};
+
+Playgrub.Playlist = function() {
+    Playgrub.playlist = this;
+
+    // generate id for playlist from current url and time md5
+    this.id = MD5.hex(window.location + new Date().getTime());
 };
 
 Playgrub.Playlist.prototype = {
@@ -22,13 +30,6 @@ Playgrub.Playlist.prototype = {
     add_track: function(artist, song) {
         tracks.push([artist, song]);
     }
-};
-
-Playgrub.Playlist = function() {
-    Playgrub.playlist = this;
-
-    // generate id for playlist from current url and time md5
-    this.id = MD5.hex(window.location + new Date().getTime());
 };
 
 Playgrub.Client = function() {
@@ -47,12 +48,12 @@ Playgrub.Client = function() {
             // first song in playlist, write header
             data = Playdar.PGHOST+'playlist_header.js?playlist='+playlist.id+'&songs='+playlist.tracks.length+
                 '&title='+encodeURIComponent(playlist.title)+'&url='+encodeURIComponent(playlist.url);
-            inject_script(data);
+            Playgrub.Util.inject_script(data);
         } else {
             // write current track
             data = Playdar.PGHOST+'playlist_track.js?artist='+encodeURIComponent(playlist.tracks[broadcast_index-1][0])+'&track='+
                 encodeURIComponent(playlist_tracks[broadcast_index-1][1])+'&index='+encodeURIComponent(broadcast_index)+'&playlist='+playlist.id;
-            inject_script(data);
+            Playgrub.Util.inject_script(data);
         }
     }
 };
@@ -75,6 +76,16 @@ Playgrub.Bookmarklet = function() {
     $('body').prepend(html);
 }
 
+Playgrub.Util = {
+    inject_script: function (script) {
+        // alert('script! -> '+script);
+        var script_element = document.createElement('SCRIPT');
+        script_element.type = 'text/javascript';
+        script_element.src = script;
+        document.getElementsByTagName('head')[0].appendChild(script_element);
+    }
+}
+
 // array of supported depots
 depots = [];
 
@@ -94,20 +105,12 @@ function SongDepot(d,s,e) {
     // TODO playlist title
 }
 
-// loads external javascript into page
-function inject_script(script) {
-    // alert('script! -> '+script);
-    var script_element = document.createElement('SCRIPT');
-    script_element.type = 'text/javascript';
-    script_element.src = script;
-    document.getElementsByTagName('head')[0].appendChild(script_element);
-}
 
 // load jquery from google
 // http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
 function load_jquery() {
     if (typeof(jQuery) == 'undefined') {
-        inject_script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
+        Playgrub.Util.inject_script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
         setTimeout("after_load()",50);
     } else {
         // document set up, start doing stuff
