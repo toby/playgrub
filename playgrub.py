@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 import urlparse
 import datetime
 import wsgiref.handlers
@@ -93,13 +94,18 @@ class ScrapeHandler(webapp.RequestHandler):
 
   def get(self):
     url = self.request.get('url')
-    domain = urlparse.urlparse(url).netloc.lstrip('www.')
-    scraper_path = os.path.join(os.path.dirname(__file__), 'scrapers/'+domain+'.js')
-    logging.error("scraper_path -> %s",scraper_path)
+    domain = urlparse.urlparse(url).netloc
+    scraper_path = os.path.join(os.path.dirname(__file__), 'scrapers/')
 
-    if os.path.exists(scraper_path):
-        self.response.headers['Content-Type'] = 'text/javascript'
-        self.response.out.write(template.render(scraper_path, {}))
+    for root, dirs, files in os.walk(scraper_path):
+        for filename in files:
+            # logging.error("filename -> %s",filename.split('.js')[0])
+            sre = re.compile('.*'+filename.split('.js')[0])
+            if sre.match(domain):
+                # logging.error("match -> %s",domain)
+                self.response.headers['Content-Type'] = 'text/javascript'
+                self.response.out.write(template.render(scraper_path+filename, {}))
+                return
 
 def main():
   application = webapp.WSGIApplication([('/scraper.js', ScrapeHandler),

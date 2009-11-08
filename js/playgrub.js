@@ -128,61 +128,6 @@ Playgrub.Util = {
 Playgrub.Util.load_jquery();
 
 
-// we need this because dynamically loading jquery is not-instant
-function after_load() {
-    if (typeof(jQuery) == 'undefined') {
-        // try again
-        setTimeout("after_load()",50);
-    } else {
-
-
-        // create depots...
-        var depot;
-        var depot_url;
-        var depot_scrape;
-        var depot_error;
-
-
-        // ----- Grooveshark ----- //
-        depot_url = 'http://widgets\.grooveshark\.com/add_songs.*';
-        depot_scrape = function() {
-            var depot_songs = [];
-            $("h4").each(function () {
-                var song_result = $(this).html().split(" - ");
-                depot_songs.push([song_result[1], song_result[0]]);
-            });
-            this.songs = depot_songs;
-        }
-        depot_error = "You have to go to the widget building page to run this";
-        depot = new SongDepot(depot_url, depot_scrape, depot_error);
-        depots.push(depot);
-
-        // ----- Musicbrainz Release ----- //
-        depot_url = 'http://musicbrainz\.org.*/release.*';
-        depot_scrape = function() {
-            var depot_songs = [];
-            var artist = $('table.artisttitle td.title a').html();
-            $("tr.track").each(function () {
-                var song_result = $(this).children('td.title').children('a').text();
-                depot_songs.push([artist, song_result]);
-            });
-            this.songs = depot_songs;
-        }
-        depot_error = "please check your musicbrainz url";
-        depot = new SongDepot(depot_url, depot_scrape, depot_error);
-        depots.push(depot);
-        // cycle through depots and return songs
-        songs = get_songs();
-
-        if(songs && songs.length > 0) {
-            // alert('song length: '+songs.length);
-            setTimeout('broadcast_songs()', 150);
-            // alert("master songs-> "+songs);
-        }
-    }
-}
-
-
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
  * Digest Algorithm, as defined in RFC 1321.
