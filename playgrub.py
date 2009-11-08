@@ -98,6 +98,7 @@ class ScrapeHandler(webapp.RequestHandler):
     logging.error("scraper_path -> %s",scraper_path)
 
     if os.path.exists(scraper_path):
+        self.response.headers['Content-Type'] = 'text/javascript'
         self.response.out.write(template.render(scraper_path, {}))
 
 def main():

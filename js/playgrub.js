@@ -29,7 +29,7 @@ Playgrub.Playlist.prototype = {
     tracks: [],
 
     add_track: function(artist, song) {
-        tracks.push([artist, song]);
+        this.tracks.push([artist, song]);
     }
 };
 
@@ -82,14 +82,13 @@ Playgrub.Scraper = function() {
 
     Playgrub.Util.inject_script(Playgrub.PGHOST+'scraper.js?url='+encodeURIComponent(window.location));
 
-    function start() {
+    this.start = function() {
         if(this.scrape) {
             this.scrape();
-            // TODO: write playlist
         } else {
             return false;
         }
-    }
+    };
 }
 
 Playgrub.Scraper.prototype = {
