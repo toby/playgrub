@@ -38,7 +38,7 @@ Playgrub.Client = function() {
 
     this.broadcast_index = 0;
 
-    function write_playlist(playlist) {
+    this.write_playlist = function(playlist) {
         var data;
 
         if(playlist.tracks.length == 0 || this.broadcast_index > playlist.tracks.length) {
@@ -53,7 +53,7 @@ Playgrub.Client = function() {
         } else {
             // write current track
             data = Playgrub.PGHOST+'playlist_track.js?artist='+encodeURIComponent(playlist.tracks[this.broadcast_index-1][0])+'&track='+
-                encodeURIComponent(playlist_tracks[this.broadcast_index-1][1])+'&index='+encodeURIComponent(this.broadcast_index)+'&playlist='+playlist.id;
+                encodeURIComponent(playlist.tracks[this.broadcast_index-1][1])+'&index='+encodeURIComponent(this.broadcast_index)+'&playlist='+playlist.id;
             Playgrub.Util.inject_script(data);
         }
     }
@@ -86,7 +86,11 @@ Playgrub.Scraper = function() {
         var regex = new RegExp(this.url);
         if(this.scrape && regex.exec(window.location)) {
             this.scrape();
-            alert(Playgrub.playlist.tracks);
+            // alert(Playgrub.playlist.tracks);
+            if(Playgrub.playlist.tracks.length > 0)
+                Playgrub.playlist.url = window.location;
+                Playgrub.playlist.title = document.title;
+                Playgrub.client.write_playlist(Playgrub.playlist);
         } else {
             return false;
         }

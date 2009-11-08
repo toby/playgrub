@@ -44,7 +44,7 @@ class PlaylistHeaderHandler(webapp.RequestHandler):
 
     playlist_header.put()
     # logging.error("playlist_header --> %s", playlist_header.title)
-    self.response.out.write('broadcast_index++; broadcast_songs();')
+    self.response.out.write('Playgrub.client.broadcast_index++; Playgrub.client.write_playlist(Playgrub.playlist);')
 
 class PlaylistTrackHandler(webapp.RequestHandler):
 
@@ -57,7 +57,7 @@ class PlaylistTrackHandler(webapp.RequestHandler):
 
     playlist_track.put()
     # logging.error("playlist_track --> %s", playlist_track.artist)
-    self.response.out.write('broadcast_index++; broadcast_songs();')
+    self.response.out.write('Playgrub.client.broadcast_index++; Playgrub.client.write_playlist(Playgrub.playlist);')
 
 class XSPFHandler(webapp.RequestHandler):
 
