@@ -11,7 +11,6 @@
 Playgrub.scraper.url = 'http://.*last.fm.*';
 Playgrub.scraper.error = "Check your Last.fm url";
 Playgrub.scraper.scrape = function() {
-    var all_songs = [];
     var unique_songs = {};
     $("a").filter(function() {
             var match = $(this).attr('href').match('.*\/music\/([^+][^\/]*)\/[^+][^\/]*\/([^+][^\?]*)');
