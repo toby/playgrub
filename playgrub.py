@@ -1,6 +1,7 @@
 import logging
-
 import os
+import re
+import urlparse
 import datetime
 import wsgiref.handlers
 from google.appengine.ext import webapp
@@ -28,7 +29,7 @@ class IndexHandler(webapp.RequestHandler):
     template_values = {
         'headers': heads,
         }
-    path = os.path.join(os.path.dirname(__file__), 'index.html')
+    path = os.path.join(os.path.dirname(__file__), 'html/index.html')
     self.response.out.write(template.render(path, template_values))
 
 
@@ -43,7 +44,7 @@ class PlaylistHeaderHandler(webapp.RequestHandler):
 
     playlist_header.put()
     # logging.error("playlist_header --> %s", playlist_header.title)
-    self.response.out.write('broadcast_index++; broadcast_songs();')
+    self.response.out.write('Playgrub.client.broadcast_index++; Playgrub.client.write_playlist(Playgrub.playlist);')
 
 class PlaylistTrackHandler(webapp.RequestHandler):
 
@@ -56,7 +57,7 @@ class PlaylistTrackHandler(webapp.RequestHandler):
 
     playlist_track.put()
     # logging.error("playlist_track --> %s", playlist_track.artist)
-    self.response.out.write('broadcast_index++; broadcast_songs();')
+    self.response.out.write('Playgrub.client.broadcast_index++; Playgrub.client.write_playlist(Playgrub.playlist);')
 
 class XSPFHandler(webapp.RequestHandler):
 
@@ -85,12 +86,32 @@ class XSPFHandler(webapp.RequestHandler):
         'songs': songs,
         }
 
-    path = os.path.join(os.path.dirname(__file__), 'xspf-template.html')
+    path = os.path.join(os.path.dirname(__file__), 'html/xspf-template.xspf')
     self.response.headers['Content-Type'] = 'application/xspf+xml'
     self.response.out.write(template.render(path, template_values))
 
+class ScrapeHandler(webapp.RequestHandler):
+
+  def get(self):
+    url = self.request.get('url')
+    domain = urlparse.urlparse(url).netloc
+    scraper_path = os.path.join(os.path.dirname(__file__), 'scrapers/')
+
+    for root, dirs, files in os.walk(scraper_path):
+        for filename in files:
+            # logging.error("filename -> %s",filename.split('.js')[0])
+            sre = re.compile('.*'+filename.split('.js')[0])
+            if sre.match(domain):
+                # logging.error("match -> %s",domain)
+                self.response.headers['Content-Type'] = 'text/javascript'
+                self.response.out.write(template.render(scraper_path+filename, {}))
+                return
+
 def main():
-  application = webapp.WSGIApplication([('/playlist_header.js', PlaylistHeaderHandler),('/playlist_track.js', PlaylistTrackHandler),('/', IndexHandler),('/.*\.xspf', XSPFHandler)],
+  application = webapp.WSGIApplication([('/scraper.js', ScrapeHandler),
+                                       ('/playlist_header.js', PlaylistHeaderHandler),
+                                       ('/playlist_track.js', PlaylistTrackHandler),
+                                       ('/', IndexHandler),('/.*\.xspf', XSPFHandler)],
                                        debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 

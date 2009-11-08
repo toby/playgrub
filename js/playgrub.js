@@ -1,226 +1,136 @@
-// PGHOST = 'http://localhost:8080/';
-PGHOST = 'http://www.playgrub.com/';
+Playgrub = {
+    PGHOST: 'http://localhost:8080/',
+    VERSION: '0.2',
+    playlist: {},
+    client: {},
+    player: {},
+    scraper: {},
 
-// load MD5 functions from end of file
-var MD5 = (load_md5)();
-
-current_date = new Date();
-
-// id for this playlist
-playlist_id = MD5.hex(window.location+current_date.getTime());
-
-// array of supported depots
-depots = [];
-
-// song index for playlist
-broadcast_index = 0;
-
-// load jquery - will start after_load() when done
-load_jquery();
-
-// SongDepot : object for song services
-function SongDepot(d,s,e) {
-    // url is regex for site
-    this.url = d;
-    // scrape is function to return songs [[artist, song],...]
-    this.scrape = s;
-    // error is user message if no songs found
-    this.error = e;
-    // songs get loaded with scrape function
-    this.songs = [];
-    // TODO playlist title
-}
-
-// loads external javascript into page
-function inject_script(script) {
-    // alert('script! -> '+script);
-    var script_element = document.createElement('SCRIPT');
-    script_element.type = 'text/javascript';
-    script_element.src = script;
-    document.getElementsByTagName('head')[0].appendChild(script_element);
-}
-
-// load jquery from google
-// http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
-function load_jquery() {
-    if (typeof(jQuery) == 'undefined') {
-        inject_script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
-        setTimeout("after_load()",50);
-    } else {
-        // document set up, start doing stuff
-        after_load();
+    init: function() {
+        MD5 = (load_md5)();
+        new Playgrub.Playlist();
+        new Playgrub.Scraper();
+        new Playgrub.Bookmarklet();
+        new Playgrub.Client();
     }
+};
 
-}
+Playgrub.Playlist = function() {
+    Playgrub.playlist = this;
 
-function ui_contents() {
-    var contents;
-    contents = "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px; left: 0px; z-index: 10000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>";
-    contents = contents+"<div style='position: absolute; top: 15px; right: 25px;'><a href='' id='playgrub-bookmarklet-close'>close</a></div>";
-    contents = contents+"Title: "+document.title;
-    contents = contents+"<br />";
-    // contents = contents+"Share: "+PGHOST+playlist_id+' '+clippy(PGHOST+playlist_id);
-    contents = contents+"Share: "+PGHOST+playlist_id;
-    contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://www.playlick.com/#xspf="+PGHOST+playlist_id+".xspf"+"' target='_blank'>&#9654; Playlick</a>";
-    contents = contents+"<br />";
-    contents = contents+"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(PGHOST+playlist_id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>";
-    contents = contents+"<br />";
-    contents = contents+"<a href='"+PGHOST+playlist_id+".xspf'>Download XSPF</a>";
-    contents = contents+"</div>";
-    return contents;
-}
+    // generate id for playlist from current url and time md5
+    this.id = MD5.hex(window.location + new Date().getTime());
+};
 
-function clippy(clip_text) {
-    render = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" id="clippy" >';
-    render = render+'<param name="movie" value="'+PGHOST+'static/clippy.swf"/>';
-    render = render+'<param name="allowScriptAccess" value="always" />';
-    render = render+'<param name="quality" value="high" />';
-    render = render+'<param name="scale" value="noscale" />';
-    render = render+'<param NAME="FlashVars" value="text='+clip_text+'">';
-    render = render+'<param name="bgcolor" value="#FFFFFF">';
-    render = render+'<embed src="/flash/clippy.swf" width="110" height="14" name="clippy" quality="high" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" FlashVars="text='+clip_text+'" bgcolor="#FFFFFF" />';
-    render = render+'</object>';
-}
+Playgrub.Playlist.prototype = {
+    id: '',
+    title: '',
+    url: '',
+    tracks: [],
 
-// we need this because dynamically loading jquery is not-instant
-function after_load() {
-    if (typeof(jQuery) == 'undefined') {
-        // try again
-        setTimeout("after_load()",50);
-    } else {
+    add_track: function(artist, song) {
+        this.tracks.push([artist, song]);
+    }
+};
 
-        $('body').prepend(ui_contents());
+Playgrub.Client = function() {
+    Playgrub.client = this;
 
-        // create depots...
-        var depot;
-        var depot_url;
-        var depot_scrape;
-        var depot_error;
+    this.broadcast_index = 0;
 
-        // ----- Last.fm ----- //
-        depot_url = 'http://.*last.fm.*';
-        depot_scrape = function() {
-            var depot_songs = [];
-            var unique_songs = {};
-            $("a").filter(function() {
-                    match = $(this).attr('href').match('.*\/music\/([^+][^\/]*)\/[^+][^\/]*\/([^+][^\?]*)');
-                    if(match) {
-                        artist = match[1];
-                        song = match[2];
-                        uartist = unique_songs[artist];
-                        if(typeof(uartist) != 'undefined')
-                            usong = uartist[match[2]];
-                        if((typeof(uartist) == 'undefined') || (typeof(usong) == 'undefined')) {
-                            unique_songs[artist] = {};
-                            unique_songs[artist][song] = {};
-                            depot_songs.push([decodeURIComponent(artist).replace(/\+/g, ' '), decodeURIComponent(song).replace(/\+/g, ' ')]);
-                        }
-                    }
-                });
-            this.songs = depot_songs;
+    this.write_playlist = function(playlist) {
+        var data;
+
+        if(playlist.tracks.length == 0 || this.broadcast_index > playlist.tracks.length) {
+            return false;
         }
-        depot_error = "Check your Last.fm url";
-        depot = new SongDepot(depot_url, depot_scrape, depot_error);
-        depots.push(depot);
 
-        // ----- Grooveshark ----- //
-        depot_url = 'http://widgets\.grooveshark\.com/add_songs.*';
-        depot_scrape = function() {
-            var depot_songs = [];
-            $("h4").each(function () {
-                var song_result = $(this).html().split(" - ");
-                depot_songs.push([song_result[1], song_result[0]]);
-            });
-            this.songs = depot_songs;
-        }
-        depot_error = "You have to go to the widget building page to run this";
-        depot = new SongDepot(depot_url, depot_scrape, depot_error);
-        depots.push(depot);
-
-        // ----- Musicbrainz Release ----- //
-        depot_url = 'http://musicbrainz\.org.*/release.*';
-        depot_scrape = function() {
-            var depot_songs = [];
-            var artist = $('table.artisttitle td.title a').html();
-            $("tr.track").each(function () {
-                var song_result = $(this).children('td.title').children('a').text();
-                depot_songs.push([artist, song_result]);
-            });
-            this.songs = depot_songs;
-        }
-        depot_error = "please check your musicbrainz url";
-        depot = new SongDepot(depot_url, depot_scrape, depot_error);
-        depots.push(depot);
-        
-        // ----- Robert Radish on Yahoo Music ----- //
-        depot_url = 'http://new\.music\.yahoo\.com/blogs/yradish/*';
-        depot_scrape = function() {
-            var depot_songs = [];
-            var regex = /(^\s*[0-9]+\. )/;
-            $("div.ymusic-text-article p").each(function () {
-                var txt = $(this).text();
-                if( txt.match(regex) ){
-                    txt = txt.replace(regex,"");
-                    var song_result = txt.split(" - ");
-                    depot_songs.push([song_result[1], song_result[0]]);
-                } 
-            });
-            // console.log(depot_songs);
-            this.songs = depot_songs;
-        }
-        depot_error = "Check your Robert Radish URL.";
-        depot = new SongDepot(depot_url, depot_scrape, depot_error);
-        depots.push(depot);
-
-        // cycle through depots and return songs
-        songs = get_songs();
-
-        if(songs && songs.length > 0) {
-            // alert('song length: '+songs.length);
-            setTimeout('broadcast_songs()', 150);
-            // alert("master songs-> "+songs);
+        if(this.broadcast_index == 0) {
+            // first song in playlist, write header
+            data = Playgrub.PGHOST+'playlist_header.js?playlist='+playlist.id+'&songs='+playlist.tracks.length+
+                '&title='+encodeURIComponent(playlist.title)+'&url='+encodeURIComponent(playlist.url);
+            Playgrub.Util.inject_script(data);
+        } else {
+            // write current track
+            data = Playgrub.PGHOST+'playlist_track.js?artist='+encodeURIComponent(playlist.tracks[this.broadcast_index-1][0])+'&track='+
+                encodeURIComponent(playlist.tracks[this.broadcast_index-1][1])+'&index='+encodeURIComponent(this.broadcast_index)+'&playlist='+playlist.id;
+            Playgrub.Util.inject_script(data);
         }
     }
+};
+
+Playgrub.Bookmarklet = function() {
+    this.html =  "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px;"
+        +"left: 0px; z-index: 10000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>"
+        +"<div style='position: absolute; top: 15px; right: 25px;'><a href='' id='playgrub-bookmarklet-close'>close</a></div>"
+        +"Title: "+document.title
+        +"<br />"
+        +"Share: "+Playgrub.PGHOST+Playgrub.playlist.id+'.xspf'
+        +"<br />"
+        +"<a href='"+"http://www.playlick.com/#xspf="+Playgrub.PGHOST+Playgrub.playlist.id+".xspf"+"' target='_blank'>&#9654; Playlick</a>"
+        +"<br />"
+        +"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>"
+        +"<br />"
+        +"<a href='"+Playgrub.PGHOST+Playgrub.playlist.id+".xspf'>Download XSPF</a>"
+        +"</div>";
+
+    $('body').prepend(this.html);
 }
 
-function broadcast_songs() {
-    var data;
-    if(songs.length == 0) {
-        // alert(PGHOST+playlist_id+'.xspf');
-        return true;
-    }
-    // first song in playlist
-    if(broadcast_index == 0) {
-        data = PGHOST+'playlist_header.js?playlist='+playlist_id+'&songs='+songs.length+'&title='+encodeURIComponent(document.title)+'&url='+encodeURIComponent(window.location);
-        inject_script(data);
-    } else {
-        data = PGHOST+'playlist_track.js?artist='+encodeURIComponent(songs[0][0])+'&track='+encodeURIComponent(songs[0][1])+
-            '&index='+encodeURIComponent(broadcast_index)+'&playlist='+encodeURIComponent(playlist_id);
-        inject_script(data);
-        songs.shift();
-    }
+Playgrub.Scraper = function() {
+    Playgrub.scraper = this;
+
+    Playgrub.Util.inject_script(Playgrub.PGHOST+'scraper.js?url='+encodeURIComponent(window.location));
+
+    this.start = function() {
+        var regex = new RegExp(this.url);
+        if(this.scrape && regex.exec(window.location)) {
+            this.scrape();
+            // alert(Playgrub.playlist.tracks);
+            if(Playgrub.playlist.tracks.length > 0)
+                Playgrub.playlist.url = window.location;
+                Playgrub.playlist.title = document.title;
+                Playgrub.client.write_playlist(Playgrub.playlist);
+        } else {
+            return false;
+        }
+    };
 }
 
-function get_songs() {
-    var master_songs = [];
-    // check all depots
-    for(var i = 0; i < depots.length; i++) {
-        // check to see if this depot's url matches the current url
-        regex = new RegExp(depots[i].url);
-        if(regex.exec(window.location)) {
-            // run depot's scraping function
-            depots[i].scrape();
-            if(depots[i].songs.length > 0) {
-                // add to songs from other depots
-                master_songs = master_songs.concat(depots[i].songs);
-            } else {
-                alert(depots[i].error);
+Playgrub.Scraper.prototype = {
+    url: '',
+    error: '',
+    scrape: null
+}
+
+Playgrub.Util = {
+    jquery_injected: false,
+
+    inject_script: function (script) {
+        var script_element = document.createElement('SCRIPT');
+        script_element.type = 'text/javascript';
+        script_element.src = script;
+        document.getElementsByTagName('head')[0].appendChild(script_element);
+    },
+
+    load_jquery: function(){
+        if (typeof(jQuery) == 'undefined') {
+            if(!this.jquery_injected) {
+                Playgrub.Util.inject_script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
+                this.jquery_injected = true;
             }
+            setTimeout("Playgrub.Util.load_jquery()",50);
+        } else {
+            // document set up, start doing stuff
+            Playgrub.init();
         }
     }
-    return master_songs;
+
 }
+
+// load jquery - will run Playgrub.init() when done
+Playgrub.Util.load_jquery();
+
 
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
