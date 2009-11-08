@@ -86,6 +86,7 @@ Playgrub.Scraper = function() {
         var regex = new RegExp(this.url);
         if(this.scrape && regex.exec(window.location)) {
             this.scrape();
+            alert(Playgrub.playlist.tracks);
         } else {
             return false;
         }
@@ -99,46 +100,33 @@ Playgrub.Scraper.prototype = {
 }
 
 Playgrub.Util = {
+    jquery_injected: false,
+
     inject_script: function (script) {
         var script_element = document.createElement('SCRIPT');
         script_element.type = 'text/javascript';
         script_element.src = script;
         document.getElementsByTagName('head')[0].appendChild(script_element);
-    }
-}
+    },
 
-// array of supported depots
-depots = [];
-
-// load jquery - will start after_load() when done
-load_jquery();
-
-// SongDepot : object for song services
-function SongDepot(d,s,e) {
-    // url is regex for site
-    this.url = d;
-    // scrape is function to return songs [[artist, song],...]
-    this.scrape = s;
-    // error is user message if no songs found
-    this.error = e;
-    // songs get loaded with scrape function
-    this.songs = [];
-    // TODO playlist title
-}
-
-
-// load jquery from google
-// http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
-function load_jquery() {
-    if (typeof(jQuery) == 'undefined') {
-        Playgrub.Util.inject_script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
-        setTimeout("after_load()",50);
-    } else {
-        // document set up, start doing stuff
-        after_load();
+    load_jquery: function(){
+        if (typeof(jQuery) == 'undefined') {
+            if(!this.jquery_injected) {
+                Playgrub.Util.inject_script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
+                this.jquery_injected = true;
+            }
+            setTimeout("Playgrub.Util.load_jquery()",50);
+        } else {
+            // document set up, start doing stuff
+            Playgrub.init();
+        }
     }
 
 }
+
+// load jquery - will run Playgrub.init() when done
+Playgrub.Util.load_jquery();
+
 
 // we need this because dynamically loading jquery is not-instant
 function after_load() {
@@ -147,7 +135,6 @@ function after_load() {
         setTimeout("after_load()",50);
     } else {
 
-        Playgrub.init();
 
         // create depots...
         var depot;
