@@ -11,4 +11,4 @@ handlers:
   static_dir: css
 
 - url: /.*
-  script: py/playgrub.py
+  script: playgrub.py

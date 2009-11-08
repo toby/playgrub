@@ -1,5 +1,4 @@
 import logging
-
 import os
 import datetime
 import wsgiref.handlers
@@ -28,7 +27,7 @@ class IndexHandler(webapp.RequestHandler):
     template_values = {
         'headers': heads,
         }
-    path = os.path.join(os.path.dirname(__file__), '../html/index.html')
+    path = os.path.join(os.path.dirname(__file__), 'html/index.html')
     self.response.out.write(template.render(path, template_values))
 
 
@@ -85,12 +84,26 @@ class XSPFHandler(webapp.RequestHandler):
         'songs': songs,
         }
 
-    path = os.path.join(os.path.dirname(__file__), '../html/xspf-template.xspf')
+    path = os.path.join(os.path.dirname(__file__), 'html/xspf-template.xspf')
     self.response.headers['Content-Type'] = 'application/xspf+xml'
     self.response.out.write(template.render(path, template_values))
 
+class ScrapeHandler(webapp.RequestHandler):
+
+  def get(self):
+    url = self.request.get('url')
+    domain = url
+    scraper_path = os.path.join(os.path.dirname(__file__), 'scrapers/'+domain+'.js')
+    logging.error("scraper_path -> %s",scraper_path)
+
+    if os.path.exists(scraper_path):
+        self.response.out.write(template.render(scraper_path, {}))
+
 def main():
-  application = webapp.WSGIApplication([('/playlist_header.js', PlaylistHeaderHandler),('/playlist_track.js', PlaylistTrackHandler),('/', IndexHandler),('/.*\.xspf', XSPFHandler)],
+  application = webapp.WSGIApplication([('/scraper.js', ScrapeHandler),
+                                       ('/playlist_header.js', PlaylistHeaderHandler),
+                                       ('/playlist_track.js', PlaylistTrackHandler),
+                                       ('/', IndexHandler),('/.*\.xspf', XSPFHandler)],
                                        debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 

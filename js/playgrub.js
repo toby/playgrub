@@ -9,6 +9,7 @@ Playgrub = {
     init: function() {
         MD5 = (load_md5)();
         new Playgrub.Playlist();
+        new Playgrub.Scraper();
         new Playgrub.Bookmarklet();
         new Playgrub.Client();
     }
@@ -35,31 +36,31 @@ Playgrub.Playlist.prototype = {
 Playgrub.Client = function() {
     Playgrub.client = this;
 
-    broadcast_index = 0;
+    this.broadcast_index = 0;
 
     function write_playlist(playlist) {
         var data;
 
-        if(playlist.tracks.length == 0 || broadcast_index > playlist.tracks.length) {
+        if(playlist.tracks.length == 0 || this.broadcast_index > playlist.tracks.length) {
             return false;
         }
 
-        if(broadcast_index == 0) {
+        if(this.broadcast_index == 0) {
             // first song in playlist, write header
-            data = Playdar.PGHOST+'playlist_header.js?playlist='+playlist.id+'&songs='+playlist.tracks.length+
+            data = Playgrub.PGHOST+'playlist_header.js?playlist='+playlist.id+'&songs='+playlist.tracks.length+
                 '&title='+encodeURIComponent(playlist.title)+'&url='+encodeURIComponent(playlist.url);
             Playgrub.Util.inject_script(data);
         } else {
             // write current track
-            data = Playdar.PGHOST+'playlist_track.js?artist='+encodeURIComponent(playlist.tracks[broadcast_index-1][0])+'&track='+
-                encodeURIComponent(playlist_tracks[broadcast_index-1][1])+'&index='+encodeURIComponent(broadcast_index)+'&playlist='+playlist.id;
+            data = Playgrub.PGHOST+'playlist_track.js?artist='+encodeURIComponent(playlist.tracks[this.broadcast_index-1][0])+'&track='+
+                encodeURIComponent(playlist_tracks[this.broadcast_index-1][1])+'&index='+encodeURIComponent(this.broadcast_index)+'&playlist='+playlist.id;
             Playgrub.Util.inject_script(data);
         }
     }
 };
 
 Playgrub.Bookmarklet = function() {
-    html =  "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px;"
+    this.html =  "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px;"
         +"left: 0px; z-index: 10000; background: #000000; color: #ffffff; font-family: Arial,Helvetica;'>"
         +"<div style='position: absolute; top: 15px; right: 25px;'><a href='' id='playgrub-bookmarklet-close'>close</a></div>"
         +"Title: "+document.title
@@ -73,12 +74,52 @@ Playgrub.Bookmarklet = function() {
         +"<a href='"+Playgrub.PGHOST+Playgrub.playlist.id+".xspf'>Download XSPF</a>"
         +"</div>";
 
-    $('body').prepend(html);
+    $('body').prepend(this.html);
+}
+
+Playgrub.Scraper = function() {
+    Playgrub.scraper = this;
+
+    Playgrub.Util.inject_script(Playgrub.PGHOST+'scraper.js?url='+encodeURIComponent(window.location));
+
+    function start() {
+        if(this.scrape) {
+            this.scrape();
+            // TODO: write playlist
+        } else {
+            return false;
+        }
+    }
+}
+
+Playgrub.Scraper.prototype = {
+    url: '',
+    error: '',
+    scrape: null
+}
+
+function get_songs() {
+    var master_songs = [];
+    // check all depots
+    for(var i = 0; i < depots.length; i++) {
+        // check to see if this depot's url matches the current url
+        regex = new RegExp(depots[i].url);
+        if(regex.exec(window.location)) {
+            // run depot's scraping function
+            depots[i].scrape();
+            if(depots[i].songs.length > 0) {
+                // add to songs from other depots
+                master_songs = master_songs.concat(depots[i].songs);
+            } else {
+                alert(depots[i].error);
+            }
+        }
+    }
+    return master_songs;
 }
 
 Playgrub.Util = {
     inject_script: function (script) {
-        // alert('script! -> '+script);
         var script_element = document.createElement('SCRIPT');
         script_element.type = 'text/javascript';
         script_element.src = script;
@@ -134,31 +175,6 @@ function after_load() {
         var depot_scrape;
         var depot_error;
 
-        // ----- Last.fm ----- //
-        depot_url = 'http://.*last.fm.*';
-        depot_scrape = function() {
-            var depot_songs = [];
-            var unique_songs = {};
-            $("a").filter(function() {
-                    match = $(this).attr('href').match('.*\/music\/([^+][^\/]*)\/[^+][^\/]*\/([^+][^\?]*)');
-                    if(match) {
-                        artist = match[1];
-                        song = match[2];
-                        uartist = unique_songs[artist];
-                        if(typeof(uartist) != 'undefined')
-                            usong = uartist[match[2]];
-                        if((typeof(uartist) == 'undefined') || (typeof(usong) == 'undefined')) {
-                            unique_songs[artist] = {};
-                            unique_songs[artist][song] = {};
-                            depot_songs.push([decodeURIComponent(artist).replace(/\+/g, ' '), decodeURIComponent(song).replace(/\+/g, ' ')]);
-                        }
-                    }
-                });
-            this.songs = depot_songs;
-        }
-        depot_error = "Check your Last.fm url";
-        depot = new SongDepot(depot_url, depot_scrape, depot_error);
-        depots.push(depot);
 
         // ----- Grooveshark ----- //
         depot_url = 'http://widgets\.grooveshark\.com/add_songs.*';
@@ -199,25 +215,6 @@ function after_load() {
     }
 }
 
-function get_songs() {
-    var master_songs = [];
-    // check all depots
-    for(var i = 0; i < depots.length; i++) {
-        // check to see if this depot's url matches the current url
-        regex = new RegExp(depots[i].url);
-        if(regex.exec(window.location)) {
-            // run depot's scraping function
-            depots[i].scrape();
-            if(depots[i].songs.length > 0) {
-                // add to songs from other depots
-                master_songs = master_songs.concat(depots[i].songs);
-            } else {
-                alert(depots[i].error);
-            }
-        }
-    }
-    return master_songs;
-}
 
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
