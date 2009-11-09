@@ -61,27 +61,35 @@ Playgrub.Bookmarklet = function() {
     Playgrub.bookmarklet = this;
 
     $('body').prepend(this.base_html);
+    $('#playgrub-bookmarklet-content').hide();
 }
 
 Playgrub.Bookmarklet.prototype = {
-    base_html: "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; padding: 15px 0px 15px 15px; top: 0px;"
+    base_html: "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; top: 0px; opacity: 0.85;"
         +"left: 0px; z-index: 10000; background: #000000; color: #ffffff; font-family: Arial,Helvetica; text-align: left;'>"
-        +"<div style='position: absolute; top: 15px; right: 25px;'>"
-        +"<a id='playgrub-bookmarklet-close' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;' href=''>close</a></div>"
-        +"Title: "+document.title
-        +"<br />"
+        +"<div id='playgrub-bookmarklet-header' style='padding: 15px; border-bottom: 1px solid #ffffff;'>"
+        +"<div id='playgrub-bookmarklet-close' style='position: absolute; top: 15px; right: 25px; margin: 0px; border: 0px;'>"
+        +"<span onclick='$(\"#playgrub-bookmarklet\").remove(); return false;' style='cursor: pointer;'>close</span>"
+        +"</div>"
+        +"<span onclick='' style='cursor: pointer;'>Playgrub</span>"
+        +"</div>"
+        +"<div id='playgrub-bookmarklet-content' style='padding: 15px;'></div>"
         +"</div>",
 
-    loaded_html: "Share: "+Playgrub.PGHOST+Playgrub.playlist.id+'.xspf'
+    loaded_html: function() {
+        return "Title: "+document.title
+        +"<br />"
+        +"Share: "+Playgrub.PGHOST+Playgrub.playlist.id+'.xspf'
         +"<br />"
         +"<a href='"+"http://www.playlick.com/#xspf="+Playgrub.PGHOST+Playgrub.playlist.id+".xspf"+"' target='_blank'>&#9654; Playlick</a>"
         +"<br />"
         +"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>"
         +"<br />"
-        +"<a href='"+Playgrub.PGHOST+Playgrub.playlist.id+".xspf'>Download XSPF</a>",
+        +"<a href='"+Playgrub.PGHOST+Playgrub.playlist.id+".xspf'>Download XSPF</a>";
+    },
 
     playlist_loaded: function() {
-        $("#playgrub-bookmarklet").append(this.loaded_html);
+        $("#playgrub-bookmarklet-content").append(this.loaded_html()).slideDown("normal");
     }
 }
 
