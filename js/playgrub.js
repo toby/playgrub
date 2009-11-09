@@ -5,12 +5,13 @@ Playgrub = {
     client: {},
     player: {},
     scraper: {},
+    bookmarklet: {},
 
     init: function() {
         new Playgrub.Playlist();
         new Playgrub.Scraper();
-        new Playgrub.Bookmarklet();
         new Playgrub.Client();
+        new Playgrub.Bookmarklet();
     }
 };
 
@@ -38,6 +39,7 @@ Playgrub.Client = function() {
         var data;
 
         if(playlist.tracks.length == 0 || this.broadcast_index > playlist.tracks.length) {
+            Playgrub.bookmarklet.playlist_loaded();
             return false;
         }
 
@@ -56,6 +58,8 @@ Playgrub.Client = function() {
 };
 
 Playgrub.Bookmarklet = function() {
+    Playgrub.bookmarklet = this;
+
     $('body').prepend(this.base_html);
 }
 
@@ -74,7 +78,11 @@ Playgrub.Bookmarklet.prototype = {
         +"<br />"
         +"<a href='"+"http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf"+"' target='_blank'>&#9654; Spiffdar</a>"
         +"<br />"
-        +"<a href='"+Playgrub.PGHOST+Playgrub.playlist.id+".xspf'>Download XSPF</a>"
+        +"<a href='"+Playgrub.PGHOST+Playgrub.playlist.id+".xspf'>Download XSPF</a>",
+
+    playlist_loaded: function() {
+        $("#playgrub-bookmarklet").append(this.loaded_html);
+    }
 }
 
 Playgrub.Scraper = function() {
