@@ -116,6 +116,7 @@ class ScrapeHandler(webapp.RequestHandler):
                 self.response.headers['Content-Type'] = 'text/javascript'
                 self.response.out.write(template.render(scraper_path+filename, {}))
                 return
+    self.response.out.write('Playgrub.Events.noScraper();')
 
 def main():
   application = webapp.WSGIApplication([('/scraper.js', ScrapeHandler),

@@ -1,6 +1,6 @@
 Playgrub = {
     PGHOST: 'http://localhost:8080/',
-    VERSION: '0.3',
+    VERSION: '0.4',
     playlist: {},
     client: {},
     player: {},
@@ -12,6 +12,29 @@ Playgrub = {
         new Playgrub.Scraper();
         new Playgrub.Client();
         new Playgrub.Bookmarklet();
+    }
+};
+
+Playgrub.Events = {
+
+    foundSongs: function() {
+        // scraper done finding songs
+        Playgrub.playlist.url = window.location;
+        Playgrub.playlist.title = document.title;
+        Playgrub.client.write_playlist(Playgrub.playlist);
+    },
+
+    noScraper: function() {
+        // scraper not found
+    },
+
+    noSongs: function() {
+        // scraper found but there were no songs
+    },
+
+    clientPublished: function() {
+        // Playgrub.client is done broadcasting playlist
+        Playgrub.bookmarklet.playlist_loaded();
     }
 };
 
@@ -38,8 +61,12 @@ Playgrub.Client = function() {
     this.write_playlist = function(playlist) {
         var data;
 
-        if(playlist.tracks.length == 0 || this.broadcast_index > playlist.tracks.length) {
-            Playgrub.bookmarklet.playlist_loaded();
+        if(playlist.tracks.length == 0){
+            return false;
+        }
+
+        if(this.broadcast_index > playlist.tracks.length) {
+            Playgrub.Events.clientPublished();
             return false;
         }
 
@@ -62,7 +89,7 @@ Playgrub.Bookmarklet = function() {
 
     $('body').prepend(this.base_html);
     $('#playgrub-bookmarklet-content').hide();
-}
+};
 
 Playgrub.Bookmarklet.prototype = {
     base_html: "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; top: 0px; opacity: 0.85;"
@@ -74,6 +101,7 @@ Playgrub.Bookmarklet.prototype = {
         +"<span onclick='' style='cursor: pointer;'>Playgrub</span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content' style='padding: 15px;'></div>"
+        +"<div id='playgrub-bookmarklet-status' style='padding: 5px 15px 5px 15px; font-size: .6em;'>Loading...</div>"
         +"</div>",
 
     loaded_html: function() {
@@ -89,9 +117,10 @@ Playgrub.Bookmarklet.prototype = {
     },
 
     playlist_loaded: function() {
+        $("#playgrub-bookmarklet-status").hide();
         $("#playgrub-bookmarklet-content").append(this.loaded_html()).slideDown("normal");
     }
-}
+};
 
 Playgrub.Scraper = function() {
     Playgrub.scraper = this;
@@ -102,22 +131,22 @@ Playgrub.Scraper = function() {
         var regex = new RegExp(this.url);
         if(this.scrape && regex.exec(window.location)) {
             this.scrape();
-            // alert(Playgrub.playlist.tracks);
-            if(Playgrub.playlist.tracks.length > 0)
-                Playgrub.playlist.url = window.location;
-                Playgrub.playlist.title = document.title;
-                Playgrub.client.write_playlist(Playgrub.playlist);
-        } else {
-            return false;
+            if(Playgrub.playlist.tracks.length > 0){
+                Playgrub.Events.foundSongs();
+                return true;
+            }
         }
-    };
-}
+        Playgrub.Events.noSongs();
+        return false;
+    }
+
+};
 
 Playgrub.Scraper.prototype = {
     url: '',
     error: '',
     scrape: null
-}
+};
 
 Playgrub.Util = {
     jquery_injected: false,
@@ -141,7 +170,7 @@ Playgrub.Util = {
             Playgrub.init();
         }
     }
-}
+};
 
 // load jquery - will run Playgrub.init() when done
 Playgrub.Util.load_jquery();
