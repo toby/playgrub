@@ -16,7 +16,6 @@ Playgrub = {
 
 Playgrub.Playlist = function() {
     Playgrub.playlist = this;
-    this.id = Playgrub.Util.generate_uuid();
 };
 
 Playgrub.Playlist.prototype = {
@@ -44,7 +43,7 @@ Playgrub.Client = function() {
 
         if(this.broadcast_index == 0) {
             // first song in playlist, write header
-            data = Playgrub.PGHOST+'playlist_header.js?playlist='+playlist.id+'&songs='+playlist.tracks.length+
+            data = Playgrub.PGHOST+'playlist_header.js?songs='+playlist.tracks.length+
                 '&title='+encodeURIComponent(playlist.title)+'&url='+encodeURIComponent(playlist.url);
             Playgrub.Util.inject_script(data);
         } else {
@@ -121,37 +120,7 @@ Playgrub.Util = {
             // document set up, start doing stuff
             Playgrub.init();
         }
-    },
-
-    /**
-     * Based on: Math.uuid.js and Playdar.js
-     * Copyright (c) 2008, Robert Kieffer. All rights reserved.
-     * License and info: http://www.broofa.com/blog/2008/09/javascript-uuid-function/
-    **/
-    generate_uuid: function () {
-        // Private array of chars to use
-        var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-        var uuid = [];
-        var rnd = Math.random;
-
-        // rfc4122, version 4 form
-        var r;
-
-        // rfc4122 requires these characters
-        uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-        uuid[14] = '4';
-
-        // Fill in random data.  At i==19 set the high bits of clock sequence as
-        // per rfc4122, sec. 4.1.5
-        for (var i = 0; i < 36; i++) {
-            if (!uuid[i]) {
-                r = 0 | rnd()*16;
-                uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r & 0xf];
-            }
-        }
-        return uuid.join('');
     }
-
 }
 
 // load jquery - will run Playgrub.init() when done

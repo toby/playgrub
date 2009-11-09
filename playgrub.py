@@ -3,6 +3,7 @@ import os
 import re
 import urlparse
 import datetime
+import hashlib
 import wsgiref.handlers
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
@@ -36,15 +37,24 @@ class IndexHandler(webapp.RequestHandler):
 class PlaylistHeaderHandler(webapp.RequestHandler):
 
   def get(self):
-    playlist_header= PlaylistHeader(title = self.request.get('title'),
-                                   url = self.request.get('url'),
-                                   songs = self.request.get('songs'),
-                                   playlist = self.request.get('playlist'),
-                                   create_date = datetime.datetime.now())
+    rtitle = self.request.get('title')
+    rurl = self.request.get('url')
+    rsongs = self.request.get('songs')
+    rcreate_date = datetime.datetime.now()
+
+    h = hashlib.new('ripemd160')
+    h.update(rurl+rcreate_date.ctime())
+    rplaylist = h.hexdigest()
+
+    playlist_header = PlaylistHeader(title = rtitle,
+                                     url = rurl,
+                                     playlist = rplaylist,
+                                     songs = rsongs,
+                                     create_date = rcreate_date)
 
     playlist_header.put()
     # logging.error("playlist_header --> %s", playlist_header.title)
-    self.response.out.write('Playgrub.client.broadcast_index++; Playgrub.client.write_playlist(Playgrub.playlist);')
+    self.response.out.write("Playgrub.playlist.id = '"+rplaylist+"'; Playgrub.client.broadcast_index++; Playgrub.client.write_playlist(Playgrub.playlist);")
 
 class PlaylistTrackHandler(webapp.RequestHandler):
 
