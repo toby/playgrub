@@ -18,7 +18,7 @@ Playgrub = {
 Playgrub.Events = {
 
     foundSongs: function() {
-        // scraper done finding songs
+        // scraper found songs
         Playgrub.playlist.url = window.location;
         Playgrub.playlist.title = document.title;
         Playgrub.client.write_playlist(Playgrub.playlist);
@@ -26,10 +26,12 @@ Playgrub.Events = {
 
     noScraper: function() {
         // scraper not found
+        Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
     },
 
     noSongs: function() {
         // scraper found but there were no songs
+        Playgrub.bookmarklet.set_status("No songs found on this page");
     },
 
     clientPublished: function() {
@@ -88,6 +90,7 @@ Playgrub.Bookmarklet = function() {
     Playgrub.bookmarklet = this;
 
     $('body').prepend(this.base_html);
+    this.set_status("Loading...");
     $('#playgrub-bookmarklet-content').hide();
 };
 
@@ -101,7 +104,7 @@ Playgrub.Bookmarklet.prototype = {
         +"<span onclick='' style='cursor: pointer;'>Playgrub</span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content' style='padding: 15px;'></div>"
-        +"<div id='playgrub-bookmarklet-status' style='padding: 5px 15px 5px 15px; font-size: .6em;'>Loading...</div>"
+        +"<div id='playgrub-bookmarklet-status' style='padding: 5px 15px 5px 15px; font-size: .6em;'></div>"
         +"</div>",
 
     loaded_html: function() {
@@ -117,8 +120,13 @@ Playgrub.Bookmarklet.prototype = {
     },
 
     playlist_loaded: function() {
-        $("#playgrub-bookmarklet-status").hide();
-        $("#playgrub-bookmarklet-content").append(this.loaded_html()).slideDown("normal");
+        $("#playgrub-bookmarklet-content").append(this.loaded_html()).slideDown("normal", function(){
+            Playgrub.bookmarklet.set_status(Playgrub.playlist.tracks.length+' tracks found');
+        });
+    },
+
+    set_status: function(new_status) {
+        $("#playgrub-bookmarklet-status").html(new_status);
     }
 };
 
