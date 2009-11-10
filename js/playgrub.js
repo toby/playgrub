@@ -1,6 +1,6 @@
 Playgrub = {
     PGHOST: 'http://localhost:8080/',
-    VERSION: '0.5',
+    VERSION: '0.6',
     playlist: {},
     client: {},
     player: {},
@@ -34,9 +34,14 @@ Playgrub.Events = {
         Playgrub.bookmarklet.set_status("No songs found on this page");
     },
 
-    clientPublished: function() {
+    clientPlaylistPublished: function() {
         // Playgrub.client is done broadcasting playlist
         Playgrub.bookmarklet.playlist_loaded();
+    },
+
+    clientTrackPublished: function() {
+        // Playgrub.client is broadcasting a playlist track
+        Playgrub.bookmarklet.track_broadcast();
     }
 };
 
@@ -68,7 +73,7 @@ Playgrub.Client = function() {
         }
 
         if(this.broadcast_index > playlist.tracks.length) {
-            Playgrub.Events.clientPublished();
+            Playgrub.Events.clientPlaylistPublished();
             return false;
         }
 
@@ -82,6 +87,7 @@ Playgrub.Client = function() {
             data = Playgrub.PGHOST+'playlist_track.js?artist='+encodeURIComponent(playlist.tracks[this.broadcast_index-1][0])+'&track='+
                 encodeURIComponent(playlist.tracks[this.broadcast_index-1][1])+'&index='+encodeURIComponent(this.broadcast_index)+'&playlist='+playlist.id;
             Playgrub.Util.inject_script(data);
+            Playgrub.Events.clientTrackPublished();
         }
     }
 };
@@ -130,6 +136,10 @@ Playgrub.Bookmarklet.prototype = {
         $("#playgrub-bookmarklet-content").append(this.loaded_html()).slideDown("normal", function(){
             Playgrub.bookmarklet.set_status(Playgrub.playlist.tracks.length+' tracks found');
         });
+    },
+
+    track_broadcast: function() {
+        Playgrub.bookmarklet.set_status('Loading... '+Playgrub.client.broadcast_index+' tracks');
     },
 
     set_status: function(new_status) {
