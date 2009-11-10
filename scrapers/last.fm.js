@@ -11,7 +11,16 @@
 Playgrub.scraper.url = 'http://.*last.fm.*';
 Playgrub.scraper.error = "Check your Last.fm url";
 Playgrub.scraper.scrape = function() {
+    // lots of duplicate song links, so use this to only add songs once
     var unique_songs = {};
+
+    // some Last.fm specific escaping stuff
+    var last_escape = function(escapee) {
+        var escaped = decodeURIComponent(escapee);
+        escaped = escaped.replace(/\+/g, ' ');
+        return escaped;
+    };
+
     $("a").filter(function() {
             var match = $(this).attr('href').match('.*\/music\/([^+][^\/]*)\/[^+][^\/]*\/([^+][^\?]*)');
             if(match) {
@@ -23,7 +32,7 @@ Playgrub.scraper.scrape = function() {
                 if((typeof(uartist) == 'undefined') || (typeof(usong) == 'undefined')) {
                     unique_songs[artist] = {};
                     unique_songs[artist][song] = {};
-                    Playgrub.playlist.add_track(decodeURIComponent(artist).replace(/\+/g, ' '), decodeURIComponent(song).replace(/\+/g, ' '));
+                    Playgrub.playlist.add_track(last_escape(artist), last_escape(song));
                 }
             }
         });
