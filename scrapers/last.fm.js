@@ -18,6 +18,7 @@ Playgrub.scraper.scrape = function() {
     var last_escape = function(escapee) {
         var escaped = decodeURIComponent(escapee);
         escaped = escaped.replace(/\+/g, ' ');
+        escaped = escaped.replace(/%26/g, '&');
         return escaped;
     };
 
