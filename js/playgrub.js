@@ -1,6 +1,6 @@
 Playgrub = {
-    PGHOST: 'http://www.playgrub.com/',
-    VERSION: '0.4',
+    PGHOST: 'http://localhost:8080/',
+    VERSION: '0.5',
     playlist: {},
     client: {},
     player: {},
@@ -89,26 +89,26 @@ Playgrub.Client = function() {
 Playgrub.Bookmarklet = function() {
     Playgrub.bookmarklet = this;
 
+    Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
     $('body').prepend(this.base_html);
     this.set_status("Loading...");
     $('#playgrub-bookmarklet-content').hide();
 };
 
 Playgrub.Bookmarklet.prototype = {
-    base_html: "<div id='playgrub-bookmarklet' style='width: 100%; position: fixed; top: 0px; font-size: 16px; opacity: 0.85;"
-        +"left: 0px; z-index: 10000; background: #000000; color: #ffffff; font-family: Arial,Helvetica; text-align: left;'>"
-        +"<div id='playgrub-bookmarklet-header' style='padding: 15px; border-bottom: 1px solid #ffffff;'>"
-        +"<div id='playgrub-bookmarklet-close' style='position: absolute; top: 15px; right: 25px; margin: 0px; border: 0px;'>"
-        +"<span onclick='$(\"#playgrub-bookmarklet\").remove(); return false;' style='cursor: pointer;'>close</span>"
+    base_html: "<div id='playgrub-bookmarklet'>"
+        +"<div id='playgrub-bookmarklet-header'>"
+        +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;'>"
+        +"close"
         +"</div>"
-        +"<span onclick='window.open(\""+Playgrub.PGHOST+"\")' style='cursor: pointer;'>Playgrub</span>"
+        +"<span class='playgrub-clickable' onclick='window.open(\""+Playgrub.PGHOST+"\")'>Playgrub</span>"
         +"</div>"
-        +"<div id='playgrub-bookmarklet-content' style='padding: 15px 15px 10px 15px;'></div>"
-        +"<div id='playgrub-bookmarklet-status' style='padding: 5px 15px 5px 15px; font-size: 10px;'></div>"
+        +"<div id='playgrub-bookmarklet-content'></div>"
+        +"<div id='playgrub-bookmarklet-status'></div>"
         +"</div>",
 
     loaded_html: function() {
-        return "<div style='padding-bottom: 10px;'>"+document.title+"</div>"
+        return "<span id='playgrub-bookmarklet-title'>"+document.title+"</span>"
         +"<div>"
         +"<span "+this._ul_hover()+" style='cursor: pointer; height: 20px; padding: 5px; background: #1F1F1F;'  onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>Play &#9654;</span>"
         +"<span "+this._ul_hover()+" style='cursor: pointer; margin-left: 15px; height: 20px; padding: 5px; background-color: #1F1F1F;' "
@@ -167,10 +167,18 @@ Playgrub.Util = {
     jquery_injected: false,
 
     inject_script: function (script) {
-        var script_element = document.createElement('SCRIPT');
+        var script_element = document.createElement('script');
         script_element.type = 'text/javascript';
         script_element.src = script;
         document.getElementsByTagName('head')[0].appendChild(script_element);
+    },
+
+    inject_css: function (css) {
+        var css_element = document.createElement('link');
+        css_element.type = 'text/css';
+        css_element.rel = 'stylesheet';
+        css_element.href = css;
+        document.getElementsByTagName('head')[0].appendChild(css_element);
     },
 
     load_jquery: function(){
