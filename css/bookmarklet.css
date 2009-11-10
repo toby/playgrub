@@ -1,0 +1,43 @@
+#playgrub-bookmarklet {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 10000;
+    width: 100%;
+    opacity: .85;
+    background: #000000;
+    color: #ffffff;
+    text-align: left;
+    font-size: 16px;
+    font-family: Arial, Helvetica;
+}
+
+.playgrub-clickable {
+    cursor: pointer;
+}
+
+#playgrub-bookmarklet-header {
+    padding: 15px;
+    border-bottom: 1px solid #ffffff;
+}
+
+#playgrub-bookmarklet-close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    margin: 0px;
+    border: 0px;
+}
+
+#playgrub-bookmarklet-content {
+    padding: 15px 15px 10px 15px;
+}
+
+#playgrub-bookmarklet-status {
+    padding: 5px 15px 5px 15px;
+    font-size: 10px;
+}
+
+#playgrub-bookmarklet-title {
+    padding-bottom: 10px;
+}
