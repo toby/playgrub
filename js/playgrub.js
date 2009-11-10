@@ -117,7 +117,7 @@ Playgrub.Bookmarklet.prototype = {
         +"</div>",
 
     loaded_html: function() {
-        return "<span id='playgrub-bookmarklet-title'>"+document.title+"</span>"
+        return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
         +"<div id='playgrub-bookmarklet-buttons'>"
         +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
         +"Play &#9654;"

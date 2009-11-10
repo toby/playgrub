@@ -47,7 +47,9 @@
 }
 
 #playgrub-bookmarklet-title {
-    padding-bottom: 10px;
+    background-color: #50C2FA;
+    color: #0C1D2D;
+    padding: 10px;
 }
 
 .playgrub-clickable {
@@ -59,7 +61,10 @@
     padding: 5px 10px 5px 10px;
     margin-right: 10px;
     color: #000000;
-    background-color: #CBCBCB;
+    background-color: #727372;
+}
+
+.playgrub-rounded {
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
     -moz-border-radius-bottomleft: 5px;
