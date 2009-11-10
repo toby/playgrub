@@ -110,7 +110,7 @@ class ScrapeHandler(webapp.RequestHandler):
     for root, dirs, files in os.walk(scraper_path):
         for filename in files:
             if filename.endswith('.js'):
-                logging.error("filename -> %s",filename.split('.js')[0])
+                # logging.error("filename -> %s",filename.split('.js')[0])
                 sre = re.compile('.*'+filename.split('.js')[0])
                 if sre.match(domain):
                     # logging.error("match -> %s",domain)
