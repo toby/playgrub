@@ -1,11 +1,23 @@
 #playgrub-bookmarklet {
     position: fixed;
+    overflow: hidden;
     top: 0px;
     left: 0px;
+    width: 100%;
+}
+
+#playgrub-bookmarklet-background {
+    position: absolute;
     z-index: 10000;
     width: 100%;
+    height: 100%;
     opacity: .85;
     background: #000000;
+}
+
+#playgrub-bookmarklet-body {
+    position: relative;
+    z-index: 10001;
     color: #ffffff;
     text-align: left;
     font-size: 16px;
@@ -35,7 +47,7 @@
 }
 
 #playgrub-bookmarklet-title {
-    padding-bottom: 10px;
+    padding: 5px 10px 5px 0px;
 }
 
 .playgrub-clickable {
@@ -44,20 +56,40 @@
 
 .playgrub-button {
     height: 20px;
-    padding: 5px;
-    margin-right: 10px;
-    background-color: #1F1F1F;
+    padding: 5px 10px 5px 10px;
+    margin-right: 5px;
+    color: #000000;
+    background-color: #BBBBBB;
+}
+
+.playgrub-button:hover {
+    color: #FFFFFF;
+}
+
+.playgrub-rounded {
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
 }
 
 #playgrub-bookmarklet-buttons {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 #playgrub-bookmarklet-links {
     font-size: 12px;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .playgrub-link {
     margin-right: 10px;
+}
+
+.playgrub-link:hover {
+    text-decoration: underline;
 }
