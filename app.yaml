@@ -1,5 +1,5 @@
 application: playgrub
-version: 25
+version: 26
 runtime: python
 api_version: 1
 
