@@ -109,16 +109,20 @@ Playgrub.Bookmarklet.prototype = {
 
     loaded_html: function() {
         return "<span id='playgrub-bookmarklet-title'>"+document.title+"</span>"
-        +"<div>"
-        +"<span "+this._ul_hover()+" style='cursor: pointer; height: 20px; padding: 5px; background: #1F1F1F;'  onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>Play &#9654;</span>"
-        +"<span "+this._ul_hover()+" style='cursor: pointer; margin-left: 15px; height: 20px; padding: 5px; background-color: #1F1F1F;' "
-        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link())+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>Share</span>"
+        +"<div id='playgrub-bookmarklet-buttons'>"
+        +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
+        +"Play &#9654;"
+        +"</span>"
+        +"<span class='playgrub-clickable playgrub-button' "
+        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link())+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
+        +"Share"
+        +"</span>"
         +"</div>"
-        +"<div style='font-size: 12px; margin-top: 25px;'>"
+        +"<div id='playgrub-bookmarklet-links'>"
         +"<span style='margin-right: 10px;'>More:</span>"
-        +"<span "+this._ul_hover()+" style='cursor: pointer; margin-right: 10px;' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>Playlick</span>"
-        +"<span "+this._ul_hover()+" style='cursor: pointer; margin-right: 10px;' onClick='window.open(\""+Playgrub.Util.spiffdar_link()+"\");'>Spiffdar</span>"
-        +"<span "+this._ul_hover()+" style='cursor: pointer;' onClick='window.open(\""+Playgrub.PGHOST+Playgrub.playlist.id+".xspf\");'>Download XSPF</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>Playlick</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.spiffdar_link()+"\");'>Spiffdar</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.PGHOST+Playgrub.playlist.id+".xspf\");'>Download XSPF</span>"
         +"</div>";
     },
 
@@ -132,9 +136,6 @@ Playgrub.Bookmarklet.prototype = {
         $("#playgrub-bookmarklet-status").html(new_status);
     },
 
-    _ul_hover: function() {
-        return "onMouseOver='style.textDecoration=\"underline\";' onMouseOut='style.textDecoration=\"none\";'";
-    }
 };
 
 Playgrub.Scraper = function() {

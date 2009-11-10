@@ -12,10 +12,6 @@
     font-family: Arial, Helvetica;
 }
 
-.playgrub-clickable {
-    cursor: pointer;
-}
-
 #playgrub-bookmarklet-header {
     padding: 15px;
     border-bottom: 1px solid #ffffff;
@@ -40,4 +36,28 @@
 
 #playgrub-bookmarklet-title {
     padding-bottom: 10px;
+}
+
+.playgrub-clickable {
+    cursor: pointer;
+}
+
+.playgrub-button {
+    height: 20px;
+    padding: 5px;
+    margin-right: 10px;
+    background-color: #1F1F1F;
+}
+
+#playgrub-bookmarklet-buttons {
+    margin-top: 10px;
+}
+
+#playgrub-bookmarklet-links {
+    font-size: 12px;
+    margin-top: 25px;
+}
+
+.playgrub-link {
+    margin-right: 10px;
 }
