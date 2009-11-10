@@ -95,7 +95,7 @@ Playgrub.Bookmarklet = function() {
 };
 
 Playgrub.Bookmarklet.prototype = {
-    base_html: "<div id='playgrub-bookmarklet' style='width: 100%; position: absolute; top: 0px; font-size: 16px; opacity: 0.85;"
+    base_html: "<div id='playgrub-bookmarklet' style='width: 100%; position: fixed; top: 0px; font-size: 16px; opacity: 0.85;"
         +"left: 0px; z-index: 10000; background: #000000; color: #ffffff; font-family: Arial,Helvetica; text-align: left;'>"
         +"<div id='playgrub-bookmarklet-header' style='padding: 15px; border-bottom: 1px solid #ffffff;'>"
         +"<div id='playgrub-bookmarklet-close' style='position: absolute; top: 15px; right: 25px; margin: 0px; border: 0px;'>"
