@@ -103,6 +103,8 @@ Playgrub.Bookmarklet = function() {
 
 Playgrub.Bookmarklet.prototype = {
     base_html: "<div id='playgrub-bookmarklet'>"
+        +"<div id='playgrub-bookmarklet-background'></div>"
+        +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
         +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;'>"
         +"close"
@@ -111,6 +113,7 @@ Playgrub.Bookmarklet.prototype = {
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'></div>"
         +"<div id='playgrub-bookmarklet-status'></div>"
+        +"</div>"
         +"</div>",
 
     loaded_html: function() {
