@@ -109,13 +109,14 @@ class ScrapeHandler(webapp.RequestHandler):
 
     for root, dirs, files in os.walk(scraper_path):
         for filename in files:
-            # logging.error("filename -> %s",filename.split('.js')[0])
-            sre = re.compile('.*'+filename.split('.js')[0])
-            if sre.match(domain):
-                # logging.error("match -> %s",domain)
-                self.response.headers['Content-Type'] = 'text/javascript'
-                self.response.out.write(template.render(scraper_path+filename, {}))
-                return
+            if filename.endswith('.js'):
+                logging.error("filename -> %s",filename.split('.js')[0])
+                sre = re.compile('.*'+filename.split('.js')[0])
+                if sre.match(domain):
+                    # logging.error("match -> %s",domain)
+                    self.response.headers['Content-Type'] = 'text/javascript'
+                    self.response.out.write(template.render(scraper_path+filename, {}))
+                    return
     self.response.out.write('Playgrub.Events.noScraper();')
 
 def main():
