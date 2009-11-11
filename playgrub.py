@@ -72,7 +72,7 @@ class PlaylistTrackHandler(webapp.RequestHandler):
 class XSPFHandler(webapp.RequestHandler):
 
   def get(self):
-    playlist_key = self.request.path.rstrip('.xspf')
+    playlist_key = self.request.path.split('.xspf')[0]
     playlist_key = playlist_key.lstrip('/')
 
     # logging.error("XSPF key --> %s", playlist_key)
