@@ -1,6 +1,6 @@
 Playgrub = {
     PGHOST: 'http://www.playgrub.com/',
-    VERSION: '0.6',
+    VERSION: '0.7',
     playlist: {},
     client: {},
     player: {},
@@ -31,7 +31,7 @@ Playgrub.Events = {
 
     noSongs: function() {
         // scraper found but there were no songs
-        Playgrub.bookmarklet.set_status("No songs found on this page");
+        Playgrub.bookmarklet.set_status(Playgrub.scraper.error);
     },
 
     clientPlaylistPublished: function() {
