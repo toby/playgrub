@@ -14,3 +14,9 @@ indexes:
   properties:
   - name: playlist
   - name: index
+
+- kind: PlaylistTrack
+  properties:
+  - name: playlist
+  - name: index
+    direction: desc

@@ -77,15 +77,12 @@ class XSPFHandler(webapp.RequestHandler):
 
     # logging.error("XSPF key --> %s", playlist_key)
 
-    q = PlaylistHeader.all()
-    q.filter('playlist =',playlist_key)
+    q = PlaylistHeader.gql('WHERE playlist = :1', playlist_key)
     head = q.fetch(1)[0]
     # logging.error("head -> %s",head.title)
 
-    q = PlaylistTrack.all()
-    q.filter('playlist =',playlist_key)
-    q.order('index')
-    songs = q.fetch(200)
+    q = PlaylistTrack.gql('WHERE playlist = :1 ORDER BY index DESC', playlist_key)
+    songs = q.fetch(500)
     # for r in songs:
         # logging.error("index -> %s", r.index)
         # logging.error("artist -> %s", r.artist)

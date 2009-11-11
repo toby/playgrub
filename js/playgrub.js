@@ -1,5 +1,5 @@
 Playgrub = {
-    PGHOST: 'http://www.playgrub.com/',
+    PGHOST: 'http://localhost:8080/',
     VERSION: '0.6',
     playlist: {},
     client: {},
