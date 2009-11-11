@@ -36,6 +36,7 @@ Playgrub.Events = {
 
     clientPlaylistPublished: function() {
         // Playgrub.client is done broadcasting playlist
+        Playgrub.Util.inject_script(Playgrub.PGHOST+'twitter_post?playlist='+Playgrub.playlist.id);
         Playgrub.bookmarklet.playlist_loaded();
     },
 

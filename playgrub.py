@@ -2,13 +2,18 @@ import logging
 import os
 import re
 import urlparse
+import urllib
+import base64
 import datetime
 import hashlib
 import wsgiref.handlers
+from google.appengine.api import urlfetch
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.ext import db
 from models import PlaylistHeader
 from models import PlaylistTrack
+from models import PlaygrubAccount
 
 class IndexHandler(webapp.RequestHandler):
 
@@ -108,16 +113,23 @@ class TwitterPost(webapp.RequestHandler):
     def get(self):
       playlist_key = self.request.get('playlist')
       q = PlaylistHeader.gql('WHERE playlist = :1', playlist_key)
+      if q.count() == 0:
+          return
       head = q.fetch(1)[0]
+      message = head.title[0:30] + ' ' + 'http://www.playlick.com/#xspf=http://www.playgrub.com/' + head.playlist +'.xspf'
+
+      q = PlaygrubAccount.gql('WHERE service = :1','twitter')
+      if q.count(1) == 0:
+          return
+      twitter_account = q.fetch(1)[0]
 
       self.response.headers['Content-Type'] = 'text/plain'
-      username =  self.request.get("username")
 
-      login =  username
-      password = "password"
-      chime = self.get_chime()
-      payload= {'status' : chime,  'source' : "Playgrub"}
-      payload= urllib.urlencode(payload)
+      login = twitter_account.user
+      password = twitter_account.password
+      payload= {'status' : message.encode('utf-8'),  'source' : 'Playgrub'}
+      logging.error("payload -> %s", payload)
+      payload = urllib.urlencode(payload)
 
       base64string = base64.encodestring('%s:%s' % (login, password))[:-1]
       headers = {'Authorization': "Basic %s" % base64string}
