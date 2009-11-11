@@ -116,7 +116,8 @@ class TwitterPost(webapp.RequestHandler):
       if q.count() == 0:
           return
       head = q.fetch(1)[0]
-      message = head.title[0:30] + ' ' + 'http://www.playlick.com/#xspf=http://www.playgrub.com/' + head.playlist +'.xspf'
+      title = head.title[0:43]
+      message = title + ' ' + 'http://playlick.com/#xspf=http://www.playgrub.com/' + head.playlist +'.xspf'
 
       q = PlaygrubAccount.gql('WHERE service = :1','twitter')
       if q.count(1) == 0:
@@ -128,7 +129,6 @@ class TwitterPost(webapp.RequestHandler):
       login = twitter_account.user
       password = twitter_account.password
       payload= {'status' : message.encode('utf-8'),  'source' : 'Playgrub'}
-      logging.error("payload -> %s", payload)
       payload = urllib.urlencode(payload)
 
       base64string = base64.encodestring('%s:%s' % (login, password))[:-1]
