@@ -81,7 +81,7 @@ class XSPFHandler(webapp.RequestHandler):
     head = q.fetch(1)[0]
     # logging.error("head -> %s",head.title)
 
-    q = PlaylistTrack.gql('WHERE playlist = :1 ORDER BY index DESC', playlist_key)
+    q = PlaylistTrack.gql('WHERE playlist = :1 ORDER BY index ASC', playlist_key)
     songs = q.fetch(500)
     # for r in songs:
         # logging.error("index -> %s", r.index)
