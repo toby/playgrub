@@ -7,21 +7,8 @@ import hashlib
 import wsgiref.handlers
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from google.appengine.ext import db
-
-class PlaylistTrack(db.Model):
-  artist = db.StringProperty(required=True)
-  track = db.StringProperty(required=True)
-  index = db.IntegerProperty(required=True)
-  playlist = db.StringProperty(required=True)
-  create_date = db.DateTimeProperty(required=True)
-
-class PlaylistHeader(db.Model):
-  title = db.StringProperty(required=True)
-  url= db.StringProperty(required=True)
-  playlist = db.StringProperty(required=True)
-  songs = db.StringProperty(required=True)
-  create_date = db.DateTimeProperty(required=True)
+from models import PlaylistHeader
+from models import PlaylistTrack
 
 class IndexHandler(webapp.RequestHandler):
 
@@ -116,8 +103,34 @@ class ScrapeHandler(webapp.RequestHandler):
                     return
     self.response.out.write('Playgrub.Events.noScraper();')
 
+class TwitterPost(webapp.RequestHandler):
+
+    def get(self):
+      playlist_key = self.request.get('playlist')
+      q = PlaylistHeader.gql('WHERE playlist = :1', playlist_key)
+      head = q.fetch(1)[0]
+
+      self.response.headers['Content-Type'] = 'text/plain'
+      username =  self.request.get("username")
+
+      login =  username
+      password = "password"
+      chime = self.get_chime()
+      payload= {'status' : chime,  'source' : "Playgrub"}
+      payload= urllib.urlencode(payload)
+
+      base64string = base64.encodestring('%s:%s' % (login, password))[:-1]
+      headers = {'Authorization': "Basic %s" % base64string}
+
+      url = "http://twitter.com/statuses/update.xml"
+      result = urlfetch.fetch(url, payload=payload, method=urlfetch.POST, headers=headers)
+
+      self.response.out.write(result.content)
+
+
 def main():
-  application = webapp.WSGIApplication([('/scraper.js', ScrapeHandler),
+  application = webapp.WSGIApplication([('/twitter_post', TwitterPost),
+                                       ('/scraper.js', ScrapeHandler),
                                        ('/playlist_header.js', PlaylistHeaderHandler),
                                        ('/playlist_track.js', PlaylistTrackHandler),
                                        ('/', IndexHandler),('/.*\.xspf', XSPFHandler)],

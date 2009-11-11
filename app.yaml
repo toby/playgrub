@@ -4,6 +4,9 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /admin/.*
+  script: admin.py
+
 - url: /js
   static_dir: js
 
