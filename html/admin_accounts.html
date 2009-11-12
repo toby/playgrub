@@ -12,7 +12,8 @@
 </form>
 <h2>Existing Accounts</h2>
 {% for account in accounts %}
-<div>
+<div style='padding-bottom: 15px;'>
+    <span><a href='/admin/accounts?delete={{ account.key }}'>[delete]</a></span>&nbsp;
     <span>{{ account.service }}</span>&nbsp;
     <span>{{ account.user}}</span>
 </div>

@@ -35,6 +35,11 @@ class AccountsAdmin(webapp.RequestHandler):
       self.response.out.write(template.render(path, template_values))
 
     def get(self):
+      delete = self.request.get('delete')
+      if delete:
+          account = db.get(delete)
+          account.delete()
+
       q = PlaygrubAccount.all()
       accounts = q.fetch(100)
 
