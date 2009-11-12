@@ -15,6 +15,6 @@ class PlaylistHeader(db.Model):
   create_date = db.DateTimeProperty(required=True)
 
 class PlaygrubAccount(db.Model):
-  service = db.StringProperty(required=True)
+  service = db.StringProperty()
   user = db.StringProperty()
   password = db.StringProperty()

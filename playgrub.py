@@ -116,8 +116,10 @@ class TwitterPost(webapp.RequestHandler):
       if q.count() == 0:
           return
       head = q.fetch(1)[0]
-      title = head.title[0:40]
-      message = title + ' ' + 'http://www.playlick.com/#xspf=http://www.playgrub.com/' + head.playlist +'.xspf'
+      play_url = 'http://www.playlick.com/#xspf=http://www.playgrub.com/' + head.playlist +'.xspf'
+
+
+      message = head.title + ' ' + shortened_url
 
       q = PlaygrubAccount.gql('WHERE service = :1','twitter')
       if q.count(1) == 0:

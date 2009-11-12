@@ -5,10 +5,18 @@
 <body>
 <h2>Playgrub Administrative Account Setup</h2>
 <form method='POST' action='/admin/accounts'>
-<input type='text' name='service' value='{{ account.service }}' />
-<input type='text' name='user' value='{{ account.user }}' />
-<input type='password' name='password' value='{{ account.password }}' />
+<input type='text' name='service' />
+<input type='text' name='user' />
+<input type='password' name='password' />
 <input type='submit' name='submit' value='submit' />
 </form>
+<h2>Existing Accounts</h2>
+{% for account in accounts %}
+<div>
+    <span>{{ account.service }}</span>&nbsp;
+    <span>{{ account.user}}</span>
+</div>
+{% endfor %}
+
 </body>
 </html>
