@@ -116,18 +116,33 @@ class TwitterPost(webapp.RequestHandler):
       if q.count() == 0:
           return
       head = q.fetch(1)[0]
-      play_url = 'http://www.playlick.com/#xspf=http://www.playgrub.com/' + head.playlist +'.xspf'
 
+      q = PlaygrubAccount.gql('WHERE service = :1', 'bit.ly')
+      if q.count(1) == 0:
+          return
+      bitly_account = q.fetch(1)[0]
 
-      message = head.title + ' ' + shortened_url
+      play_url = 'http://www.playlick.com/'+urllib.quote('#xspf=http://www.playgrub.com/'+head.playlist+'.xspf')
+      login = bitly_account.user
+      password = bitly_account.password
+      shorten_url = 'http://api.bit.ly/shorten?version=2.0.1&login='+login+'&apiKey='+password+'&longUrl='+play_url
+      result = urlfetch.fetch(shorten_url, payload=None, method=urlfetch.GET, headers={})
+      # logging.error('bitly result -> %s', result.content)
+      sre = re.compile('.*shortUrl.*(http.*)"')
+      search = sre.search(result.content)
+      if not search:
+          return
+      shortened_url = search.group(1)
+      # logging.error('shortened_url -> %s', shortened_url)
+
 
       q = PlaygrubAccount.gql('WHERE service = :1','twitter')
       if q.count(1) == 0:
           return
       twitter_account = q.fetch(1)[0]
 
-      self.response.headers['Content-Type'] = 'text/plain'
 
+      message = head.title + ' ' + shortened_url
       login = twitter_account.user
       password = twitter_account.password
       payload= {'status' : message.encode('utf-8'),  'source' : 'Playgrub'}
@@ -138,7 +153,9 @@ class TwitterPost(webapp.RequestHandler):
 
       url = "http://twitter.com/statuses/update.xml"
       result = urlfetch.fetch(url, payload=payload, method=urlfetch.POST, headers=headers)
+      # logging.error('twitter result -> %s', result.content)
 
+      self.response.headers['Content-Type'] = 'text/plain'
       self.response.out.write(result.content)
 
 
