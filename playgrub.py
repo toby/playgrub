@@ -125,7 +125,7 @@ class TwitterPost(webapp.RequestHandler):
       play_url = 'http://www.playlick.com/'+urllib.quote('#xspf=http://www.playgrub.com/'+head.playlist+'.xspf')
       login = bitly_account.user
       password = bitly_account.password
-      shorten_url = 'http://api.bit.ly/shorten?version=2.0.1&login='+login+'&apiKey='+password+'&longUrl='+play_url
+      shorten_url = 'http://api.bit.ly/shorten?version=2.0.1&login='+login+'&apiKey='+password+'&history=1&longUrl='+play_url
       result = urlfetch.fetch(shorten_url, payload=None, method=urlfetch.GET, headers={})
       # logging.error('bitly result -> %s', result.content)
       sre = re.compile('.*shortUrl.*(http.*)"')
