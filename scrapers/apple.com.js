@@ -8,7 +8,7 @@
  * This scraper will work on the Apple.com iTunes Chart Page
  */
 
-Playgrub.scraper.url = 'http://.*apple\.com.*/itunes/charts.*';
+Playgrub.scraper.url = 'http://.*apple\.com.*/itunes/charts/songs.*';
 Playgrub.scraper.error = 'Playgrub currently supports iTunes Charts pages only. Please check your url.';
 Playgrub.scraper.scrape = function() {
     $("li").each(function () {
