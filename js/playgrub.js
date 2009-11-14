@@ -1,6 +1,6 @@
 Playgrub = {
-    PGHOST: 'http://www.playgrub.com/',
-    VERSION: '0.7',
+    PGHOST: 'http://localhost:8080/',
+    VERSION: '0.8',
     playlist: {},
     client: {},
     player: {},
@@ -8,6 +8,9 @@ Playgrub = {
     bookmarklet: {},
 
     init: function() {
+        // inject playdar
+        Playgrub.Util.inject_script(Playgrub.PGHOST+'js/playdar_compressed.js');
+
         new Playgrub.Playlist();
         new Playgrub.Scraper();
         new Playgrub.Client();
@@ -17,31 +20,33 @@ Playgrub = {
 
 Playgrub.Events = {
 
+    // scraper not found
+    noScraper: function() {
+        Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
+    },
+
+    // scraper found but there were no songs
+    noSongs: function() {
+        Playgrub.bookmarklet.set_status(Playgrub.scraper.error);
+    },
+
+    // scraper done finding songs
     foundSongs: function() {
-        // scraper found songs
         Playgrub.playlist.url = window.location;
         Playgrub.playlist.title = document.title;
         Playgrub.client.write_playlist(Playgrub.playlist);
     },
 
-    noScraper: function() {
-        // scraper not found
-        Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
-    },
-
-    noSongs: function() {
-        // scraper found but there were no songs
-        Playgrub.bookmarklet.set_status(Playgrub.scraper.error);
-    },
-
+    // Playgrub.client is done broadcasting playlist
     clientPlaylistPublished: function() {
-        // Playgrub.client is done broadcasting playlist
+        // Post to Twitter
         Playgrub.Util.inject_script(Playgrub.PGHOST+'twitter_post?playlist='+Playgrub.playlist.id);
+
         Playgrub.bookmarklet.playlist_loaded();
     },
 
+    // Playgrub.client is broadcasting a playlist track
     clientTrackPublished: function() {
-        // Playgrub.client is broadcasting a playlist track
         Playgrub.bookmarklet.track_broadcast();
     }
 };
@@ -58,6 +63,17 @@ Playgrub.Playlist.prototype = {
 
     add_track: function(artist, song) {
         this.tracks.push([artist, song]);
+    },
+
+    to_html: function() {
+        var html;
+        html = html+'<div class=\'playgrub-playlist\'>';
+        for (var i in this.tracks) {
+            html = html+'<div class=\'playgrub-playlist-track\'>'+this.tracks[i][0]+' - '+this.tracks[i][1]+'</div>';
+        }
+        html = html+'</div>';
+
+        return html;
     }
 };
 
@@ -119,6 +135,7 @@ Playgrub.Bookmarklet.prototype = {
 
     loaded_html: function() {
         return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
+        +Playgrub.playlist.to_html()
         +"<div id='playgrub-bookmarklet-buttons'>"
         +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
         +"Play &#9654;"
