@@ -15,12 +15,31 @@ Playgrub = {
         new Playgrub.Scraper();
         new Playgrub.Client();
         new Playgrub.Bookmarklet();
+
+        /* First, set the client up with some callbacks. */
+        Playdar.setupClient({
+
+            // Called when the browser is authorised to query Playdar.
+            onAuth: function () {
+                // At this point, we can query the Playdar API for a track and start polling for matches.
+                Playdar.client.resolve("", "");
+            },
+
+            // Called in response to each poll with the results so far.
+            onResults: function (response, lastPoll) {
+                console.log('Polling ' + response.qid);
+                if (lastPoll) {
+                    // Take a look at the final response.
+                    console.dir(response);
+                }
+            }
+        });
+
     }
 };
 
 Playgrub.Events = {
 
-    // scraper not found
     noScraper: function() {
         Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
     },
@@ -35,6 +54,9 @@ Playgrub.Events = {
         Playgrub.playlist.url = window.location;
         Playgrub.playlist.title = document.title;
         Playgrub.client.write_playlist(Playgrub.playlist);
+
+        /* The client is now ready to check in with Playdar. */
+        Playdar.client.go();
     },
 
     // Playgrub.client is done broadcasting playlist
@@ -243,6 +265,10 @@ Playgrub.Util = {
         return "http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf";
     }
 };
+
+// load Playdar
+Playgrub.Util.inject_script(Playgrub.PGHOST+'js/playdar_compressed.js');
+alert(Playgrub.PGHOST+'js/playdar_compressed.js');
 
 // load jquery - will run Playgrub.init() when done
 Playgrub.Util.load_jquery();
