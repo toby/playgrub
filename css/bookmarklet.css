@@ -48,9 +48,9 @@
 
 #playgrub-bookmarklet-title {
     display: block;
-    padding: 5px 10px 5px 0px;
+    padding: 5px 10px 0px 0px;
     margin-bottom: 10px;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .playgrub-clickable {
@@ -95,4 +95,17 @@
 
 .playgrub-link:hover {
     text-decoration: underline;
+}
+
+.playgrub-playlist-track {
+    cursor: pointer;
+    padding: 3px 0px 3px 0px;
+}
+
+.playgrub-playlist-track:hover {
+    background-color: #35353A;
+}
+
+.playgrub-playlist-track-playing {
+    color: #CCFA2B;
 }

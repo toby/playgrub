@@ -69,7 +69,8 @@ Playgrub.Playlist.prototype = {
         var html ='';
         html = html+'<div class=\'playgrub-playlist\'>';
         for (var i in this.tracks) {
-            html = html+'<div class=\'playgrub-playlist-track\'>'+this.tracks[i][0]+' - '+this.tracks[i][1]+'</div>';
+            if(this.tracks[i][0] && this.tracks[i][1])
+                html = html+'<div class=\'playgrub-playlist-track\'>'+decodeURIComponent(this.tracks[i][0])+' - '+decodeURIComponent(this.tracks[i][1])+'</div>';
         }
         html = html+'</div>';
 
@@ -134,8 +135,8 @@ Playgrub.Bookmarklet.prototype = {
         +"</div>",
 
     loaded_html: function() {
-        return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
-        +Playgrub.playlist.to_html()
+        // return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
+        return Playgrub.playlist.to_html()
         +"<div id='playgrub-bookmarklet-buttons'>"
         +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
         +"Play &#9654;"
@@ -154,8 +155,8 @@ Playgrub.Bookmarklet.prototype = {
     },
 
     playlist_loaded: function() {
+        Playgrub.bookmarklet.hide_status();
         $("#playgrub-bookmarklet-content").append(this.loaded_html()).slideDown("normal", function(){
-            Playgrub.bookmarklet.set_status(Playgrub.playlist.tracks.length+' tracks found');
         });
     },
 
@@ -166,6 +167,14 @@ Playgrub.Bookmarklet.prototype = {
     set_status: function(new_status) {
         $("#playgrub-bookmarklet-status").html(new_status);
     },
+
+    show_status: function(new_status) {
+        $("#playgrub-bookmarklet-status").show();
+    },
+
+    hide_status: function(new_status) {
+        $("#playgrub-bookmarklet-status").hide();
+    }
 
 };
 
