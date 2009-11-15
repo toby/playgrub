@@ -66,7 +66,7 @@ Playgrub.Playlist.prototype = {
     },
 
     to_html: function() {
-        var html;
+        var html ='';
         html = html+'<div class=\'playgrub-playlist\'>';
         for (var i in this.tracks) {
             html = html+'<div class=\'playgrub-playlist-track\'>'+this.tracks[i][0]+' - '+this.tracks[i][1]+'</div>';

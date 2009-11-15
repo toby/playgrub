@@ -47,7 +47,10 @@
 }
 
 #playgrub-bookmarklet-title {
+    display: block;
     padding: 5px 10px 5px 0px;
+    margin-bottom: 10px;
+    font-size: 20px;
 }
 
 .playgrub-clickable {
