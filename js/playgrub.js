@@ -8,33 +8,10 @@ Playgrub = {
     bookmarklet: {},
 
     init: function() {
-        // inject playdar
-        Playgrub.Util.inject_script(Playgrub.PGHOST+'js/playdar_compressed.js');
-
         new Playgrub.Playlist();
         new Playgrub.Scraper();
         new Playgrub.Client();
         new Playgrub.Bookmarklet();
-
-        /* First, set the client up with some callbacks. */
-        Playdar.setupClient({
-
-            // Called when the browser is authorised to query Playdar.
-            onAuth: function () {
-                // At this point, we can query the Playdar API for a track and start polling for matches.
-                Playdar.client.resolve("", "");
-            },
-
-            // Called in response to each poll with the results so far.
-            onResults: function (response, lastPoll) {
-                console.log('Polling ' + response.qid);
-                if (lastPoll) {
-                    // Take a look at the final response.
-                    console.dir(response);
-                }
-            }
-        });
-
     }
 };
 
@@ -53,10 +30,12 @@ Playgrub.Events = {
     foundSongs: function() {
         Playgrub.playlist.url = window.location;
         Playgrub.playlist.title = document.title;
+
+        window.frames['playgrub-server-iframe'].postMessage('hello', '*');
+
+        // write to playgrub server
         Playgrub.client.write_playlist(Playgrub.playlist);
 
-        /* The client is now ready to check in with Playdar. */
-        Playdar.client.go();
     },
 
     // Playgrub.client is done broadcasting playlist
@@ -146,6 +125,7 @@ Playgrub.Bookmarklet.prototype = {
         +"<div id='playgrub-bookmarklet-background'></div>"
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
+        +'<iframe name=\'playgrub-server-iframe\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe\' style=\'z-index: 100000;\'></iframe>'
         +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;'>"
         +"close"
         +"</div>"
@@ -266,9 +246,6 @@ Playgrub.Util = {
     }
 };
 
-// load Playdar
-Playgrub.Util.inject_script(Playgrub.PGHOST+'js/playdar_compressed.js');
-alert(Playgrub.PGHOST+'js/playdar_compressed.js');
 
 // load jquery - will run Playgrub.init() when done
 Playgrub.Util.load_jquery();

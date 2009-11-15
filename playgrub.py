@@ -89,6 +89,14 @@ class XSPFHandler(webapp.RequestHandler):
     self.response.headers['Content-Type'] = 'application/xspf+xml'
     self.response.out.write(template.render(path, template_values))
 
+class BookmarkletIframeHandler(webapp.RequestHandler):
+
+  def get(self):
+    template_values = {}
+
+    path = os.path.join(os.path.dirname(__file__), 'html/bookmarklet-iframe.html')
+    self.response.out.write(template.render(path, template_values))
+
 class ScrapeHandler(webapp.RequestHandler):
 
   def get(self):
@@ -108,7 +116,7 @@ class ScrapeHandler(webapp.RequestHandler):
                     return
     self.response.out.write('Playgrub.Events.noScraper();')
 
-class TwitterPost(webapp.RequestHandler):
+class TwitterPostHandler(webapp.RequestHandler):
 
     def get(self):
       playlist_key = self.request.get('playlist')
@@ -160,7 +168,8 @@ class TwitterPost(webapp.RequestHandler):
 
 
 def main():
-  application = webapp.WSGIApplication([('/twitter_post', TwitterPost),
+  application = webapp.WSGIApplication([('/bookmarklet_iframe', BookmarkletIframeHandler),
+                                       ('/twitter_post', TwitterPostHandler),
                                        ('/scraper.js', ScrapeHandler),
                                        ('/playlist_header.js', PlaylistHeaderHandler),
                                        ('/playlist_track.js', PlaylistTrackHandler),

@@ -1,0 +1,7 @@
+<b>This iframe is located on dev.jquery.com</b>
+<div id="test" style='color: white;'>Send me a message!</div>
+<script>
+    window.addEventListener("message", function(e){
+        document.getElementById("test").textContent = e.domain + " said: " + e.data;
+    }, false);
+</script>
