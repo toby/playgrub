@@ -24,6 +24,11 @@
     font-family: Arial, Helvetica;
 }
 
+#playgrub-server-iframe {
+    position: relative;
+    z-index: 10002;
+}
+
 #playgrub-bookmarklet-header {
     padding: 15px;
     border-bottom: 1px solid #ffffff;

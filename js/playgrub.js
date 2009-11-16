@@ -131,13 +131,14 @@ Playgrub.Bookmarklet.prototype = {
         +"<div id='playgrub-bookmarklet-background'></div>"
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
-        +'<iframe name=\'playgrub-server-iframe\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe\' style=\'z-index: 100000; border: 1px solid white; height: 100px; \'></iframe>'
         +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;'>"
         +"close"
         +"</div>"
         +"<span class='playgrub-clickable' onclick='window.open(\""+Playgrub.PGHOST+"\")'>Playgrub</span>"
         +"</div>"
-        +"<div id='playgrub-bookmarklet-content'></div>"
+        +"<div id='playgrub-bookmarklet-content'>"
+        +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'
+        +"</div>"
         +"<div id='playgrub-bookmarklet-status'></div>"
         +"</div>"
         +"</div>",
@@ -164,8 +165,13 @@ Playgrub.Bookmarklet.prototype = {
 
     playlist_loaded: function() {
         Playgrub.bookmarklet.hide_status();
-        $("#playgrub-bookmarklet-content").append(this.loaded_html()).slideDown("normal", function(){
-        });
+
+        // TODO check to see if iframe is ready for postMessage with src # polling
+        if(typeof(window.postMessage) != undefined) {
+            window.frames['playgrub-server-iframe'].postMessage(Playgrub.playlist.to_html(), '*');
+        }
+
+        $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
     },
 
     track_broadcast: function() {
@@ -196,6 +202,9 @@ Playgrub.Scraper = function() {
         if(this.scrape && regex.exec(window.location)) {
             this.scrape();
             if(Playgrub.playlist.tracks.length > 0){
+                Playgrub.playlist.url = window.location;
+                Playgrub.playlist.title = document.title;
+
                 Playgrub.Events.foundSongs();
                 return true;
             }

@@ -15,12 +15,12 @@ PlaygrubLoader.init = function() {
 
         // Playgrub init
         init: function() {
+            new Playgrub.Bookmarklet();
             new Playgrub.Playlist();
             new Playgrub.Scraper(); // extends PlaylistSource
             new Playgrub.Client();
-            new Playgrub.Bookmarklet();
             // new Playgrub.Content();
-            // new Playgrub.RemoteListener();  extends PlaylistSource
+            // new Playgrub.RemoteListener();  // extends PlaylistSource
         },
 
         // no scraper found for this domain
@@ -35,13 +35,7 @@ PlaygrubLoader.init = function() {
 
         // scraper done finding songs
         foundSongs: function() {
-            Playgrub.playlist.url = window.location;
-            Playgrub.playlist.title = document.title;
-
-            if(typeof(window.postMessage) != undefined) {
-                window.frames['playgrub-server-iframe'].postMessage(Playgrub.playlist.to_html(), '*');
-            }
-
+            Playgrub.bookmarklet.playlist_loaded();
             // write to playgrub server
             Playgrub.client.write_playlist(Playgrub.playlist);
 
@@ -51,8 +45,6 @@ PlaygrubLoader.init = function() {
         clientPlaylistPublished: function() {
             // Post to Twitter
             Playgrub.Util.inject_script(Playgrub.PGHOST+'twitter_post?playlist='+Playgrub.playlist.id);
-
-            Playgrub.bookmarklet.playlist_loaded();
         },
 
         // Playgrub.client is broadcasting a playlist track
