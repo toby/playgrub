@@ -143,35 +143,20 @@ Playgrub.Bookmarklet.prototype = {
         +"</div>"
         +"</div>",
 
-    loaded_html: function() {
-        // return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
-        return Playgrub.playlist.to_html()
-        +"<div id='playgrub-bookmarklet-buttons'>"
-        +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
-        +"Play &#9654;"
-        +"</span>"
-        +"<span class='playgrub-clickable playgrub-button' "
-        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link())+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
-        +"Share"
-        +"</span>"
-        +"</div>"
-        +"<div id='playgrub-bookmarklet-links'>"
-        +"<span style='margin-right: 10px;'>More:</span>"
-        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>Playlick</span>"
-        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.spiffdar_link()+"\");'>Spiffdar</span>"
-        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.PGHOST+Playgrub.playlist.id+".xspf\");'>Download XSPF</span>"
-        +"</div>";
+    iframe_loaded: function() {
+        var iframe = window.frames['playgrub-server-iframe'];
+        iframe.postMessage(Playgrub.playlist.to_html(), '*');
+        Playgrub.bookmarklet.hide_status();
+        $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
     },
 
     playlist_loaded: function() {
-        Playgrub.bookmarklet.hide_status();
-
+        // playlist loaded, setup iframe
+        var iframe = window.frames['playgrub-server-iframe'];
         // TODO check to see if iframe is ready for postMessage with src # polling
-        if(typeof(window.postMessage) != undefined) {
-            window.frames['playgrub-server-iframe'].postMessage(Playgrub.playlist.to_html(), '*');
+        if(typeof(iframe.postMessage) != undefined) {
+            setTimeout(Playgrub.bookmarklet.iframe_loaded, 100);
         }
-
-        $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
     },
 
     track_broadcast: function() {
@@ -191,6 +176,28 @@ Playgrub.Bookmarklet.prototype = {
     }
 
 };
+
+Playgrub.Content = {
+    base_html: function() {
+        // return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
+        return Playgrub.playlist.to_html()
+        +"<div id='playgrub-bookmarklet-buttons'>"
+        +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
+        +"Play &#9654;"
+        +"</span>"
+        +"<span class='playgrub-clickable playgrub-button' "
+        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link())+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
+        +"Share"
+        +"</span>"
+        +"</div>"
+        +"<div id='playgrub-bookmarklet-links'>"
+        +"<span style='margin-right: 10px;'>More:</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>Playlick</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.spiffdar_link()+"\");'>Spiffdar</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.PGHOST+Playgrub.playlist.id+".xspf\");'>Download XSPF</span>"
+        +"</div>";
+    }
+}
 
 Playgrub.Scraper = function() {
     Playgrub.scraper = this;
