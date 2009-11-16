@@ -179,7 +179,6 @@ Playgrub.Content = function() {
     Playgrub.content = this;
 
     this.base_html = function() {
-        // return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
         return ''
         +"<div id='playgrub-bookmarklet-buttons'>"
         +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
@@ -199,6 +198,7 @@ Playgrub.Content = function() {
     },
 
     this.display_playlist = function() {
+        $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
         $('#playgrub-bookmarklet-content').prepend(Playgrub.playlist.to_html());
     }
 }
