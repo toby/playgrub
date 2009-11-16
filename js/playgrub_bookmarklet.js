@@ -1,6 +1,15 @@
-PLUtil = {
+PlaygrubLoader = {
 
     PGHOST: 'http://localhost:8080/',
+
+    remotes:  [
+        ['jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'],
+        ['Playgrub', 'http://localhost:8080/'+'js/playgrub.js']
+    ]
+};
+
+PlaygrubLoader.Util = {
+
 
     inject_script: function (script) {
         var script_element = document.createElement('script');
@@ -17,28 +26,28 @@ PLUtil = {
         document.getElementsByTagName('head')[0].appendChild(css_element);
     },
 
-    load_remote: function(object_type, remote_url, callback) {
-        PLUtil.inject_script(remote_url);
-        var poll = function() { PLUtil.load_remote_poll(object_type, callback); };
-        setTimeout(poll, 50);
-    },
-
     load_remotes: function(remotes, callback) {
         var index = 0;
         var remotes_callback = function() {
             if(index == remotes.length){
                 callback();
             } else {
-                PLUtil.load_remote(remotes[index][0], remotes[index][1], remotes_callback);
+                PlaygrubLoader.Util.load_remote(remotes[index][0], remotes[index][1], remotes_callback);
                 index++;
             }
         };
         remotes_callback();
     },
 
+    load_remote: function(object_type, remote_url, callback) {
+        PlaygrubLoader.Util.inject_script(remote_url);
+        var poll = function() { PlaygrubLoader.Util.load_remote_poll(object_type, callback); };
+        setTimeout(poll, 5);
+    },
+
     load_remote_poll: function(object_type, callback){
-        if (typeof(eval(object_type)) == 'undefined') {
-            var poll = function() { PLUtil.load_remote_poll(object_type, callback); };
+        if (eval('typeof('+object_type+')') == 'undefined') {
+            var poll = function() { PlaygrubLoader.Util.load_remote_poll(object_type, callback); };
             setTimeout(poll, 50);
         } else {
             // document set up, start doing stuff
@@ -48,16 +57,6 @@ PLUtil = {
 
 };
 
-var remotes = [
-    ['jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'],
-    ['Playgrub', PLUtil.PGHOST+'js/playgrub.js']
-];
+PlaygrubLoader.Util.load_remotes(PlaygrubLoader.remotes, function() { alert(jQuery+Playgrub); });
 
-PLUtil.load_remotes(remotes, function() { alert(jQuery+Playgrub); });
-
-// load jquery
-//PLUtil.load_remote('jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', function() { alert('jquery loaded'); });
-
-// load Playgrub.js- will run Playgrub.init() when done
-// PLUtil.load_remote('Playgrub', PLUtil.PGHOST+'playgrub.js', function() { Playgrub.Events.init(); });
 
