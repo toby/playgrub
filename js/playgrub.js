@@ -134,7 +134,7 @@ Playgrub.Bookmarklet.prototype = {
         +"<span class='playgrub-clickable' onclick='window.open(\""+Playgrub.PGHOST+"\")'>Playgrub</span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
-        +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'
+        +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' scrolling=\'no\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'
         +"</div>"
         +"<div id='playgrub-bookmarklet-status'></div>"
         +"</div>"

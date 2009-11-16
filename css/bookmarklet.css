@@ -17,7 +17,7 @@
 
 #playgrub-bookmarklet-body {
     position: relative;
-    height: 500px;
+    max-height: 390px;
     z-index: 10001;
     color: #ffffff;
     text-align: left;
@@ -33,6 +33,15 @@
     width: 100%;
 }
 
+#playgrub-bookmarklet-content {
+    overflow: hidden;
+    padding: 0px;
+    color: #ffffff;
+    text-align: left;
+    font-size: 16px;
+    font-family: Arial, Helvetica;
+}
+
 #playgrub-bookmarklet-header {
     padding: 15px;
     border-bottom: 1px solid #ffffff;
@@ -44,14 +53,6 @@
     right: 25px;
     margin: 0px;
     border: 0px;
-}
-
-#playgrub-bookmarklet-content {
-    padding: 0px;
-    color: #ffffff;
-    text-align: left;
-    font-size: 16px;
-    font-family: Arial, Helvetica;
 }
 
 #playgrub-bookmarklet-status {
@@ -111,8 +112,9 @@
 }
 
 .playgrub-playlist {
-    height: 100px;
-    border: 1px solid white;
+    margin: 0px;
+    padding: 0px;
+    height: 242px;
     overflow: auto;
 }
 
