@@ -35,10 +35,6 @@ Playgrub.Events = {
         // Playgrub.playlist.url = window.location;
         // Playgrub.playlist.title = document.title;
 
-        // if(typeof(window.postMessage) != undefined) {
-        //    window.frames['playgrub-server-iframe'].postMessage(Playgrub.playlist.to_html(), '*');
-        // }
-
         // write to playgrub server
         // Playgrub.client.write_playlist(Playgrub.playlist);
 
@@ -47,14 +43,14 @@ Playgrub.Events = {
     // Playgrub.client is done broadcasting playlist
     clientPlaylistPublished: function() {
         // Post to Twitter
-        Playgrub.Util.inject_script(Playgrub.PGHOST+'twitter_post?playlist='+Playgrub.playlist.id);
+        // Playgrub.Util.inject_script(Playgrub.PGHOST+'twitter_post?playlist='+Playgrub.playlist.id);
 
-        Playgrub.bookmarklet.playlist_loaded();
+        // Playgrub.bookmarklet.playlist_loaded();
     },
 
     // Playgrub.client is broadcasting a playlist track
     clientTrackPublished: function() {
-        Playgrub.bookmarklet.track_broadcast();
+        // Playgrub.bookmarklet.track_broadcast();
     }
 };
 
@@ -177,8 +173,8 @@ Playgrub.Bookmarklet.prototype = {
 
 };
 
-Playgrub.Content = {
-    base_html: function() {
+Playgrub.Content = function() {
+    this.base_html = function() {
         // return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
         return Playgrub.playlist.to_html()
         +"<div id='playgrub-bookmarklet-buttons'>"
@@ -227,6 +223,7 @@ Playgrub.Scraper.prototype = {
     error: '',
     scrape: null
 };
+
 
 Playgrub.Util = {
 
