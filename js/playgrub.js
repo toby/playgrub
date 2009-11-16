@@ -14,8 +14,8 @@ Playgrub.Events = {
     // Playgrub init
     init: function() {
         // new Playgrub.Playlist();
-        // new Playgrub.ScraperSource(); // extends PlaylistSource
-        // new Playgrub.RemoteSource();  extends PlaylistSource
+        // new Playgrub.ScraperSource();
+        // new Playgrub.RemoteSource();
         // new Playgrub.Client();
         // new Playgrub.Bookmarklet();
         // new Playgrub.Content();
@@ -200,6 +200,13 @@ Playgrub.Content = function() {
 
 Playgrub.RemoteSource = function() {
     Playgrub.source = this;
+
+    this.start = function(e) {
+        Playgrub.Events.foundSongs();
+        $('#playgrub-bookmarklet-content').prepend(e.data);
+    };
+
+    window.addEventListener("message", function(e) { Playgrub.source.start(e); }, false);
 }
 
 Playgrub.ScraperSource = function() {

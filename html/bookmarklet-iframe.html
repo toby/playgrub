@@ -14,6 +14,10 @@ Playgrub.Events = {
         new Playgrub.Content();
 
         new Playgrub.RemoteSource();  // TODO: extends PlaylistSource
+
+        Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
+
+        $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
     },
 
     // no scraper found for this domain
@@ -28,8 +32,6 @@ Playgrub.Events = {
 
     // scraper done finding songs
     foundSongs: function() {
-        Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
-        $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
 
         // Playgrub.playlist.url = window.location;
         // Playgrub.playlist.title = document.title;
@@ -59,9 +61,6 @@ Playgrub.Util.load_remote('jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery
 </head>
 <body>
 <script>
-    window.addEventListener("message", function(e){
-        // document.getElementById("playgrub-iframe-content").innerHTML = e.data;
-    }, false);
 </script>
 <div id='playgrub-bookmarklet-content'></div>
 </body>
