@@ -17,10 +17,10 @@ PlaygrubLoader.init = function() {
         init: function() {
             new Playgrub.Bookmarklet();
             new Playgrub.Playlist();
-            new Playgrub.Scraper(); // extends PlaylistSource
+            new Playgrub.ScraperSource();
+            // new Playgrub.RemoteSource();
             new Playgrub.Client();
             // new Playgrub.Content();
-            // new Playgrub.RemoteListener();  // extends PlaylistSource
         },
 
         // no scraper found for this domain

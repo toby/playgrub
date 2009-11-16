@@ -14,11 +14,11 @@ Playgrub.Events = {
     // Playgrub init
     init: function() {
         // new Playgrub.Playlist();
-        // new Playgrub.Scraper(); // extends PlaylistSource
+        // new Playgrub.ScraperSource(); // extends PlaylistSource
+        // new Playgrub.RemoteSource();  extends PlaylistSource
         // new Playgrub.Client();
         // new Playgrub.Bookmarklet();
         // new Playgrub.Content();
-        // new Playgrub.RemoteListener();  extends PlaylistSource
     },
 
     // no scraper found for this domain
@@ -28,7 +28,7 @@ Playgrub.Events = {
 
     // scraper found but there were no songs
     noSongs: function() {
-        // Playgrub.bookmarklet.set_status(Playgrub.scraper.error);
+        // Playgrub.bookmarklet.set_status(Playgrub.source.error);
     },
 
     // scraper done finding songs
@@ -198,7 +198,11 @@ Playgrub.Content = function() {
     }
 }
 
-Playgrub.Scraper = function() {
+Playgrub.RemoteSource = function() {
+    Playgrub.source = this;
+}
+
+Playgrub.ScraperSource = function() {
     Playgrub.source = this;
 
     Playgrub.Util.inject_script(Playgrub.PGHOST+'scraper.js?url='+encodeURIComponent(window.location));
@@ -221,7 +225,7 @@ Playgrub.Scraper = function() {
 
 };
 
-Playgrub.Scraper.prototype = {
+Playgrub.ScraperSource.prototype = {
     url: '',
     error: '',
     scrape: null

@@ -8,12 +8,12 @@ Playgrub.Events = {
     // Playgrub init
     init: function() {
         new Playgrub.Playlist();
-        // new Playgrub.Scraper(); // TODO: extends PlaylistSource
+        // new Playgrub.ScraperSource(); // TODO: extends PlaylistSource
         // new Playgrub.Client();
         // new Playgrub.Bookmarklet();
         new Playgrub.Content();
 
-        new Playgrub.RemoteListener();  // TODO: extends PlaylistSource
+        new Playgrub.RemoteSource();  // TODO: extends PlaylistSource
     },
 
     // no scraper found for this domain
