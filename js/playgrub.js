@@ -253,8 +253,3 @@ Playgrub.Util = {
         return "http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf";
     }
 };
-
-
-// load jquery - will run Playgrub.init() when done
-Playgrub.Util.load_remote('jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', function() { Playgrub.Events.init(); });
-
