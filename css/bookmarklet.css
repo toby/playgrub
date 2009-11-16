@@ -46,6 +46,10 @@
 
 #playgrub-bookmarklet-content {
     padding: 0px;
+    color: #ffffff;
+    text-align: left;
+    font-size: 16px;
+    font-family: Arial, Helvetica;
 }
 
 #playgrub-bookmarklet-status {

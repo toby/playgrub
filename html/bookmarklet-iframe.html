@@ -14,7 +14,7 @@ Playgrub.Events = {
         new Playgrub.Content();
 
         Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
-        $('#content-target').append(Playgrub.content.base_html());
+        $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
 
         // new Playgrub.RemoteListener();  extends PlaylistSource
     },
@@ -63,6 +63,6 @@ Playgrub.Util.load_remote('jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery
         // document.getElementById("playgrub-iframe-content").innerHTML = e.data;
     }, false);
 </script>
-<div id='content-target'></div>
+<div id='playgrub-bookmarklet-content'></div>
 </body>
 </html>
