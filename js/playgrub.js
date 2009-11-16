@@ -5,7 +5,8 @@ Playgrub = {
     client: {},
     player: {},
     scraper: {},
-    bookmarklet: {}
+    bookmarklet: {},
+    content: {}
 };
 
 Playgrub.Events = {
@@ -174,6 +175,8 @@ Playgrub.Bookmarklet.prototype = {
 };
 
 Playgrub.Content = function() {
+    Playgrub.content = this;
+
     this.base_html = function() {
         // return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
         return Playgrub.playlist.to_html()
@@ -242,15 +245,28 @@ Playgrub.Util = {
         document.getElementsByTagName('head')[0].appendChild(css_element);
     },
 
-    load_remote: function(objectType, remoteURL, callback) {
-        Playgrub.Util.inject_script(remoteURL);
-        var poll = function() { Playgrub.Util.load_remote_poll(objectType, callback); };
-        setTimeout(poll, 50);
+    load_remotes: function(remotes, callback) {
+        var index = 0;
+        var remotes_callback = function() {
+            if(index == remotes.length){
+                callback();
+            } else {
+                PlaygrubLoader.Util.load_remote(remotes[index][0], remotes[index][1], remotes_callback);
+                index++;
+            }
+        };
+        remotes_callback();
     },
 
-    load_remote_poll: function(objectType, callback){
-        if (typeof(eval(objectType)) == 'undefined') {
-            var poll = function() { Playgrub.Util.load_remote_poll(objectType, callback); };
+    load_remote: function(object_type, remote_url, callback) {
+        Playgrub.Util.inject_script(remote_url);
+        var poll = function() { Playgrub.Util.load_remote_poll(object_type, callback); };
+        setTimeout(poll, 5);
+    },
+
+    load_remote_poll: function(object_type, callback){
+        if (eval('typeof('+object_type+')') == 'undefined') {
+            var poll = function() { Playgrub.Util.load_remote_poll(object_type, callback); };
             setTimeout(poll, 50);
         } else {
             // document set up, start doing stuff

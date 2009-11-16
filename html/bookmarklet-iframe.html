@@ -12,6 +12,10 @@ Playgrub.Events = {
         // new Playgrub.Client();
         // new Playgrub.Bookmarklet();
         new Playgrub.Content();
+
+        Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
+        $('#content-target').append(Playgrub.content.base_html());
+
         // new Playgrub.RemoteListener();  extends PlaylistSource
     },
 
@@ -49,15 +53,16 @@ Playgrub.Events = {
     }
 };
 
-Playgrub.Events.init();
+Playgrub.Util.load_remote('jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', function() { Playgrub.Events.init(); });
 
 </script>
 </head>
 <body>
 <script>
     window.addEventListener("message", function(e){
-        document.getElementById("playgrub-iframe-content").innerHTML = e.data;
+        // document.getElementById("playgrub-iframe-content").innerHTML = e.data;
     }, false);
 </script>
+<div id='content-target'></div>
 </body>
 </html>
