@@ -179,7 +179,7 @@ Playgrub.Content = function() {
 
     this.base_html = function() {
         // return "<span class='playgrub-rounded' id='playgrub-bookmarklet-title'>"+document.title+"</span>"
-        return Playgrub.playlist.to_html()
+        return ''
         +"<div id='playgrub-bookmarklet-buttons'>"
         +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
         +"Play &#9654;"
