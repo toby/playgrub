@@ -1,7 +1,15 @@
-<b>This iframe is located on dev.jquery.com</b>
-<div id="test" style='color: white;'>Send me a message!</div>
+<html>
+<head>
+<title>Playgrub</title>
+<script src='js/playgrub.js' type='text/javascript'></script>
+</head>
+<body>
+
+<div id="playgrub-iframe-content" style='color: white;'>Send me a message!</div>
 <script>
     window.addEventListener("message", function(e){
-        document.getElementById("test").textContent = e.domain + " said: " + e.data;
+        document.getElementById("playgrub-iframe-content").innerHTML = e.data;
     }, false);
 </script>
+</body>
+</html>

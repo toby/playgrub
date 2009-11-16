@@ -7,16 +7,19 @@ Playgrub = {
     scraper: {},
     bookmarklet: {},
 
+};
+
+Playgrub.Events = {
+
+    // Playgrub init
     init: function() {
         new Playgrub.Playlist();
         new Playgrub.Scraper();
         new Playgrub.Client();
         new Playgrub.Bookmarklet();
-    }
-};
+    },
 
-Playgrub.Events = {
-
+    // no scraper found for this domain
     noScraper: function() {
         Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
     },
@@ -31,7 +34,9 @@ Playgrub.Events = {
         Playgrub.playlist.url = window.location;
         Playgrub.playlist.title = document.title;
 
-        window.frames['playgrub-server-iframe'].postMessage('hello', '*');
+        if(typeof(window.postMessage) != undefined) {
+            window.frames['playgrub-server-iframe'].postMessage(Playgrub.playlist.to_html(), '*');
+        }
 
         // write to playgrub server
         Playgrub.client.write_playlist(Playgrub.playlist);
@@ -125,7 +130,7 @@ Playgrub.Bookmarklet.prototype = {
         +"<div id='playgrub-bookmarklet-background'></div>"
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
-        +'<iframe name=\'playgrub-server-iframe\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe\' style=\'z-index: 100000;\'></iframe>'
+        +'<iframe name=\'playgrub-server-iframe\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe\' style=\'z-index: 100000; border: 1px solid white; height: 100px; \'></iframe>'
         +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;'>"
         +"close"
         +"</div>"
@@ -233,7 +238,7 @@ Playgrub.Util = {
             setTimeout("Playgrub.Util.load_jquery()",50);
         } else {
             // document set up, start doing stuff
-            Playgrub.init();
+            Playgrub.Events.init();
         }
     },
 
