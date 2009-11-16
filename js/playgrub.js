@@ -5,8 +5,7 @@ Playgrub = {
     client: {},
     player: {},
     scraper: {},
-    bookmarklet: {},
-
+    bookmarklet: {}
 };
 
 Playgrub.Events = {
@@ -14,9 +13,11 @@ Playgrub.Events = {
     // Playgrub init
     init: function() {
         new Playgrub.Playlist();
-        new Playgrub.Scraper();
+        new Playgrub.Scraper(); // extends PlaylistSource
         new Playgrub.Client();
         new Playgrub.Bookmarklet();
+        // new Playgrub.Content();
+        // new Playgrub.RemoteListener();  extends PlaylistSource
     },
 
     // no scraper found for this domain
@@ -212,7 +213,6 @@ Playgrub.Scraper.prototype = {
 };
 
 Playgrub.Util = {
-    jquery_injected: false,
 
     inject_script: function (script) {
         var script_element = document.createElement('script');
@@ -229,16 +229,19 @@ Playgrub.Util = {
         document.getElementsByTagName('head')[0].appendChild(css_element);
     },
 
-    load_jquery: function(){
-        if (typeof(jQuery) == 'undefined') {
-            if(!this.jquery_injected) {
-                Playgrub.Util.inject_script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
-                this.jquery_injected = true;
-            }
-            setTimeout("Playgrub.Util.load_jquery()",50);
+    load_remote: function(objectType, remoteURL, callback) {
+        Playgrub.Util.inject_script(remoteURL);
+        var poll = function() { Playgrub.Util.load_remote_poll(objectType, callback); };
+        setTimeout(poll, 50);
+    },
+
+    load_remote_poll: function(objectType, callback){
+        if (typeof(eval(objectType)) == 'undefined') {
+            var poll = function() { Playgrub.Util.load_remote_poll(objectType, callback); };
+            setTimeout(poll, 50);
         } else {
             // document set up, start doing stuff
-            Playgrub.Events.init();
+            callback();
         }
     },
 
@@ -253,5 +256,5 @@ Playgrub.Util = {
 
 
 // load jquery - will run Playgrub.init() when done
-Playgrub.Util.load_jquery();
+Playgrub.Util.load_remote('jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', function() { Playgrub.Events.init(); });
 
