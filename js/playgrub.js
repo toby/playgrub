@@ -80,6 +80,7 @@ Playgrub.Playlist.prototype = {
 
         return html;
     }
+
 };
 
 Playgrub.Client = function() {
@@ -142,7 +143,7 @@ Playgrub.Bookmarklet.prototype = {
 
     iframe_loaded: function() {
         var iframe = window.frames['playgrub-server-iframe'];
-        iframe.postMessage(Playgrub.playlist.to_html(), '*');
+        iframe.postMessage(Playgrub.Util.JSONstringify(Playgrub.playlist), '*');
         Playgrub.bookmarklet.hide_status();
         $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
     },
@@ -195,6 +196,10 @@ Playgrub.Content = function() {
         +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.spiffdar_link()+"\");'>Spiffdar</span>"
         +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.PGHOST+Playgrub.playlist.id+".xspf\");'>Download XSPF</span>"
         +"</div>";
+    },
+
+    this.display_playlist = function() {
+        $('#playgrub-bookmarklet-content').prepend(Playgrub.playlist.to_html());
     }
 }
 
@@ -202,8 +207,12 @@ Playgrub.RemoteSource = function() {
     Playgrub.source = this;
 
     this.start = function(e) {
+        var rplaylist = Playgrub.Util.JSONparse(e.data);
+        Playgrub.playlist.id = rplaylist.id;
+        Playgrub.playlist.url = rplaylist.url;
+        Playgrub.playlist.title = rplaylist.title;
+        Playgrub.playlist.tracks = eval(rplaylist.tracks);
         Playgrub.Events.foundSongs();
-        $('#playgrub-bookmarklet-content').prepend(e.data);
     };
 
     window.addEventListener("message", function(e) { Playgrub.source.start(e); }, false);
@@ -291,5 +300,33 @@ Playgrub.Util = {
 
     spiffdar_link: function() {
         return "http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf";
+    },
+
+    // implement JSON.stringify and JSON.parse serialization
+    // from http://www.sitepoint.com/blogs/2009/08/19/javascript-json-serialization/
+    JSONstringify: function (obj) {
+        var t = typeof (obj);
+        if (t != "object" || obj === null) {
+            // simple data type
+            if (t == "string") obj = '"'+obj+'"';
+            return String(obj);
+        }
+        else {
+            // recurse array or object
+            var n, v, json = [], arr = (obj && obj.constructor == Array);
+            for (n in obj) {
+                v = obj[n]; t = typeof(v);
+                if (t == "string") v = '"'+v+'"';
+                else if (t == "object" && v !== null) v = JSON.stringify(v);
+                json.push((arr ? "" : '"' + n + '":') + String(v));
+            }
+            return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+        }
+    },
+
+    JSONparse: function(str) {
+        if (str === "") str = '""';
+        eval("var p=" + str + ";");
+        return p;
     }
 };
