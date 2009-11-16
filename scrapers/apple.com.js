@@ -8,9 +8,9 @@
  * This scraper will work on the Apple.com iTunes Chart Page
  */
 
-Playgrub.scraper.url = 'http://.*apple\.com.*/itunes/charts/songs.*';
-Playgrub.scraper.error = 'Playgrub currently supports iTunes Charts pages only. Please check your url.';
-Playgrub.scraper.scrape = function() {
+Playgrub.source.url = 'http://.*apple\.com.*/itunes/charts/songs.*';
+Playgrub.source.error = 'Playgrub currently supports iTunes Charts pages only. Please check your url.';
+Playgrub.source.scrape = function() {
     $("li").each(function () {
         var artist = $(this).children('h4').text();
         var song = $(this).children('h3').children('a').text();
@@ -19,4 +19,4 @@ Playgrub.scraper.scrape = function() {
     });
 }
 
-Playgrub.scraper.start();
+Playgrub.source.start();

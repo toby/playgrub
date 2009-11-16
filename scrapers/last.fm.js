@@ -1,5 +1,5 @@
 /**
- * Last.fm Playgrub Scraper
+ * Last.fm Playgrub.source
  * Created by: Toby Padilla <tobypadilla AT gmail DOT com>
  * Version: 0.1
  *
@@ -8,9 +8,9 @@
  * This scraper will work on any Last.fm song page and only add unique songs.
  */
 
-Playgrub.scraper.url = 'http://.*last.fm.*';
-Playgrub.scraper.error = "Check your Last.fm url";
-Playgrub.scraper.scrape = function() {
+Playgrub.source.url = 'http://.*last.fm.*';
+Playgrub.source.error = "Check your Last.fm url";
+Playgrub.source.scrape = function() {
     // lots of duplicate song links, so use this to only add songs once
     var unique_songs = {};
 
@@ -39,4 +39,4 @@ Playgrub.scraper.scrape = function() {
         });
 }
 
-Playgrub.scraper.start();
+Playgrub.source.start();

@@ -13,9 +13,9 @@
 * To test, go to http://www.bbc.co.uk/radio1/programmes/schedules 
 * and pick a recent show.
 */
-Playgrub.scraper.url = 'http://www\.bbc\.co\.uk/programmes/*';
-Playgrub.scraper.error = 'Playlist unavailable outside the UK';
-Playgrub.scraper.scrape = function() {
+Playgrub.source.url = 'http://www\.bbc\.co\.uk/programmes/*';
+Playgrub.source.error = 'Playlist unavailable outside the UK';
+Playgrub.source.scrape = function() {
     $("*.segment ").each(function () {
 	var artist = $(this).find("span.artist").text();
 	var title = $(this).find("span.track").text();
@@ -24,4 +24,4 @@ Playgrub.scraper.scrape = function() {
     });
 }
 
-Playgrub.scraper.start();
+Playgrub.source.start();

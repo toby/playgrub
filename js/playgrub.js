@@ -4,7 +4,7 @@ Playgrub = {
     playlist: {},
     client: {},
     player: {},
-    scraper: {},
+    source: {},
     bookmarklet: {},
     content: {}
 };
@@ -199,7 +199,7 @@ Playgrub.Content = function() {
 }
 
 Playgrub.Scraper = function() {
-    Playgrub.scraper = this;
+    Playgrub.source = this;
 
     Playgrub.Util.inject_script(Playgrub.PGHOST+'scraper.js?url='+encodeURIComponent(window.location));
 

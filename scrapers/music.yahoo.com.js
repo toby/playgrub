@@ -1,5 +1,5 @@
 /**
- * Yahoo Radish Playgrub Scraper
+ * Yahoo Radish Playgrub.source
  * Created by: Lucas Gonze
  * Version: 0.1
  *
@@ -8,9 +8,9 @@
  * This scraper will work on any Y! Radish Playlist.
  */
 
-Playgrub.scraper.url = 'http://new\.music\.yahoo\.com/blogs/yradish/*';
-Playgrub.scraper.error = 'Check your Robert Radish URL.';
-Playgrub.scraper.scrape = function() {
+Playgrub.source.url = 'http://new\.music\.yahoo\.com/blogs/yradish/*';
+Playgrub.source.error = 'Check your Robert Radish URL.';
+Playgrub.source.scrape = function() {
    var regex = /(^\s*[0-9]+\. )/;
     $("div.ymusic-text-article p").each(function () {
         var txt = $(this).text();
@@ -22,4 +22,4 @@ Playgrub.scraper.scrape = function() {
     });
 }
 
-Playgrub.scraper.start();
+Playgrub.source.start();

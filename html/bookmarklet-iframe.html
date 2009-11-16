@@ -8,15 +8,12 @@ Playgrub.Events = {
     // Playgrub init
     init: function() {
         new Playgrub.Playlist();
-        // new Playgrub.Scraper(); // extends PlaylistSource
+        // new Playgrub.Scraper(); // TODO: extends PlaylistSource
         // new Playgrub.Client();
         // new Playgrub.Bookmarklet();
         new Playgrub.Content();
 
-        Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
-        $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
-
-        // new Playgrub.RemoteListener();  extends PlaylistSource
+        new Playgrub.RemoteListener();  // TODO: extends PlaylistSource
     },
 
     // no scraper found for this domain
@@ -31,6 +28,9 @@ Playgrub.Events = {
 
     // scraper done finding songs
     foundSongs: function() {
+        Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
+        $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
+
         // Playgrub.playlist.url = window.location;
         // Playgrub.playlist.title = document.title;
 
