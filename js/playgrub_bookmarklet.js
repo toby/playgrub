@@ -1,12 +1,68 @@
 PlaygrubLoader = {
 
-    PGHOST: 'http://localhost:8080/',
-
     remotes:  [
         ['jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'],
-        ['Playgrub', 'http://localhost:8080/'+'js/playgrub.js']
-    ]
+        ['Playgrub', 'http://localhost:8080/js/playgrub.js']
+    ],
+
+    init: function() {}
 };
+
+PlaygrubLoader.init = function() {
+
+    // setup Playgrub
+    Playgrub.Events = {
+
+        // Playgrub init
+        init: function() {
+            new Playgrub.Playlist();
+            new Playgrub.Scraper(); // extends PlaylistSource
+            new Playgrub.Client();
+            new Playgrub.Bookmarklet();
+            // new Playgrub.Content();
+            // new Playgrub.RemoteListener();  extends PlaylistSource
+        },
+
+        // no scraper found for this domain
+        noScraper: function() {
+            Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
+        },
+
+        // scraper found but there were no songs
+        noSongs: function() {
+            Playgrub.bookmarklet.set_status(Playgrub.scraper.error);
+        },
+
+        // scraper done finding songs
+        foundSongs: function() {
+            Playgrub.playlist.url = window.location;
+            Playgrub.playlist.title = document.title;
+
+            if(typeof(window.postMessage) != undefined) {
+                window.frames['playgrub-server-iframe'].postMessage(Playgrub.playlist.to_html(), '*');
+            }
+
+            // write to playgrub server
+            Playgrub.client.write_playlist(Playgrub.playlist);
+
+        },
+
+        // Playgrub.client is done broadcasting playlist
+        clientPlaylistPublished: function() {
+            // Post to Twitter
+            Playgrub.Util.inject_script(Playgrub.PGHOST+'twitter_post?playlist='+Playgrub.playlist.id);
+
+            Playgrub.bookmarklet.playlist_loaded();
+        },
+
+        // Playgrub.client is broadcasting a playlist track
+        clientTrackPublished: function() {
+            Playgrub.bookmarklet.track_broadcast();
+        }
+    };
+
+    Playgrub.Events.init();
+}
 
 PlaygrubLoader.Util = {
 
@@ -57,6 +113,7 @@ PlaygrubLoader.Util = {
 
 };
 
-PlaygrubLoader.Util.load_remotes(PlaygrubLoader.remotes, function() { alert(jQuery+Playgrub); });
+
+PlaygrubLoader.Util.load_remotes(PlaygrubLoader.remotes, function() { PlaygrubLoader.init(); });
 
 

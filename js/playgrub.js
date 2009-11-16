@@ -12,35 +12,35 @@ Playgrub.Events = {
 
     // Playgrub init
     init: function() {
-        new Playgrub.Playlist();
-        new Playgrub.Scraper(); // extends PlaylistSource
-        new Playgrub.Client();
-        new Playgrub.Bookmarklet();
+        // new Playgrub.Playlist();
+        // new Playgrub.Scraper(); // extends PlaylistSource
+        // new Playgrub.Client();
+        // new Playgrub.Bookmarklet();
         // new Playgrub.Content();
         // new Playgrub.RemoteListener();  extends PlaylistSource
     },
 
     // no scraper found for this domain
     noScraper: function() {
-        Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
+        // Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
     },
 
     // scraper found but there were no songs
     noSongs: function() {
-        Playgrub.bookmarklet.set_status(Playgrub.scraper.error);
+        // Playgrub.bookmarklet.set_status(Playgrub.scraper.error);
     },
 
     // scraper done finding songs
     foundSongs: function() {
-        Playgrub.playlist.url = window.location;
-        Playgrub.playlist.title = document.title;
+        // Playgrub.playlist.url = window.location;
+        // Playgrub.playlist.title = document.title;
 
-        if(typeof(window.postMessage) != undefined) {
-            window.frames['playgrub-server-iframe'].postMessage(Playgrub.playlist.to_html(), '*');
-        }
+        // if(typeof(window.postMessage) != undefined) {
+        //    window.frames['playgrub-server-iframe'].postMessage(Playgrub.playlist.to_html(), '*');
+        // }
 
         // write to playgrub server
-        Playgrub.client.write_playlist(Playgrub.playlist);
+        // Playgrub.client.write_playlist(Playgrub.playlist);
 
     },
 
