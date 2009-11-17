@@ -143,7 +143,17 @@
     right: 15px;
 }
 
-#playgrub-playdar-status a:link { color: #ffffff; }
-#playgrub-playdar-status a:active { color: #ffffff; }
-#playgrub-playdar-status a:hover { color: #ffffff; }
-#playgrub-playdar-status a:visited { color: #ffffff; }
+#playgrub-playdar-status a:link {
+    text-decoration: none;
+    color: #ffffff;
+}
+#playgrub-playdar-status a:active {
+color: #ffffff;
+}
+#playgrub-playdar-status a:hover {
+    text-decoration: underline;
+color: #ffffff;
+}
+#playgrub-playdar-status a:visited {
+color: #ffffff;
+}

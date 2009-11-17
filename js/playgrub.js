@@ -158,7 +158,6 @@ Playgrub.Bookmarklet.prototype = {
     },
 
     track_broadcast: function() {
-        Playgrub.bookmarklet.set_status('Loading... '+Playgrub.client.broadcast_index+' tracks');
     },
 
     set_status: function(new_status) {
@@ -178,7 +177,7 @@ Playgrub.Bookmarklet.prototype = {
 Playgrub.Content = function() {
     Playgrub.content = this;
 
-    this.show_resolved_only = true;
+    this.show_resolved_only = false;
 
     this.base_html = function() {
         return ""
@@ -211,8 +210,12 @@ Playgrub.Content = function() {
     this.display_playlist = function() {
         $('#playgrub-bookmarklet-content').prepend(Playgrub.content.playlist_html());
         $('#playgrub-bookmarklet-content').prepend(Playgrub.playlist.to_html());
-        if(this.show_resolved_only)
+        if(this.show_resolved_only) {
             $('.playgrub-playlist-track').hide();
+            $("#playgrub-tracks-toggle").css("color", "#000000");
+        } else {
+            $("#playgrub-tracks-toggle").css("color", "#ffffff");
+        }
     };
 
     this.display_playdar_status = function(pstatus) {
