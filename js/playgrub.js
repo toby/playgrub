@@ -275,7 +275,7 @@ Playgrub.Util = {
             if(index == remotes.length){
                 callback();
             } else {
-                PlaygrubLoader.Util.load_remote(remotes[index][0], remotes[index][1], remotes_callback);
+                Playgrub.Util.load_remote(remotes[index][0], remotes[index][1], remotes_callback);
                 index++;
             }
         };
