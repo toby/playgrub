@@ -230,11 +230,11 @@ Playgrub.Content = function() {
 
     this.toggle_tracks = function() {
         if(this.show_resolved_only) {
-            $("#playgrub-tracks-toggle").text("Show Playable");
+            $("#playgrub-tracks-toggle").css("color", "#ffffff");
             this.show_all_tracks();
             this.show_resolved_only = false;
         } else {
-            $("#playgrub-tracks-toggle").text("Show All");
+            $("#playgrub-tracks-toggle").css("color", "#000000");
             this.hide_unresolved_tracks();
             this.show_resolved_only = true;
         }
