@@ -4,6 +4,17 @@
 <script src='js/playgrub.js' type='text/javascript'></script>
 <script type='text/javascript'>
 
+PlaygrubFrame = {
+
+    resolve_current_playlist: function() {
+        // look for tracks on playdar if authed
+        if(Playdar.client && Playdar.client.is_authed() && Playgrub.playlist && Playgrub.playlist.tracks.length > 0) {
+            for (var i in Playgrub.playlist.tracks) {
+                Playdar.client.resolve(Playgrub.playlist.tracks[i][0], Playgrub.playlist.tracks[i][1]);
+            }
+        }
+    }
+}
 
 // Setup Playgrub
 Playgrub.Events = {
@@ -20,6 +31,7 @@ Playgrub.Events = {
 
         // Setup Playdar
         Playdar.USE_STATUS_BAR = false;
+        Playdar.MAX_CONCURRENT_RESOLUTIONS = 15;
         Playdar.auth_details.receiverurl = Playgrub.PGHOST+'static/playdar_auth.html';
         Playdar.setupClient({
 
@@ -37,14 +49,14 @@ Playgrub.Events = {
             // Called when the browser is authorised to query Playdar.
             onAuth: function () {
                 Playgrub.content.display_playdar_status(Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
-                // At this point, we can query the Playdar API for a track and start polling for matches.
-                // Playdar.client.resolve(Playgrub.playlist.tracks[0][0], Playgrub.playlist.tracks[0][1]);
+                PlaygrubFrame.resolve_current_playlist();
             },
 
             // Called in response to each poll with the results so far.
             onResults: function (response, lastPoll) {
                 if (lastPoll) {
                     // Take a look at the final response.
+                    alert(response);
                 }
             }
 
@@ -64,8 +76,10 @@ Playgrub.Events = {
 
     // source done finding songs
     foundSongs: function() {
-        Playgrub.content.display_playlist();
-
+        setTimeout(function() {
+            Playgrub.content.display_playlist();
+            PlaygrubFrame.resolve_current_playlist();
+        }, 100);
     },
 
     // playdar response
