@@ -20,6 +20,7 @@ PlaygrubFrame = {
         $('div.playgrub-playlist-track').each(function(i) {
             if($(this).text() == track_key) {
                 $(this).addClass('playgrub-playlist-track-resolved');
+                $(this).show();
             }
         });
         //$("div.playgrub-playlist-track:contains('"+response.query.artist+" - "+response.query.track+"')").css('text-decoration','underline');
@@ -90,7 +91,7 @@ Playgrub.Events = {
 
     // source done finding songs
     foundSongs: function() {
-        setTimeout(function() { Playgrub.content.display_playlist(); }, 100);
+        Playgrub.content.display_playlist();
         PlaygrubFrame.resolve_current_playlist();
     },
 

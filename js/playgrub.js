@@ -178,6 +178,8 @@ Playgrub.Bookmarklet.prototype = {
 Playgrub.Content = function() {
     Playgrub.content = this;
 
+    this.show_resolved_only = true;
+
     this.base_html = function() {
         return ""
         +"<div id='playgrub-playdar-status'></div>";
@@ -193,6 +195,10 @@ Playgrub.Content = function() {
         +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link())+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
         +"Share"
         +"</span>"
+        +"<span id='playgrub-tracks-toggle' class='playgrub-clickable playgrub-button' "
+        +"onClick='Playgrub.content.toggle_tracks();'>"
+        +"Show All"
+        +"</span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-links'>"
         +"<span style='margin-right: 10px;'>More:</span>"
@@ -205,11 +211,34 @@ Playgrub.Content = function() {
     this.display_playlist = function() {
         $('#playgrub-bookmarklet-content').prepend(Playgrub.content.playlist_html());
         $('#playgrub-bookmarklet-content').prepend(Playgrub.playlist.to_html());
+        if(this.show_resolved_only)
+            $('.playgrub-playlist-track').hide();
     };
 
     this.display_playdar_status = function(pstatus) {
         $('#playgrub-playdar-status').html(pstatus);
     };
+
+    this.show_all_tracks = function() {
+        $('div.playgrub-playlist-track').show()
+    };
+
+    this.hide_unresolved_tracks = function() {
+        $('div.playgrub-playlist-track').hide()
+        $('div.playgrub-playlist-track-resolved').show()
+    };
+
+    this.toggle_tracks = function() {
+        if(this.show_resolved_only) {
+            $("#playgrub-tracks-toggle").text("Show Playable");
+            this.show_all_tracks();
+            this.show_resolved_only = false;
+        } else {
+            $("#playgrub-tracks-toggle").text("Show All");
+            this.hide_unresolved_tracks();
+            this.show_resolved_only = true;
+        }
+    }
 
     $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
 }
