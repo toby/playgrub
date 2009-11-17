@@ -132,7 +132,7 @@ Playgrub.Bookmarklet.prototype = {
         +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;'>"
         +"close"
         +"</div>"
-        +"<span class='playgrub-clickable' onclick='window.open(\""+Playgrub.PGHOST+"\")'>Playgrub</span>"
+        +"<span class='playgrub-clickable' onclick='window.open(\""+Playgrub.PGHOST+"\")'><img src=\'"+Playgrub.PGHOST+"images/logo-sm.gif\' /></span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
         +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' scrolling=\'no\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'
