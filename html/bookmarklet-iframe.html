@@ -15,15 +15,22 @@ PlaygrubFrame = {
         }
     },
 
-    resolved_track: function(artist, track) {
+    resolved_track: function(artist, track, sid) {
         var track_key = artist+' - '+track;
         $('div.playgrub-playlist-track').each(function(i) {
             if($(this).text() == track_key) {
                 $(this).addClass('playgrub-playlist-track-resolved');
+                $(this).append("<span class='playgrub-playlist-track-sid'>"+sid+"</span>");
+                $(this).click(PlaygrubFrame.play_track);
                 $(this).show();
             }
         });
         //$("div.playgrub-playlist-track:contains('"+response.query.artist+" - "+response.query.track+"')").css('text-decoration','underline');
+    },
+
+    play_track: function() {
+        sid = $(this).children(".playgrub-playlist-track-sid").text();
+        alert(Playdar.client.get_stream_url(sid));
     }
 }
 
@@ -71,7 +78,7 @@ Playgrub.Events = {
                     // Take a look at the final response.
                     if(response.results.length > 0) {
                         // alert('results-> '+response.results.length+' artist ->'+response.query.artist+' track-> '+response.query.track);
-                        PlaygrubFrame.resolved_track(response.query.artist, response.query.track);
+                        PlaygrubFrame.resolved_track(response.query.artist, response.query.track, response.results[0].sid);
                     }
                 }
             },
@@ -113,10 +120,12 @@ Playgrub.Events = {
     }
 };
 
-// Load jQuery and start Playgrub.init() when done
-Playgrub.Util.load_remotes( [['Playdar', Playgrub.PGHOST+'js/playdar_compressed.js'],
-    ['jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js']],
-    function() { Playgrub.Events.init(); });
+// Load Playdar and jQuery and start Playgrub.init() when done
+Playgrub.Util.load_remotes( [
+    ['soundManager', Playgrub.PGHOST+'js/soundmanager2.js'],
+    ['Playdar', Playgrub.PGHOST+'js/playdar_compressed.js'],
+    ['jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js']
+    ], function() { Playgrub.Events.init(); });
 
 
 </script>

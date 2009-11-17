@@ -138,6 +138,10 @@
     color: #FFFFFF;
 }
 
+.playgrub-playlist-track-sid {
+    visibility: hidden;
+}
+
 #playgrub-playdar-frame {
     position: absolute;
     bottom: 15px;
