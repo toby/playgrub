@@ -60,7 +60,7 @@ Playgrub.Events = {
 
             // Called when the browser is authorised to query Playdar.
             onAuth: function () {
-                Playgrub.content.display_playdar_status(Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
+                Playgrub.content.display_playdar_status('<span style=\'font-size: 24px;\'>&#10227;</span>'+Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
                 PlaygrubFrame.resolve_current_playlist();
             },
 
@@ -73,6 +73,10 @@ Playgrub.Events = {
                         PlaygrubFrame.resolved_track(response.query.artist, response.query.track);
                     }
                 }
+            },
+
+            onResolveIdle: function() {
+                Playgrub.content.display_playdar_status(Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
             }
 
         });
