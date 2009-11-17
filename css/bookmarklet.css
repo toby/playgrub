@@ -130,12 +130,12 @@
     background-color: #35353A;
 }
 
-.playgrub-playlist-track-playing {
-    color: #CCFA2B;
-}
-
 .playgrub-playlist-track-resolved {
     color: #FFFFFF;
+}
+
+.playgrub-playlist-track-playing {
+    color: #CCFA2B;
 }
 
 .playgrub-playlist-track-sid {

@@ -30,6 +30,8 @@ PlaygrubFrame = {
     },
 
     play_track: function() {
+        $('.playgrub-playlist-track-playing').addClass('playgrub-playlist-track-resolved').removeClass('playgrub-playlist-track-playing');
+        $(this).addClass('playgrub-playlist-track-playing');
         sid = $(this).children(".playgrub-playlist-track-sid").text();
         // alert(Playdar.client.get_stream_url(sid));
         Playdar.player.play_stream(sid);
