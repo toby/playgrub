@@ -35,6 +35,16 @@ PlaygrubFrame = {
         sid = $(this).children(".playgrub-playlist-track-sid").text();
         // alert(Playdar.client.get_stream_url(sid));
         Playdar.player.play_stream(sid);
+    },
+
+    play_next: function() {
+        $('.playgrub-playlist-track-playing').nextAll().each(function(){
+            if($(this).hasClass('playgrub-playlist-track-resolved')){
+                $(this).click();
+                return false;
+            }
+        });
+        $('.playgrub-playlist-track-playing').addClass('playgrub-playlist-track-resolved').removeClass('playgrub-playlist-track-playing');
     }
 }
 
@@ -82,7 +92,11 @@ Playgrub.Events = {
                     // Take a look at the final response.
                     if(response.results.length > 0) {
                         // alert('results-> '+response.results.length+' artist ->'+response.query.artist+' track-> '+response.query.track);
-                        Playdar.player.register_stream(response.results[0],{});
+                        Playdar.player.register_stream(response.results[0],{
+                            onfinish: function() {
+                                PlaygrubFrame.play_next();
+                            }
+                            });
                         PlaygrubFrame.resolved_track(response.query.artist, response.query.track, response.results[0].sid);
                     }
                 }
