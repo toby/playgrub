@@ -131,3 +131,14 @@
 .playgrub-playlist-track-playing {
     color: #CCFA2B;
 }
+
+#playgrub-playdar-status {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+#playgrub-playdar-status a:link { color: #ffffff; }
+#playgrub-playdar-status a:active { color: #ffffff; }
+#playgrub-playdar-status a:hover { color: #ffffff; }
+#playgrub-playdar-status a:visited { color: #ffffff; }
