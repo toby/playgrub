@@ -101,6 +101,7 @@
 #playgrub-bookmarklet-links {
     font-size: 12px;
     margin-top: 20px;
+    width: 350px;
 }
 
 .playgrub-link {
@@ -137,10 +138,15 @@
     color: #FFFFFF;
 }
 
-#playgrub-playdar-status {
+#playgrub-playdar-frame {
     position: absolute;
     bottom: 15px;
     right: 15px;
+    width: 200px;
+}
+
+#playgrub-playdar-status {
+    float: right;
 }
 
 #playgrub-playdar-status a:link {
@@ -148,12 +154,18 @@
     color: #ffffff;
 }
 #playgrub-playdar-status a:active {
-color: #ffffff;
+    color: #ffffff;
 }
 #playgrub-playdar-status a:hover {
     text-decoration: underline;
-color: #ffffff;
+    color: #ffffff;
 }
 #playgrub-playdar-status a:visited {
-color: #ffffff;
+    color: #ffffff;
+}
+
+#playgrub-playdar-loading {
+    position: relative;
+    width: 17px;
+    height: 17px;
 }

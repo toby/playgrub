@@ -181,7 +181,10 @@ Playgrub.Content = function() {
 
     this.base_html = function() {
         return ""
-        +"<div id='playgrub-playdar-status'></div>";
+        +"<div id='playgrub-playdar-frame'>"
+        +"<div id='playgrub-playdar-status'></div>"
+        +"<div id='playgrub-playdar-loading'></div>"
+        +"</div>";
     };
 
     this.playlist_html = function() {
@@ -221,6 +224,14 @@ Playgrub.Content = function() {
     this.display_playdar_status = function(pstatus) {
         $('#playgrub-playdar-status').html(pstatus);
     };
+
+    this.playdar_active = function() {
+        $('#playgrub-playdar-loading').html("<img src='"+Playgrub.PGHOST+"images/loading.gif' style='border: 0px;' />");
+    };
+
+    this.playdar_idle = function() {
+        $('#playgrub-playdar-loading').html("");
+    }
 
     this.show_all_tracks = function() {
         $('div.playgrub-playlist-track').show()
