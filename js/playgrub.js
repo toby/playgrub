@@ -153,7 +153,7 @@ Playgrub.Bookmarklet.prototype = {
         var iframe = window.frames['playgrub-server-iframe'];
         // TODO check to see if iframe is ready for postMessage with src # polling
         if(typeof(iframe.postMessage) != undefined) {
-            setTimeout(Playgrub.bookmarklet.iframe_loaded, 1000);
+            setTimeout(Playgrub.bookmarklet.iframe_loaded, 2000);
         }
     },
 

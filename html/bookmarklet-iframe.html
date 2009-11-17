@@ -56,7 +56,8 @@ Playgrub.Events = {
             onResults: function (response, lastPoll) {
                 if (lastPoll) {
                     // Take a look at the final response.
-                    alert(response);
+                    alert('results-> '+response.results.length+' artist ->'+response.query.artist+' track-> '+response.query.track);
+                    console.dir(response);
                 }
             }
 
@@ -76,10 +77,8 @@ Playgrub.Events = {
 
     // source done finding songs
     foundSongs: function() {
-        setTimeout(function() {
-            Playgrub.content.display_playlist();
-            PlaygrubFrame.resolve_current_playlist();
-        }, 100);
+        setTimeout(function() { Playgrub.content.display_playlist(); }, 100);
+        PlaygrubFrame.resolve_current_playlist();
     },
 
     // playdar response
