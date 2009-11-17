@@ -173,3 +173,7 @@
     width: 17px;
     height: 17px;
 }
+
+#soundmanager-debug-toggle {
+    visibility: hidden;
+}
