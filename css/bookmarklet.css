@@ -17,7 +17,7 @@
 
 #playgrub-bookmarklet-body {
     position: relative;
-    max-height: 390px;
+    height: 400px;
     z-index: 10001;
     color: #ffffff;
     text-align: left;
@@ -34,6 +34,7 @@
 }
 
 #playgrub-bookmarklet-content {
+    height: 340px;
     overflow: hidden;
     padding: 0px;
     color: #ffffff;

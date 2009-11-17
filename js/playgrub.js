@@ -178,11 +178,10 @@ Playgrub.Bookmarklet.prototype = {
 Playgrub.Content = function() {
     Playgrub.content = this;
 
-
     this.base_html = function() {
         return ""
         +"<div id='playgrub-playdar-status'></div>";
-    },
+    };
 
     this.playlist_html = function() {
         return ""
@@ -201,16 +200,18 @@ Playgrub.Content = function() {
         +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.spiffdar_link()+"\");'>Spiffdar</span>"
         +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.PGHOST+Playgrub.playlist.id+".xspf\");'>Download XSPF</span>"
         +"</div>";
-    },
+    };
 
     this.display_playlist = function() {
         $('#playgrub-bookmarklet-content').prepend(Playgrub.content.playlist_html());
         $('#playgrub-bookmarklet-content').prepend(Playgrub.playlist.to_html());
-    },
+    };
 
     this.display_playdar_status = function(pstatus) {
         $('#playgrub-playdar-status').html(pstatus);
-    }
+    };
+
+    $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
 }
 
 Playgrub.RemoteSource = function() {

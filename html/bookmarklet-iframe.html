@@ -17,7 +17,6 @@ Playgrub.Events = {
         new Playgrub.Content();
         new Playgrub.RemoteSource();  // TODO: extends PlaylistSource
 
-        $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
 
         // Setup Playdar
         Playdar.USE_STATUS_BAR = false;
@@ -37,18 +36,15 @@ Playgrub.Events = {
 
             // Called when the browser is authorised to query Playdar.
             onAuth: function () {
-                alert('auth');
-                // At this point, we can query the Playdar API for a track and start polling for matches.
-                Playdar.client.resolve(Playgrub.playlist.tracks[0][0], Playgrub.playlist.tracks[0][1]);
                 Playgrub.content.display_playdar_status(Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
-                // Playdar.client.resolve("", "");
+                // At this point, we can query the Playdar API for a track and start polling for matches.
+                // Playdar.client.resolve(Playgrub.playlist.tracks[0][0], Playgrub.playlist.tracks[0][1]);
             },
 
             // Called in response to each poll with the results so far.
             onResults: function (response, lastPoll) {
                 if (lastPoll) {
                     // Take a look at the final response.
-                    alert(response);
                 }
             }
 
