@@ -17,6 +17,8 @@ Playgrub.Events = {
         new Playgrub.Content();
         new Playgrub.RemoteSource();  // TODO: extends PlaylistSource
 
+        $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
+
         // Setup Playdar
         Playdar.USE_STATUS_BAR = false;
         Playdar.auth_details.receiverurl = Playgrub.PGHOST+'static/playdar_auth.html';
