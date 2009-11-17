@@ -200,6 +200,10 @@ Playgrub.Content = function() {
     this.display_playlist = function() {
         $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
         $('#playgrub-bookmarklet-content').prepend(Playgrub.playlist.to_html());
+    },
+
+    this.display_playdar_status = function(pstatus) {
+        $('#playgrub-bookmarklet-content').append(pstatus);
     }
 }
 
