@@ -19,7 +19,7 @@ PlaygrubFrame = {
         var track_key = artist+' - '+track;
         $('div.playgrub-playlist-track').each(function(i) {
             if($(this).text() == track_key) {
-                $(this).css('color', '#CCFA2B');
+                $(this).addClass('playgrub-playlist-track-resolved');
             }
         });
         //$("div.playgrub-playlist-track:contains('"+response.query.artist+" - "+response.query.track+"')").css('text-decoration','underline');
