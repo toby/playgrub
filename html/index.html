@@ -16,7 +16,7 @@
         <p />
         <div id='playgrub-icon'>
             <a href="javascript:(function(){ host='http://localhost:8080/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub_bookmarklet.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();" id="bookmarklet">
-            <img src='images/grub-icon.png' alt='grub' title='grub' />
+            <img src='images/grub-icon.png' alt='Grub' title='Grub' />
             </a>
             <span id='playgrub-icon-description'>&#8592; Drag to your bookmarks</span>
         </div>
@@ -45,13 +45,13 @@
 </div>
 
 <div id='playlists'>
-<h3>New Playlists</h3>
+<h2>New Playlists</h2>
 {% for header in headers %}
 <div class='playlist'>
     <span class='playlist-title'><a href='http://www.playlick.com/#xspf=http://www.playgrub.com/{{ header.playlist}}.xspf' target='_blank'>&#9654; {{ header.title|escape }}</a></span>
     <div class='playlist-controls'>
         <span class='playlist-tracks'>{{ header.songs }} tracks</span>
-        <span class='playlist-url'><a href='{{ header.url }}'> - source</a></span>
+        <span class='playlist-url'>- <a href='{{ header.url }}'>source</a></span>
     </div>
 </div>
 {% endfor %}
