@@ -4,8 +4,22 @@
 <link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 <body>
+<div id='page-frame'>
 
-<div id='bookmarklets'>
+<div id='playlists'>
+    <h2>New Playlists</h2>
+    {% for header in headers %}
+    <div class='playlist'>
+        <span class='playlist-title'><a href='http://www.playlick.com/#xspf=http://www.playgrub.com/{{ header.playlist}}.xspf' target='_blank'>&#9654; {{ header.title|escape }}</a></span>
+        <div class='playlist-controls'>
+            <span class='playlist-tracks'>{{ header.songs }} tracks</span>
+            <span class='playlist-url'>- <a href='{{ header.url }}'>source</a></span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div id='playgrub-main'>
     <div id='playgrub-logo'><img src='images/playgrub-logo-climb.png' /></div>
     <div class='playgrub-about'>
         Playgrub is an easy way to make playlists from web pages and play them in <a href='http://www.playdar.org'>Playdar</a>.
@@ -44,19 +58,7 @@
     </div>
 </div>
 
-<div id='playlists'>
-<h2>New Playlists</h2>
-{% for header in headers %}
-<div class='playlist'>
-    <span class='playlist-title'><a href='http://www.playlick.com/#xspf=http://www.playgrub.com/{{ header.playlist}}.xspf' target='_blank'>&#9654; {{ header.title|escape }}</a></span>
-    <div class='playlist-controls'>
-        <span class='playlist-tracks'>{{ header.songs }} tracks</span>
-        <span class='playlist-url'>- <a href='{{ header.url }}'>source</a></span>
-    </div>
 </div>
-{% endfor %}
-</div>
-
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

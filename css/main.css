@@ -68,14 +68,24 @@ h4 {
     color: #000000;
 }
 
-#bookmarklets {
-    width: 280px;
+#page-frame {
+    margin: 0 auto;
+    min-width: 500px;
+}
+
+#playgrub-main {
     float: right;
+    width: 33%;
     margin-right: 15px;
 }
 
 #bookmarklet {
     font-size: 1.1em;
+}
+
+#playlists {
+    float: left;
+    width: 60%;
 }
 
 .playlist {
