@@ -49,11 +49,21 @@ img {
 
 #playgrub-icon-description {
     display: block;
-    padding-top: 23px;
+    padding-top: 15px;
     margin-bottom: 20px;
     text-align: left;
     font-size: 18px;
     color: #000000;
+}
+
+#playgrub-icon-description-text {
+    font-weight: bold;
+}
+#playgrub-icon-description-arrow {
+    height: 70px;
+    margin-right: 5px;
+    float: left;
+    font-weight: bold;
 }
 
 h2 {
@@ -77,7 +87,7 @@ h4 {
 
 #playgrub-main {
     float: right;
-    width: 33%;
+    width: 25%;
     margin-right: 15px;
 }
 
@@ -87,7 +97,7 @@ h4 {
 
 #playlists {
     float: left;
-    width: 60%;
+    width: 70%;
     padding-top: 30px;
     overflow: hidden;
     white-space: nowrap;
