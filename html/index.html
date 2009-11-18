@@ -6,29 +6,42 @@
 <body>
 
 <div id='bookmarklets'>
-<h4>About</h4>
-Playgrub is an easy way to make playlists from web pages and play them in <a href='http://www.playdar.org'>Playdar</a>.<br /><br />
-To install Playgrub drag this link to your browser's bookmarks bar:<br /><br />
-<!-- change host to location of playgrub.js -->
-<a href="javascript:(function(){ host='http://localhost:8080/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub_bookmarklet.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();" id="bookmarklet">playgrub bookmarklet </a>
-<!-- <a href="javascript:(function(){ host='http://localhost:8080/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();">playgrub local</a> -->
-<br /><br />
-Playgrub is open source. Get the code from <a href='http://github.com/tobypadilla/playgrub'>Github</a>.
-<br /><br />
-You can also read <a href='http://playgrub.posterous.com'>our blog</a> and follow us on <a href='http://twitter.com/playgrub'>Twitter</a>.
-<br /><br />
-<h4>Supported Sites</h4>
-Using the bookmarklet on any of the following sites will create a playlist out of the listed songs.<br /><br />
-<a href='http://last.fm'>Last.fm</a><br />
-<a href='http://www.apple.com/itunes/charts/songs/'>Apple.com iTunes Charts</a><br />
-<a href='http://new.music.yahoo.com/blogs/yradish/'>The Y! Radish</a><br />
-<a href='http://musicbrainz.org'>Musicbraniz Release Pages</a><br />
-<a href='http://www.bbc.co.uk/radio1/programmes/schedules'>BBC Radio Programmes</a><br />
-<a href='http://grooveshark.com'>Grooveshark Playlist Export Page</a><br />
-<a href='http://fiql.com'>FIQL Playlists</a><br />
-<br />
-<h4>Playdar Players</h4>
-Playgrub gives you the option of playback in <a href='http://www.playlick.com'>Playlick</a> and <a href='http://spiffdar.org'>Spiffdar</a>
+    <div id='playgrub-logo'><img src='images/playgrub-logo-climb.png' /></div>
+    <div class='playgrub-about'>
+        Playgrub is an easy way to make playlists from web pages and play them in <a href='http://www.playdar.org'>Playdar</a>.
+        <div id='playgrub-blog'><a href='http://playgrub.posterous.com'>Blog</a> | <a href='http://twitter.com/playgrub'>Twitter</a></div>
+    </div>
+    <div id='playgrub-bookmarklet-setup' class='playgrub-about'>
+        To install Playgrub drag this icon to your browser's bookmarks bar:
+        <p />
+        <div id='playgrub-icon'>
+            <a href="javascript:(function(){ host='http://localhost:8080/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub_bookmarklet.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();" id="bookmarklet">
+            <img src='images/grub-icon.png' alt='grub' title='grub' />
+            </a>
+            <span id='playgrub-icon-description'>&#8592; Drag to your bookmarks</span>
+        </div>
+        <!-- change host to location of playgrub.js -->
+        <!-- <a href="javascript:(function(){ host='http://localhost:8080/js/'; _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src=host+'playgrub.js?'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();">playgrub local</a> -->
+    </div>
+    <div class='playgrub-about'>
+        <h4>Supported Sites</h4>
+        Using the bookmarklet on any of the following sites will create a playlist out of the listed songs.<br /><br />
+        <a href='http://last.fm'>Last.fm</a><br />
+        <a href='http://www.apple.com/itunes/charts/songs/'>Apple.com iTunes Charts</a><br />
+        <a href='http://new.music.yahoo.com/blogs/yradish/'>The Y! Radish</a><br />
+        <a href='http://musicbrainz.org'>Musicbraniz Release Pages</a><br />
+        <a href='http://www.bbc.co.uk/radio1/programmes/schedules'>BBC Radio Programmes</a><br />
+        <a href='http://grooveshark.com'>Grooveshark Playlist Export Page</a><br />
+        <a href='http://fiql.com'>FIQL Playlists</a><br />
+    </div>
+    <div class='playgrub-about'>
+        <h4>Playdar Players</h4>
+        Playgrub gives you the option of playback in <a href='http://www.playlick.com'>Playlick</a> and <a href='http://spiffdar.org'>Spiffdar</a>
+    </div>
+    <div class='playgrub-about'>
+        <h4>Source</h4>
+        Playgrub is open source. Get the code from <a href='http://github.com/tobypadilla/playgrub'>Github</a>.
+    </div>
 </div>
 
 <div id='playlists'>
