@@ -40,6 +40,7 @@ img {
 
 #playgrub-icon img{
     float: left;
+    margin-right: 10px;
 }
 
 #playgrub-icon a {
@@ -49,8 +50,7 @@ img {
 #playgrub-icon-description {
     display: block;
     padding-top: 20px;
-    padding-left: 10px;
-    text-align: right;
+    text-align: left;
     font-size: 18px;
     color: #000000;
 }
