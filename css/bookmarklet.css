@@ -74,9 +74,9 @@
 .playgrub-button {
     display: block;
     float: left;
-    height: 25px;
+    height: 24px;
     width: 65px;
-    padding-top: 10px;
+    padding-top: 7px;
     margin-right: 5px;
     color: #000000;
     background-color: #BBBBBB;
@@ -111,12 +111,23 @@
     margin-top: 20px;
 }
 
+#playgrub-playdar-frame {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 200px;
+}
+
+#playgrub-playdar-status {
+    float: right;
+}
+
 #playgrub-bookmarklet-links {
     position: absolute;
-    bottom: 60px;
-    right: 5px;
+    bottom: 15px;
+    left: 15px;
     font-size: 12px;
-    text-align: right;
+    text-align: left;
     width: 350px;
 }
 
@@ -158,16 +169,6 @@
     visibility: hidden;
 }
 
-#playgrub-playdar-frame {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    width: 200px;
-}
-
-#playgrub-playdar-status {
-    float: right;
-}
 
 #playgrub-playdar-status a:link {
     text-decoration: none;
