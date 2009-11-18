@@ -49,7 +49,8 @@ PlaygrubFrame = {
     play_playlist: function() {
         // if there aren't any songs playing, play first resolved
         if ($('.playgrub-playlist-track-playing').length == 0) {
-            $('.playgrub-playlist-track-resolved:first-child').click();
+            if (('.playgrub-playlist-track-resolved').length > 0)
+                $('.playgrub-playlist-track-resolved:first').click();
         } else {
             $('.playgrub-playlist-track-playing').click();
         }
