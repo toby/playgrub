@@ -49,7 +49,8 @@ img {
 
 #playgrub-icon-description {
     display: block;
-    padding-top: 20px;
+    padding-top: 23px;
+    margin-bottom: 20px;
     text-align: left;
     font-size: 18px;
     color: #000000;
@@ -87,6 +88,7 @@ h4 {
 #playlists {
     float: left;
     width: 60%;
+    padding-top: 30px;
 }
 
 .playlist {
