@@ -72,14 +72,27 @@
 }
 
 .playgrub-button {
-    height: 20px;
-    padding: 5px 10px 5px 10px;
+    display: block;
+    float: left;
+    height: 25px;
+    width: 65px;
+    padding-top: 10px;
     margin-right: 5px;
     color: #000000;
     background-color: #BBBBBB;
+    text-align: center;
 }
 
 .playgrub-button:hover {
+    color: #FFFFFF;
+}
+
+
+#playgrub-tracks-toggle:hover {
+    color: #FFFFFF;
+}
+
+.playgrub-tracks-toggle-on {
     color: #FFFFFF;
 }
 
@@ -99,8 +112,11 @@
 }
 
 #playgrub-bookmarklet-links {
+    position: absolute;
+    bottom: 60px;
+    right: 5px;
     font-size: 12px;
-    margin-top: 20px;
+    text-align: right;
     width: 350px;
 }
 

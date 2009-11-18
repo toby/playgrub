@@ -191,10 +191,10 @@ Playgrub.Content = function() {
         return ""
         +"<div id='playgrub-bookmarklet-buttons'>"
         +"<span id='playgrub-bookmarklet-play-button' class='playgrub-clickable playgrub-button'>"
-        +"Play &#9654;"
+        +"&#9654;"
         +"</span>"
         +"<span id='playgrub-bookmarklet-next-button' class='playgrub-clickable playgrub-button'>"
-        +"Next &#9654;&#9654;"
+        +"&#9654;l"
         +"</span>"
         +"<span class='playgrub-clickable playgrub-button' "
         +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link())+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
@@ -202,7 +202,7 @@ Playgrub.Content = function() {
         +"</span>"
         +"<span id='playgrub-tracks-toggle' class='playgrub-clickable playgrub-button' "
         +"onClick='Playgrub.content.toggle_tracks();'>"
-        +"Show All"
+        +"Library"
         +"</span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-links'>"
@@ -220,9 +220,9 @@ Playgrub.Content = function() {
         // set ui to show or hide unresolved songs
         if(this.show_resolved_only) {
             $('.playgrub-playlist-track').hide();
-            $("#playgrub-tracks-toggle").css("color", "#000000");
+            $("#playgrub-tracks-toggle").addClass("playgrub-tracks-toggle-on");
         } else {
-            $("#playgrub-tracks-toggle").css("color", "#ffffff");
+            $("#playgrub-tracks-toggle").removeClass("playgrub-tracks-toggle-on");
         }
 
         // setup play button
@@ -260,11 +260,11 @@ Playgrub.Content = function() {
 
     this.toggle_tracks = function() {
         if(this.show_resolved_only) {
-            $("#playgrub-tracks-toggle").css("color", "#ffffff");
+            $("#playgrub-tracks-toggle").removeClass("playgrub-tracks-toggle-on");
             this.show_all_tracks();
             this.show_resolved_only = false;
         } else {
-            $("#playgrub-tracks-toggle").css("color", "#000000");
+            $("#playgrub-tracks-toggle").addClass("playgrub-tracks-toggle-on");
             this.hide_unresolved_tracks();
             this.show_resolved_only = true;
         }
