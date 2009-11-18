@@ -89,6 +89,8 @@ h4 {
     float: left;
     width: 60%;
     padding-top: 30px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .playlist {
