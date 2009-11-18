@@ -190,7 +190,7 @@ Playgrub.Content = function() {
     this.playlist_html = function() {
         return ""
         +"<div id='playgrub-bookmarklet-buttons'>"
-        +"<span class='playgrub-clickable playgrub-button' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>"
+        +"<span id='playgrub-bookmarklet-play-button' class='playgrub-clickable playgrub-button'>"
         +"Play &#9654;"
         +"</span>"
         +"<span class='playgrub-clickable playgrub-button' "
@@ -213,12 +213,20 @@ Playgrub.Content = function() {
     this.display_playlist = function() {
         $('#playgrub-bookmarklet-content').prepend(Playgrub.content.playlist_html());
         $('#playgrub-bookmarklet-content').prepend(Playgrub.playlist.to_html());
+
+        // set ui to show or hide unresolved songs
         if(this.show_resolved_only) {
             $('.playgrub-playlist-track').hide();
             $("#playgrub-tracks-toggle").css("color", "#000000");
         } else {
             $("#playgrub-tracks-toggle").css("color", "#ffffff");
         }
+
+        // setup play button
+        $('#playgrub-bookmarklet-play-button').click(function() {
+            PlaygrubFrame.play_playlist(); // TODO fix this
+        });
+
     };
 
     this.display_playdar_status = function(pstatus) {
