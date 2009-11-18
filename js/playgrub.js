@@ -193,6 +193,9 @@ Playgrub.Content = function() {
         +"<span id='playgrub-bookmarklet-play-button' class='playgrub-clickable playgrub-button'>"
         +"Play &#9654;"
         +"</span>"
+        +"<span id='playgrub-bookmarklet-next-button' class='playgrub-clickable playgrub-button'>"
+        +"Next &#9654;&#9654;"
+        +"</span>"
         +"<span class='playgrub-clickable playgrub-button' "
         +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link())+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
         +"Share"
@@ -225,6 +228,11 @@ Playgrub.Content = function() {
         // setup play button
         $('#playgrub-bookmarklet-play-button').click(function() {
             PlaygrubFrame.play_playlist(); // TODO fix this
+        });
+
+        // setup next button
+        $('#playgrub-bookmarklet-next-button').click(function() {
+            PlaygrubFrame.play_next(); // TODO fix this
         });
 
     };
