@@ -36,7 +36,7 @@ PlaygrubLoader.init = function() {
         // scraper done finding songs
         foundSongs: function() {
             // tell bookmarklet it can show the playlist
-            Playgrub.bookmarklet.playlist_loaded();
+            Playgrub.container.playlist_loaded();
             // write to playgrub server
             Playgrub.client.write_playlist(Playgrub.playlist);
 
@@ -50,7 +50,7 @@ PlaygrubLoader.init = function() {
 
         // Playgrub.client is broadcasting a playlist track
         clientTrackPublished: function() {
-            Playgrub.bookmarklet.track_broadcast();
+            Playgrub.container.track_broadcast();
         }
     };
 

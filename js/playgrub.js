@@ -23,12 +23,12 @@ Playgrub.Events = {
 
     // no scraper found for this domain
     noScraper: function() {
-        // Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
+        // Playgrub.container.set_status("This site is currently not supported by Playgrub");
     },
 
     // scraper found but there were no songs
     noSongs: function() {
-        // Playgrub.bookmarklet.set_status(Playgrub.source.error);
+        // Playgrub.container.set_status(Playgrub.source.error);
     },
 
     // scraper done finding songs
@@ -46,12 +46,12 @@ Playgrub.Events = {
         // Post to Twitter
         // Playgrub.Util.inject_script(Playgrub.PGHOST+'twitter_post?playlist='+Playgrub.playlist.id);
 
-        // Playgrub.bookmarklet.playlist_loaded();
+        // Playgrub.container.playlist_loaded();
     },
 
     // Playgrub.client is broadcasting a playlist track
     clientTrackPublished: function() {
-        // Playgrub.bookmarklet.track_broadcast();
+        // Playgrub.container.track_broadcast();
     }
 };
 
@@ -115,8 +115,17 @@ Playgrub.Client = function() {
     }
 };
 
+Playgrub.Standalone = function() {
+    Playgrub.container = this;
+
+    Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
+    $('body').prepend(this.base_html);
+    this.set_status("Loading...");
+    $('#playgrub-bookmarklet-content').hide();
+};
+
 Playgrub.Bookmarklet = function() {
-    Playgrub.bookmarklet = this;
+    Playgrub.container = this;
 
     Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
     $('body').prepend(this.base_html);
@@ -144,7 +153,7 @@ Playgrub.Bookmarklet.prototype = {
     iframe_loaded: function() {
         var iframe = window.frames['playgrub-server-iframe'];
         iframe.postMessage(Playgrub.Util.JSONstringify(Playgrub.playlist), '*');
-        Playgrub.bookmarklet.hide_status();
+        Playgrub.container.hide_status();
         $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
     },
 
@@ -153,7 +162,7 @@ Playgrub.Bookmarklet.prototype = {
         var iframe = window.frames['playgrub-server-iframe'];
         // TODO check to see if iframe is ready for postMessage with src # polling
         if(typeof(iframe.postMessage) != undefined) {
-            setTimeout(Playgrub.bookmarklet.iframe_loaded, 2000);
+            setTimeout(Playgrub.container.iframe_loaded, 2000);
         }
     },
 
