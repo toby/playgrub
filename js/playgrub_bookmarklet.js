@@ -25,12 +25,12 @@ PlaygrubLoader.init = function() {
 
         // no scraper found for this domain
         noScraper: function() {
-            Playgrub.bookmarklet.set_status("This site is currently not supported by Playgrub");
+            Playgrub.container.set_status("This site is currently not supported by Playgrub");
         },
 
         // scraper found but there were no songs
         noSongs: function() {
-            Playgrub.bookmarklet.set_status(Playgrub.source.error);
+            Playgrub.container.set_status(Playgrub.source.error);
         },
 
         // scraper done finding songs
