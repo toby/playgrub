@@ -30,7 +30,7 @@ PlaygrubLoader.init = function() {
 
         // scraper found but there were no songs
         noSongs: function() {
-            Playgrub.bookmarklet.set_status(Playgrub.scraper.error);
+            Playgrub.bookmarklet.set_status(Playgrub.source.error);
         },
 
         // scraper done finding songs

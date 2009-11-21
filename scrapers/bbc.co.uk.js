@@ -14,7 +14,7 @@
 * and pick a recent show.
 */
 Playgrub.source.url = 'http://www\.bbc\.co\.uk/programmes/*';
-Playgrub.source.error = 'Playlist unavailable outside the UK';
+Playgrub.source.error = 'Please make sure you are on a BBC page with songs.';
 Playgrub.source.scrape = function() {
     $("*.segment ").each(function () {
 	var artist = $(this).find("span.artist").text();
