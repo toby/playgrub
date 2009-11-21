@@ -97,6 +97,17 @@ class BookmarkletIframeHandler(webapp.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'html/bookmarklet-iframe.html')
     self.response.out.write(template.render(path, template_values))
 
+class PlayerHandler(webapp.RequestHandler):
+
+  def get(self):
+    url = self.request.get('xspf')
+    template_values = {
+        'xspf': url,
+        }
+
+    path = os.path.join(os.path.dirname(__file__), 'html/standalone.html')
+    self.response.out.write(template.render(path, template_values))
+
 class ScrapeHandler(webapp.RequestHandler):
 
   def get(self):
@@ -169,6 +180,8 @@ class TwitterPostHandler(webapp.RequestHandler):
 
 def main():
   application = webapp.WSGIApplication([('/bookmarklet_iframe', BookmarkletIframeHandler),
+                                       ('/player', PlayerHandler),
+                                       ('/player/', PlayerHandler),
                                        ('/twitter_post', TwitterPostHandler),
                                        ('/scraper.js', ScrapeHandler),
                                        ('/playlist_header.js', PlaylistHeaderHandler),

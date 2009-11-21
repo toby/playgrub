@@ -120,9 +120,42 @@ Playgrub.Standalone = function() {
 
     Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
     $('body').prepend(this.base_html);
-    this.set_status("Loading...");
-    $('#playgrub-bookmarklet-content').hide();
 };
+
+Playgrub.Standalone.prototype = {
+    base_html: "<div id='playgrub-bookmarklet'>"
+        +"<div id='playgrub-bookmarklet-background'></div>"
+        +"<div id='playgrub-bookmarklet-body'>"
+        +"<div id='playgrub-bookmarklet-header'>"
+        +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;'>"
+        +"close"
+        +"</div>"
+        +"<span class='playgrub-clickable' onclick='window.open(\""+Playgrub.PGHOST+"\")'><img src=\'"+Playgrub.PGHOST+"images/logo-sm.gif\' /></span>"
+        +"</div>"
+        +"<div id='playgrub-bookmarklet-content'>"
+        +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' scrolling=\'no\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'
+        +"</div>"
+        +"</div>"
+        +"</div>",
+
+    iframe_loaded: function() {
+        var iframe = window.frames['playgrub-server-iframe'];
+        iframe.postMessage(Playgrub.Util.JSONstringify(Playgrub.playlist), '*');
+        $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
+    },
+
+    playlist_loaded: function() {
+        // playlist loaded, setup iframe
+        var iframe = window.frames['playgrub-server-iframe'];
+        // TODO check to see if iframe is ready for postMessage with src # polling
+        if(typeof(iframe.postMessage) != undefined) {
+            setTimeout(Playgrub.container.iframe_loaded, 2000);
+        }
+    },
+
+    track_broadcast: function() {
+    }
+}
 
 Playgrub.Bookmarklet = function() {
     Playgrub.container = this;
@@ -280,6 +313,24 @@ Playgrub.Content = function() {
     }
 
     $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
+},
+
+Playgrub.XSPFSource = function() {
+    Playgrub.source = this;
+
+    this.url = "";
+    // alert(this.url);
+
+    this.start = function(e) {
+        var rplaylist = Playgrub.Util.JSONparse(e.data);
+        Playgrub.playlist.id = rplaylist.id;
+        Playgrub.playlist.url = rplaylist.url;
+        Playgrub.playlist.title = rplaylist.title;
+        Playgrub.playlist.tracks = eval(rplaylist.tracks);
+        Playgrub.Events.foundSongs();
+    };
+
+    window.addEventListener("message", function(e) { Playgrub.source.start(e); }, false);
 }
 
 Playgrub.RemoteSource = function() {
@@ -408,4 +459,5 @@ Playgrub.Util = {
         eval("var p=" + str + ";");
         return p;
     }
+
 };
