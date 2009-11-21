@@ -317,10 +317,8 @@ Playgrub.Content = function() {
 Playgrub.XSPFSource = function() {
     Playgrub.source = this;
 
-    this.url = "";
-    // alert(this.url);
-
     this.start = function(e) {
+        alert(this.url);
         var rplaylist = Playgrub.Util.JSONparse(e.data);
         Playgrub.playlist.id = rplaylist.id;
         Playgrub.playlist.url = rplaylist.url;
@@ -330,7 +328,11 @@ Playgrub.XSPFSource = function() {
     };
 
     window.addEventListener("message", function(e) { Playgrub.source.start(e); }, false);
-}
+};
+
+Playgrub.XSPFSource.prototype = {
+    url: ''
+};
 
 Playgrub.RemoteSource = function() {
     Playgrub.source = this;

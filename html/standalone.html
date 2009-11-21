@@ -10,11 +10,12 @@ Playgrub.Events = {
     // Playgrub init
     init: function() {
         new Playgrub.Playlist();
-        // new Playgrub.XSPFSource();  // TODO: extends PlaylistSource
         new Playgrub.Standalone();
+        new Playgrub.XSPFSource();  // TODO: extends PlaylistSource
         new Playgrub.Content();
 
-        Playgrub.XSPFSource.url = '{{ xspf }}';
+        Playgrub.source.url = '{{ xspf }}';
+        Playgrub.source.start();
     }
 };
 
