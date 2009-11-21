@@ -1,5 +1,5 @@
 Playgrub = {
-    PGHOST: 'http://www.playgrub.com/',
+    PGHOST: 'http://localhost:8080/',
     VERSION: '0.8',
     playlist: {},
     client: {},
@@ -117,7 +117,6 @@ Playgrub.Client = function() {
 
 Playgrub.Standalone = function() {
     Playgrub.container = this;
-
     Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
     $('body').prepend(this.base_html);
 };
