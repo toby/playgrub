@@ -8,7 +8,7 @@
  * This scraper will work on any Playtapus Search result
  */
 Playgrub.source.url = 'http://.*twitter\.com';
-Playgrub.source.error = 'To play Twitter songs please use the format \\u2605 ARTIST \\u266B SONG. <a href=\'http://twitter.com/#search?q=%23playtapus\'>Example</a>';
+Playgrub.source.error = 'To play Twitter songs please use the format &#9733; ARTIST &#9835; SONG. <a href=\'http://twitter.com/#search?q=%23playtapus\'>Example</a>';
 Playgrub.source.scrape = function() {
     var reg = /\u2605(.*)\u266B([^#]*)#/gi;
     $(".msgtxt").each(function () {
