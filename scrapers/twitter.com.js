@@ -18,6 +18,14 @@ Playgrub.source.scrape = function() {
         if(artist.length > 0 && song.length > 0)
             Playgrub.playlist.add_track(artist, song);
     });
+
+    $(".entry-content").each(function () {
+        $(this).text().match(reg);
+        var artist = RegExp.$1.substring(0,RegExp.$1.length-2);
+        var song = RegExp.$2.substring(0,RegExp.$2.length-1);
+        if(artist.length > 0 && song.length > 0)
+            Playgrub.playlist.add_track(artist, song);
+    });
 }
 
 Playgrub.source.start();
