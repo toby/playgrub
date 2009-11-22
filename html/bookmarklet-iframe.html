@@ -104,8 +104,14 @@ Playgrub.Events = {
                         Playdar.player.register_stream(response.results[0],{
                             onfinish: function() {
                                 PlaygrubFrame.play_next();
+                            },
+
+                            onload: function() {
+                                if (this.readyState == 2) { // failed/error
+                                    PlaygrubFrame.play_next();
+                                }
                             }
-                            });
+                        });
                         PlaygrubFrame.resolved_track(response.query.artist, response.query.track, response.results[0].sid);
                     }
                 }
