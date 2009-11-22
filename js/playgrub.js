@@ -318,7 +318,6 @@ Playgrub.XSPFSource = function() {
     Playgrub.source = this;
 
     this.start = function(e) {
-        alert(this.url);
         var rplaylist = Playgrub.Util.JSONparse(e.data);
         Playgrub.playlist.id = rplaylist.id;
         Playgrub.playlist.url = rplaylist.url;

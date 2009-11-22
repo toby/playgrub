@@ -108,6 +108,34 @@ class PlayerHandler(webapp.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'html/standalone.html')
     self.response.out.write(template.render(path, template_values))
 
+class JSONXSPFHandler(webapp.RequestHandler):
+
+  def get(self):
+    playlist_key = self.request.path.split('.xspf')[0]
+    playlist_key = playlist_key.lstrip('/')
+
+    # logging.error("XSPF key --> %s", playlist_key)
+
+    q = PlaylistHeader.gql('WHERE playlist = :1', playlist_key)
+    head = q.fetch(1)[0]
+    # logging.error("head -> %s",head.title)
+
+    q = PlaylistTrack.gql('WHERE playlist = :1 ORDER BY index ASC', playlist_key)
+    songs = q.fetch(500)
+    # for r in songs:
+        # logging.error("index -> %s", r.index)
+        # logging.error("artist -> %s", r.artist)
+        # logging.error("track -> %s", r.track)
+
+    template_values = {
+        'header': head,
+        'songs': songs,
+        }
+
+    path = os.path.join(os.path.dirname(__file__), 'html/json-xspf-template.html')
+    self.response.headers['Content-Type'] = 'text/javascript'
+    self.response.out.write(template.render(path, template_values))
+
 class ScrapeHandler(webapp.RequestHandler):
 
   def get(self):
@@ -181,7 +209,7 @@ class TwitterPostHandler(webapp.RequestHandler):
 def main():
   application = webapp.WSGIApplication([('/bookmarklet_iframe', BookmarkletIframeHandler),
                                        ('/player', PlayerHandler),
-                                       ('/player/', PlayerHandler),
+                                       ('/json-xspf/', JSONXSPFHandler),
                                        ('/twitter_post', TwitterPostHandler),
                                        ('/scraper.js', ScrapeHandler),
                                        ('/playlist_header.js', PlaylistHeaderHandler),
