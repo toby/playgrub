@@ -23,7 +23,7 @@ Playgrub.source.scrape = function() {
     };
 
     $("a").filter(function() {
-            var match = $(this).attr('href').match('.*\/music\/([^+][^\/]*)\/[^+][^\/]*\/([^+][^\?]*)');
+            var match = $(this).attr('href').match('.*\/music\/([^+][^\/]*)\/[^+][^\/]*\/([^+][^\?\\#\/]*)');
             if(match) {
                 var artist = match[1];
                 var song = match[2];
