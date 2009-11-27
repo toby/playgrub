@@ -248,7 +248,7 @@ Playgrub.Content = function() {
         +"&#9654;l"
         +"</span>"
         +"<span class='playgrub-clickable playgrub-button' "
-        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link(Playgrub.playlist.xspf_url()))+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
+        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playgrub_link(Playgrub.playlist.xspf_url()))+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
         +"Share"
         +"</span>"
         +"<span id='playgrub-tracks-toggle' class='playgrub-clickable playgrub-button' "
@@ -449,6 +449,10 @@ Playgrub.Util = {
 
     spiffdar_link: function(xspf) {
         return "http://spiffdar.org/?spiff="+encodeURIComponent(xspf);
+    },
+
+    playgrub_link: function(xspf) {
+        return Playgrub.PGHOST+"player?xspf="+encodeURIComponent(xspf);
     },
 
     // implement JSON.stringify and JSON.parse serialization
