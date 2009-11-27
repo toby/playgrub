@@ -63,6 +63,7 @@ Playgrub.Playlist.prototype = {
     id: '',
     title: '',
     url: '',
+    xspf: '',
     tracks: [],
 
     add_track: function(artist, song) {
@@ -79,6 +80,15 @@ Playgrub.Playlist.prototype = {
         html = html+'</div>';
 
         return html;
+    },
+
+    xspf_url: function() {
+        if(this.id != '')
+            return Playgrub.PGHOST+this.id+".xspf";
+        else if(this.xspf != '')
+            return this.xspf;
+        // no xspf url for some reason
+        return false;
     }
 
 };
@@ -235,7 +245,7 @@ Playgrub.Content = function() {
         +"&#9654;l"
         +"</span>"
         +"<span class='playgrub-clickable playgrub-button' "
-        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link())+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
+        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playlick_link(Playgrub.playlist.xspf_url()))+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
         +"Share"
         +"</span>"
         +"<span id='playgrub-tracks-toggle' class='playgrub-clickable playgrub-button' "
@@ -245,9 +255,9 @@ Playgrub.Content = function() {
         +"</div>"
         +"<div id='playgrub-bookmarklet-links'>"
         +"<span style='margin-right: 10px;'>More:</span>"
-        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.playlick_link()+"\");'>Playlick</span>"
-        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.spiffdar_link()+"\");'>Spiffdar</span>"
-        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.PGHOST+Playgrub.playlist.id+".xspf\");'>Download XSPF</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.playlick_link(Playgrub.playlist.xspf_url())+"\");'>Playlick</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.Util.spiffdar_link(Playgrub.playlist.xspf_url())+"\");'>Spiffdar</span>"
+        +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.playlist.xspf_url()+"\");'>Download XSPF</span>"
         +"</div>";
     };
 
@@ -317,8 +327,8 @@ Playgrub.XSPFSource = function(xspf_url) {
     this.start = function(data) {
         var jspf = eval("("+xml2json(data,'')+")");
         var jplaylist = jspf.playlist;
-
         Playgrub.playlist.url = Playgrub.source.url;
+        Playgrub.playlist.xspf = Playgrub.source.url;
         Playgrub.playlist.title = jplaylist.title;
         // Playgrub.playlist.id = rplaylist.id;
         for(n in jplaylist.trackList.track) {
@@ -344,6 +354,7 @@ Playgrub.RemoteSource = function() {
     this.start = function(e) {
         var rplaylist = Playgrub.Util.JSONparse(e.data);
         Playgrub.playlist.id = rplaylist.id;
+        Playgrub.playlist.xspf = rplaylist.xspf;
         Playgrub.playlist.url = rplaylist.url;
         Playgrub.playlist.title = rplaylist.title;
         Playgrub.playlist.tracks = eval(rplaylist.tracks);
@@ -429,12 +440,12 @@ Playgrub.Util = {
         }
     },
 
-    playlick_link: function() {
-        return "http://www.playlick.com/#xspf="+Playgrub.PGHOST+Playgrub.playlist.id+".xspf";
+    playlick_link: function(xspf) {
+        return "http://www.playlick.com/#xspf="+xspf;
     },
 
-    spiffdar_link: function() {
-        return "http://spiffdar.org/?spiff="+encodeURIComponent(Playgrub.PGHOST+Playgrub.playlist.id)+".xspf";
+    spiffdar_link: function(xspf) {
+        return "http://spiffdar.org/?spiff="+encodeURIComponent(xspf);
     },
 
     // implement JSON.stringify and JSON.parse serialization
