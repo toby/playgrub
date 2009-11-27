@@ -157,6 +157,9 @@ Playgrub.Standalone.prototype = {
         if(typeof(iframe.postMessage) != undefined) {
             setTimeout(Playgrub.container.iframe_loaded, 2000);
         }
+
+        // set the document title to the playlist title
+        document.title = 'Playgrub - '+Playgrub.playlist.title;
     },
 
     track_broadcast: function() {
