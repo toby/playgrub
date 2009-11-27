@@ -117,7 +117,7 @@ Playgrub.Client = function() {
 
 Playgrub.Standalone = function() {
     Playgrub.container = this;
-    Playgrub.Util.inject_css(Playgrub.PGHOST+'css/bookmarklet.css');
+    Playgrub.Util.inject_css(Playgrub.PGHOST+'css/standalone.css');
     $('body').prepend(this.base_html);
 };
 
@@ -252,8 +252,8 @@ Playgrub.Content = function() {
     };
 
     this.display_playlist = function() {
-        $('#playgrub-bookmarklet-content').prepend(Playgrub.content.playlist_html());
-        $('#playgrub-bookmarklet-content').prepend(Playgrub.playlist.to_html());
+        $('#playgrub-iframe-content').prepend(Playgrub.content.playlist_html());
+        $('#playgrub-iframe-content').prepend(Playgrub.playlist.to_html());
 
         // set ui to show or hide unresolved songs
         if(this.show_resolved_only) {
@@ -308,7 +308,7 @@ Playgrub.Content = function() {
         }
     }
 
-    $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
+    $('#playgrub-iframe-content').append(Playgrub.content.base_html());
 },
 
 Playgrub.XSPFSource = function(xspf_url) {
@@ -320,21 +320,11 @@ Playgrub.XSPFSource = function(xspf_url) {
 
         Playgrub.playlist.url = Playgrub.source.url;
         Playgrub.playlist.title = jplaylist.title;
+        // Playgrub.playlist.id = rplaylist.id;
         for(n in jplaylist.trackList.track) {
             Playgrub.playlist.add_track(jplaylist.trackList.track[n].creator,jplaylist.trackList.track[n].title);
         }
         Playgrub.Events.foundSongs();
-        // alert(Playgrub.Util.JSONstringify(jplaylist.trackList.track));
-
-        // $('#playgrub-bookmarklet-content').prepend(jspf.playlist.title);
-        /*
-        var rplaylist = Playgrub.Util.JSONparse(e.data);
-        Playgrub.playlist.id = rplaylist.id;
-        Playgrub.playlist.url = rplaylist.url;
-        Playgrub.playlist.title = rplaylist.title;
-        Playgrub.playlist.tracks = eval(rplaylist.tracks);
-        Playgrub.Events.foundSongs();
-        */
     };
 
     this.url = xspf_url;
