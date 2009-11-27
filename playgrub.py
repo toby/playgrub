@@ -7,6 +7,7 @@ import base64
 import datetime
 import hashlib
 import wsgiref.handlers
+from django.utils import simplejson
 from google.appengine.api import urlfetch
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template

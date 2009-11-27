@@ -1,5 +1,5 @@
 Playgrub = {
-    PGHOST: 'http://www.playgrub.com/',
+    PGHOST: 'http://localhost:8080/',
     VERSION: '0.8',
     playlist: {},
     client: {},
@@ -126,9 +126,6 @@ Playgrub.Standalone.prototype = {
         +"<div id='playgrub-bookmarklet-background'></div>"
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
-        +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='$(\"#playgrub-bookmarklet\").remove(); return false;'>"
-        +"close"
-        +"</div>"
         +"<span class='playgrub-clickable' onclick='window.open(\""+Playgrub.PGHOST+"\")'><img src=\'"+Playgrub.PGHOST+"images/logo-sm.gif\' /></span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
@@ -314,19 +311,27 @@ Playgrub.Content = function() {
     $('#playgrub-bookmarklet-content').append(Playgrub.content.base_html());
 },
 
-Playgrub.XSPFSource = function() {
+Playgrub.XSPFSource = function(xspf_url) {
     Playgrub.source = this;
 
-    this.start = function(e) {
+    this.start = function(data) {
+        var jspf = eval("("+xml2json(data,'')+")");
+        // $('#playgrub-bookmarklet-content').prepend(jspf.playlist.title);
+        /*
         var rplaylist = Playgrub.Util.JSONparse(e.data);
         Playgrub.playlist.id = rplaylist.id;
         Playgrub.playlist.url = rplaylist.url;
         Playgrub.playlist.title = rplaylist.title;
         Playgrub.playlist.tracks = eval(rplaylist.tracks);
         Playgrub.Events.foundSongs();
+        */
     };
 
-    window.addEventListener("message", function(e) { Playgrub.source.start(e); }, false);
+    this.url = xspf_url;
+
+    // make sure js/xml2json.js is loaded in whatever called this constructor
+    $.get(this.url, function(data){ Playgrub.source.start(data); });
+
 };
 
 Playgrub.XSPFSource.prototype = {
