@@ -316,6 +316,16 @@ Playgrub.XSPFSource = function(xspf_url) {
 
     this.start = function(data) {
         var jspf = eval("("+xml2json(data,'')+")");
+        var jplaylist = jspf.playlist;
+
+        Playgrub.playlist.url = Playgrub.source.url;
+        Playgrub.playlist.title = jplaylist.title;
+        for(n in jplaylist.trackList.track) {
+            Playgrub.playlist.add_track(jplaylist.trackList.track[n].creator,jplaylist.trackList.track[n].title);
+        }
+        Playgrub.Events.foundSongs();
+        // alert(Playgrub.Util.JSONstringify(jplaylist.trackList.track));
+
         // $('#playgrub-bookmarklet-content').prepend(jspf.playlist.title);
         /*
         var rplaylist = Playgrub.Util.JSONparse(e.data);

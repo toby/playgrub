@@ -14,7 +14,16 @@ Playgrub.Events = {
         new Playgrub.Standalone();
         new Playgrub.XSPFSource('{{ xspf }}');  // TODO: extends PlaylistSource
         new Playgrub.Content();
-    }
+    },
+
+    // scraper done finding songs
+    foundSongs: function() {
+        // tell bookmarklet it can show the playlist
+        Playgrub.container.playlist_loaded();
+        // write to playgrub server
+        Playgrub.client.write_playlist(Playgrub.playlist);
+
+    },
 };
 
 // jquery is ready
