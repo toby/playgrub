@@ -125,6 +125,53 @@ Playgrub.Client = function() {
     }
 };
 
+Playgrub.Sidebar = function(ptitle, purl) {
+    Playgrub.container = this;
+
+    this.title = ptitle;
+    this.url = purl;
+
+    Playgrub.Util.inject_css(Playgrub.PGHOST+'css/sidebar.css');
+    $('body').prepend(this.base_html());
+};
+
+Playgrub.Sidebar.prototype = {
+    base_html: function() {
+        return "<div id='playgrub-bookmarklet'>"
+        +"<div id='playgrub-bookmarklet-background'></div>"
+        +"<div id='playgrub-bookmarklet-body'>"
+        +"<div id='playgrub-bookmarklet-header'>"
+        +"<span class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
+        +"</div>"
+        +"<div id='playgrub-bookmarklet-content'>"
+        +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' scrolling=\'no\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'
+        +"</div>"
+        +"</div>"
+        +"</div>";
+    },
+
+    iframe_loaded: function() {
+        var iframe = window.frames['playgrub-server-iframe'];
+        iframe.postMessage(Playgrub.Util.JSONstringify(Playgrub.playlist), '*');
+        $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
+    },
+
+    playlist_loaded: function() {
+        // playlist loaded, setup iframe
+        var iframe = window.frames['playgrub-server-iframe'];
+        // TODO check to see if iframe is ready for postMessage with src # polling
+        if(typeof(iframe.postMessage) != undefined) {
+            setTimeout(Playgrub.container.iframe_loaded, 2000);
+        }
+
+        // set the document title to the playlist title
+        document.title = 'Playgrub - '+Playgrub.playlist.title;
+    },
+
+    track_broadcast: function() {
+    }
+}
+
 Playgrub.Standalone = function() {
     Playgrub.container = this;
     Playgrub.Util.inject_css(Playgrub.PGHOST+'css/standalone.css');
@@ -253,7 +300,7 @@ Playgrub.Content = function() {
         +"</span>"
         +"<span id='playgrub-tracks-toggle' class='playgrub-clickable playgrub-button' "
         +"onClick='Playgrub.content.toggle_tracks();'>"
-        +"Library"
+        +"Playable"
         +"</span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-links'>"

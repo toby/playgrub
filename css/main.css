@@ -4,16 +4,16 @@ body {
     color: #3A3A3A;
 }
 
-a:link {
+#playgrub-main a:link {
     color: #000000;
 }
-a:visited {
+#playgrub-main a:visited {
     color: #000000;
 }
-a:active {
+#playgrub-main a:active {
     color: #000000;
 }
-a:hover {
+#playgrub-main a:hover {
     color: #ffffff;
     background-color: #000000
 }
@@ -86,9 +86,9 @@ h4 {
 }
 
 #playgrub-main {
-    float: right;
+    float: left;
     width: 25%;
-    margin-right: 15px;
+    margin-left: 15px;
 }
 
 #bookmarklet {
@@ -96,7 +96,7 @@ h4 {
 }
 
 #playlists {
-    float: left;
+    float: right;
     width: 70%;
     padding-top: 30px;
     overflow: hidden;
