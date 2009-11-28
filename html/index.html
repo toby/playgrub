@@ -11,10 +11,11 @@
     {% for header in headers %}
     <div class='playlist'>
         <!-- <span class='playlist-title'><a href='http://www.playlick.com/#xspf=http://www.playgrub.com/{{ header.playlist}}.xspf' target='_blank'>&#9654; {{ header.title|escape }}</a></span> -->
-        <span class='playlist-title'><a href='http://localhost:8080/player?xspf=http%3A%2F%2Flocalhost:8080%2F{{ header.playlist}}.xspf' target='_blank'>&#9654; {{ header.title|escape }}</a></span>
+        <span class='playlist-title'><a alt='{{ header.url }}' href='http://localhost:8080/player?xspf=http%3A%2F%2Flocalhost:8080%2F{{ header.playlist}}.xspf' target='_blank'>&#9654; {{ header.title|escape }}</a></span>
         <div class='playlist-controls'>
             <span class='playlist-tracks'>{{ header.songs }} tracks</span>
-            <span class='playlist-url'>- <a href='{{ header.url }}'>source</a></span>
+            <span class='playlist-url'>via <a href='{{ header.url }}'>{{ header.url }}</a></span>
+            <span class='playlist-url'>| <a href='http://www.playlick.com/#xspf=http://www.playgrub.com/{{ header.playlist }}.xspf' target='_blank'>Playlick</a></span>
         </div>
     </div>
     {% endfor %}
