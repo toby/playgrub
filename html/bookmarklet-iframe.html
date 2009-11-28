@@ -38,12 +38,18 @@ PlaygrubFrame = {
     },
 
     play_next: function() {
+        var found_playable = false;
+
         $('.playgrub-playlist-track-playing').nextAll().each(function(){
             if($(this).hasClass('playgrub-playlist-track-resolved')){
                 $(this).click();
+                found_playable = true;
                 return false;
             }
         });
+
+        if(!found_playable)
+            $('.playgrub-playlist-track-playing').removeClass('playgrub-playlist-track-playing');
     },
 
     play_playlist: function() {
