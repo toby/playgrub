@@ -141,7 +141,7 @@ Playgrub.Sidebar.prototype = {
         +"<div id='playgrub-bookmarklet-background'></div>"
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
-        +"<span class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
+        +"<span id='playgrub-playlist-title' class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
         +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' scrolling=\'no\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'

@@ -85,3 +85,7 @@
     color: #ffffff;
     text-decoration: underline;
 }
+
+#playgrub-playlist-title {
+    font-weight: bold;
+}

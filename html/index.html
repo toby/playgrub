@@ -27,6 +27,7 @@ Playgrub.Events = {
 // jquery is ready
 $(function() {
     Playgrub.Events.init();
+    $('#playgrub-supported-detail').hide();
 });
 </script>
 </head>
@@ -39,7 +40,7 @@ $(function() {
 <div id='playgrub-main'>
     <div id='playgrub-logo'><img src='images/playgrub-logo-climb.gif' /></div>
     <div class='playgrub-about'>
-        Playgrub is an easy way to play web pages with <a href='http://www.playdar.org/download'>Playdar</a>.
+        Playgrub is an easy way to play web pages with <span id='playdar-link'><a href='http://www.playdar.org/download'>Playdar</a></span>.
     </div>
     <div id='playgrub-bookmarklet-setup' class='playgrub-about'>
         To install Playgrub drag this icon to your browser's bookmarks bar:
@@ -50,7 +51,7 @@ $(function() {
             </a>
             <span id='playgrub-icon-description'><div id='playgrub-icon-description-arrow'>&#8592;</div><div id='playgrub-icon-description-text'>Drag to your bookmarks</div></span>
         </div>
-        <div id='playgrub-supported'>Use Playgrub on any of the <a href='http://twitter.com/playgrub'>Suported Sites</a></div>
+        <div id='playgrub-supported'>Use Playgrub on any of our <a href='http://twitter.com/playgrub'>Suported Sites</a></div>
     </div>
     <div id='playgrub-footer'>
     <a href='http://playgrub.posterous.com' target='_blank'>Blog</a> | 
@@ -58,8 +59,7 @@ $(function() {
     <a href='http://twitter.com/playgrub' target='_blank'>Twitter</a> | 
     By: <a href='http://twitter.com/toby' target='_blank'>Toby Padilla</a>
     </div>
-    <!--
-    <div class='playgrub-about'>
+    <div id='playgrub-supported-detail'>
         <h4>Supported Sites</h4>
         Using the bookmarklet on any of the following sites will create a playlist out of the listed songs.<br /><br />
         <a href='http://last.fm'>Last.fm</a><br />
@@ -71,7 +71,6 @@ $(function() {
         <a href='http://fiql.com'>FIQL Playlists</a><br />
         <a href='http://grooveshark.com'>Grooveshark Playlist Export</a><br />
     </div>
-    -->
 </div>
 
 </div>
