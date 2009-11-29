@@ -95,20 +95,12 @@ h4 {
 
 #playgrub-main {
     float: left;
-    width: 25%;
+    width: 240px;
     margin-left: 15px;
 }
 
 #bookmarklet {
     font-size: 1.1em;
-}
-
-#playlists {
-    float: right;
-    width: 70%;
-    padding-top: 30px;
-    overflow: hidden;
-    white-space: nowrap;
 }
 
 .playlist {

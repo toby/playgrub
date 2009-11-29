@@ -2,9 +2,9 @@
     position: absolute;
     overflow: hidden;
     top: 30px;
-    bottom: 15px;
     right: 30px;
-    width: 65%;
+    bottom: 15px;
+    left: 330px;
 }
 
 #playgrub-bookmarklet-background {
