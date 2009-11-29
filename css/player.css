@@ -71,7 +71,7 @@
 
 #playgrub-playdar-frame {
     position: absolute;
-    bottom: 15px;
+    bottom: 12px;
     right: 15px;
     width: 200px;
 }
@@ -102,6 +102,8 @@
     cursor: pointer;
     padding: 3px 0px 3px 5px;
     color: #686868;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .playgrub-playlist-track:hover {
@@ -118,6 +120,7 @@
 
 .playgrub-playlist-track-sid {
     visibility: hidden;
+    overflow: hidden;
 }
 
 

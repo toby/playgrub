@@ -23,15 +23,18 @@ img {
 }
 
 .playgrub-about {
-    padding: 0px 0px 25px 0px;
+    padding: 0px 0px 15px 0px;
 }
 
 #playgrub-logo {
     margin-bottom: 20px;
 }
 
-#playgrub-blog {
-    padding: 20px 0px 0px 0px;
+#playgrub-footer{
+    position: absolute;
+    bottom: 15px;
+    padding: 15px 0px 0px 0px;
+    font-size: 12px;
 }
 
 #playgrub-icon {
@@ -64,6 +67,10 @@ img {
     margin-right: 5px;
     float: left;
     font-weight: bold;
+}
+
+#playgrub-supported {
+    clear: left;
 }
 
 h2 {

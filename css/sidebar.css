@@ -1,8 +1,8 @@
 #playgrub-bookmarklet {
-    position: fixed;
+    position: absolute;
     overflow: hidden;
     top: 30px;
-    bottom: 20px;
+    bottom: 15px;
     right: 30px;
     width: 65%;
 }
