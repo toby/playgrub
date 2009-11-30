@@ -192,6 +192,7 @@ Playgrub.Sidebar.prototype = {
     next_playlist: function() {
         if(this.playlist_index < this.playlists.length-1) {
             this.playlist_index++;
+            Playgrub.content.clear_playlist();
             new Playgrub.XSPFSource(this.playlists[this.playlist_index]);
         }
 
@@ -341,7 +342,7 @@ Playgrub.Content = function() {
     };
 
     this.display_playlist = function() {
-        $('#playgrub-iframe-player-content').html('');
+        this.clear_playlist();
         $('#playgrub-iframe-player-content').prepend(Playgrub.content.playlist_html());
         $('#playgrub-iframe-player-content').prepend(Playgrub.playlist.to_html());
 
@@ -364,6 +365,10 @@ Playgrub.Content = function() {
         });
 
     };
+
+    this.clear_playlist = function() {
+        $('#playgrub-iframe-player-content').html('');
+    }
 
     this.display_playdar_status = function(pstatus) {
         $('#playgrub-playdar-status').html(pstatus);
