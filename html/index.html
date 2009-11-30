@@ -13,22 +13,8 @@ Playgrub.Events = {
     // Playgrub init
     init: function() {
 
-        var xspf_url = '';
+        var xspf_url = Playgrub.Util.xspf_hash();
         var axspf = '';
-
-        // we need to do this because we don't want to send
-        // Playgrub XSPFs through remote_xspf
-        if(window.location.hash) {
-            hash_array = window.location.hash.split('=');
-            if(hash_array.length == 2) {
-                var pghost = Playgrub.PGHOST.split('/')[2];
-                var pgreg = new RegExp('^http[:]\/\/'+pghost,'i');
-                if(hash_array[1].match(pgreg))
-                    xspf_url = hash_array[1];
-                else
-                    xspf_url = Playgrub.PGHOST+'remote_xspf?xspf='+hash_array[1];
-            }
-        }
 
         // if there's no xspf specified, grab the most recent playlist
         if(xspf_url == '')

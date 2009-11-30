@@ -71,6 +71,8 @@ class XSPFHandler(webapp.RequestHandler):
     # logging.error("XSPF key --> %s", playlist_key)
 
     q = PlaylistHeader.gql('WHERE playlist = :1', playlist_key)
+    if q.count() == 0:
+        return
     head = q.fetch(1)[0]
     # logging.error("head -> %s",head.title)
 

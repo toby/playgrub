@@ -143,6 +143,9 @@ Playgrub.Sidebar.prototype = {
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
         +"<span id='playgrub-playlist-title' class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
+        +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='return false;'>"
+        +"Next"
+        +"</div>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
         +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' scrolling=\'no\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'
@@ -322,8 +325,9 @@ Playgrub.Content = function() {
     };
 
     this.display_playlist = function() {
-        $('#playgrub-iframe-content').prepend(Playgrub.content.playlist_html());
-        $('#playgrub-iframe-content').prepend(Playgrub.playlist.to_html());
+        $('#playgrub-iframe-player-content').html('');
+        $('#playgrub-iframe-player-content').prepend(Playgrub.content.playlist_html());
+        $('#playgrub-iframe-player-content').prepend(Playgrub.playlist.to_html());
 
         // set ui to show or hide unresolved songs
         if(this.show_resolved_only) {
@@ -355,7 +359,7 @@ Playgrub.Content = function() {
 
     this.playdar_idle = function() {
         $('#playgrub-playdar-loading').html("");
-    }
+    };
 
     this.show_all_tracks = function() {
         $('div.playgrub-playlist-track').show()
@@ -376,7 +380,7 @@ Playgrub.Content = function() {
             this.hide_unresolved_tracks();
             this.show_resolved_only = true;
         }
-    }
+    };
 
     $('#playgrub-iframe-content').append(Playgrub.content.base_html());
 },
@@ -549,6 +553,24 @@ Playgrub.Util = {
         if (str === "") str = '""';
         eval("var p=" + str + ";");
         return p;
+    },
+
+    xspf_hash: function() {
+        // we need to do this because we don't want to send
+        // Playgrub XSPFs through remote_xspf
+        var xspf_url = '';
+        if(window.location.hash) {
+            hash_array = window.location.hash.split('=');
+            if(hash_array.length == 2) {
+                var pghost = Playgrub.PGHOST.split('/')[2];
+                var pgreg = new RegExp('^http[:]\/\/'+pghost,'i');
+                if(hash_array[1].match(pgreg))
+                    xspf_url = hash_array[1];
+                else
+                    xspf_url = Playgrub.PGHOST+'remote_xspf?xspf='+hash_array[1];
+            }
+        }
+        return xspf_url;
     }
 
 };
