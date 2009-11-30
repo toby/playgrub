@@ -340,8 +340,8 @@ Playgrub.Content = function() {
 
     this.display_playlist = function() {
         this.clear_playlist();
-        $('#playgrub-iframe-player-content').prepend(Playgrub.content.playlist_html());
-        $('#playgrub-iframe-player-content').prepend(Playgrub.playlist.to_html());
+        $('#playgrub-player-content').prepend(Playgrub.content.playlist_html());
+        $('#playgrub-player-content').prepend(Playgrub.playlist.to_html());
 
         // set ui to show or hide unresolved songs
         if(this.show_resolved_only) {
@@ -364,7 +364,7 @@ Playgrub.Content = function() {
     };
 
     this.clear_playlist = function() {
-        $('#playgrub-iframe-player-content').html('');
+        $('#playgrub-player-content').html('');
     }
 
     this.display_playdar_status = function(pstatus) {
@@ -400,7 +400,7 @@ Playgrub.Content = function() {
         }
     };
 
-    $('#playgrub-iframe-content').append(Playgrub.content.base_html());
+    $('#playgrub-player-frame').append(Playgrub.content.base_html());
 },
 
 Playgrub.XSPFSource = function(xspf_url) {
