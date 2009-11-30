@@ -130,6 +130,7 @@ Playgrub.Sidebar = function() {
 
     this.title = '';
     this.url = '';
+    this.playlists = [];
 
     Playgrub.Util.inject_css(Playgrub.PGHOST+'css/sidebar.css');
     $('body').prepend(this.base_html());

@@ -15,10 +15,17 @@ Playgrub.Events = {
 
         // see if there's a xspf path specified in #xspf=
         var xspf_url = '';
+        var axspf = '';
+
         if(window.location.hash) {
             hash_array = window.location.hash.split('=');
             if(hash_array.length == 2) {
-                xspf_url = Playgrub.PGHOST+'remote_xspf?xspf='+hash_array[1];
+                var pghost = Playgrub.PGHOST.split('/')[2];
+                var pgreg = new RegExp('^http[:]\/\/'+pghost,'i');
+                if(hash_array[1].match(pgreg))
+                    xspf_url = hash_array[1];
+                else
+                    xspf_url = Playgrub.PGHOST+'remote_xspf?xspf='+hash_array[1];
             }
         }
 
@@ -26,12 +33,19 @@ Playgrub.Events = {
         if(xspf_url == '')
             xspf_url = Playgrub.PGHOST+'{{ headers.0.playlist }}.xspf';
 
-        document.location.hash = 'xspf='+xspf_url;
+        if(document.location.hash == '')
+            document.location.hash = 'xspf='+xspf_url;
 
         new Playgrub.Playlist();
         new Playgrub.Sidebar();
         new Playgrub.XSPFSource(xspf_url);  // TODO: extends PlaylistSource
         new Playgrub.Content();
+
+        {% for header in headers %}
+        axspf = Playgrub.PGHOST+'{{ header.playlist }}.xspf';
+        if(axspf != xspf_url)
+            Playgrub.container.playlists.push(axspf)
+        {% endfor %}
     },
 
     // source done finding songs
@@ -44,7 +58,7 @@ Playgrub.Events = {
 
 // jquery is ready
 $(function() {
-    $('#playgrub-supported-detail').hide();
+    //$('#playgrub-supported-detail').hide();
     Playgrub.Events.init();
 });
 </script>
@@ -80,6 +94,7 @@ $(function() {
     <a href='http://twitter.com/playgrub' target='_blank'>Twitter</a> | 
     By: <a href='http://twitter.com/toby' target='_blank'>Toby Padilla</a>
     </div>
+    <!--
     <div id='playgrub-supported-detail'>
         <h4>Supported Sites</h4>
         Using the bookmarklet on any of the following sites will create a playlist out of the listed songs.<br /><br />
@@ -92,6 +107,7 @@ $(function() {
         <a href='http://fiql.com'>FIQL Playlists</a><br />
         <a href='http://grooveshark.com'>Grooveshark Playlist Export</a><br />
     </div>
+    -->
 </div>
 
 </div>
