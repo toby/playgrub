@@ -74,6 +74,10 @@ img {
     clear: left;
 }
 
+#get-playdar {
+    padding-top: 5px;
+}
+
 #get-playdar a:link {}
 #get-playdar a:active {}
 #get-playdar a:hover { background: #ffffff; }

@@ -26,6 +26,8 @@ Playgrub.Events = {
         if(xspf_url == '')
             xspf_url = Playgrub.PGHOST+'{{ headers.0.playlist }}.xspf';
 
+        document.location.hash = 'xspf='+xspf_url;
+
         new Playgrub.Playlist();
         new Playgrub.Sidebar();
         new Playgrub.XSPFSource(xspf_url);  // TODO: extends PlaylistSource
