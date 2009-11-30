@@ -125,11 +125,11 @@ Playgrub.Client = function() {
     }
 };
 
-Playgrub.Sidebar = function(ptitle, purl) {
+Playgrub.Sidebar = function() {
     Playgrub.container = this;
 
-    this.title = ptitle;
-    this.url = purl;
+    this.title = '';
+    this.url = '';
 
     Playgrub.Util.inject_css(Playgrub.PGHOST+'css/sidebar.css');
     $('body').prepend(this.base_html());
@@ -166,6 +166,17 @@ Playgrub.Sidebar.prototype = {
     },
 
     track_broadcast: function() {
+    },
+
+    set_title: function(title, url) {
+        this.title = title;
+        this.url = url;
+        this.update_title();
+    },
+
+    update_title: function() {
+        var title_html = "<a href='"+this.url+"' target='_blank'>"+this.title+"</a>";
+        $('#playgrub-playlist-title').html(title_html);
     }
 }
 

@@ -70,9 +70,14 @@ img {
 }
 
 #playgrub-supported {
-    padding-top: 10px;
+    padding-top: 5px;
     clear: left;
 }
+
+#get-playdar a:link {}
+#get-playdar a:active {}
+#get-playdar a:hover { background: #ffffff; }
+#get-playdar a:visited {}
 
 h2 {
     margin-top: 0px;

@@ -13,7 +13,7 @@ Playgrub.Events = {
     // Playgrub init
     init: function() {
         new Playgrub.Playlist();
-        new Playgrub.Sidebar('{{ headers.0.title }}', '{{ headers.0.url }}');
+        new Playgrub.Sidebar();
         new Playgrub.XSPFSource(Playgrub.PGHOST+'{{ headers.0.playlist }}.xspf');  // TODO: extends PlaylistSource
         new Playgrub.Content();
     },
@@ -22,6 +22,7 @@ Playgrub.Events = {
     foundSongs: function() {
         // tell bookmarklet it can show the playlist
         Playgrub.container.playlist_loaded();
+        Playgrub.container.set_title(Playgrub.playlist.title, Playgrub.playlist.url);
     },
 };
 
@@ -53,6 +54,9 @@ $(function() {
             <span id='playgrub-icon-description'><div id='playgrub-icon-description-arrow'>&#8592;</div><div id='playgrub-icon-description-text'>Drag to your bookmarks</div></span>
         </div>
         <div id='playgrub-supported'>Use Playgrub on any of our <a href='http://twitter.com/playgrub'>Suported Sites</a></div>
+    </div>
+    <div id='get-playdar'>
+    <a href='http://www.playdar.org/download/' target='_blank'><img id='playdar-logo' src='images/playdar_logo-125px.jpg' /></a>
     </div>
     <div id='playgrub-footer'>
     <a href='http://playgrub.posterous.com' target='_blank'>Blog</a> | 
