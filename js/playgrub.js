@@ -390,15 +390,26 @@ Playgrub.XSPFSource = function(xspf_url) {
         Playgrub.playlist.title = jplaylist.title;
         // Playgrub.playlist.id = rplaylist.id;
         for(n in jplaylist.trackList.track) {
-            Playgrub.playlist.add_track(jplaylist.trackList.track[n].creator,jplaylist.trackList.track[n].title);
+                Playgrub.playlist.add_track(jplaylist.trackList.track[n].creator,jplaylist.trackList.track[n].title);
         }
         Playgrub.Events.foundSongs();
     };
 
     this.url = xspf_url;
-
     // make sure js/xml2json.js is loaded in whatever called this constructor
-    $.get(this.url, function(data){ Playgrub.source.start(data); });
+    // $.get(this.url, function(data){ Playgrub.source.start(data); });
+    $.ajax({
+        type: "GET",
+        url: this.url,
+        dataType: 'xml',
+        error: function (xhr, textStatus, errorThrown) {
+            alert('Bad XSPF. Please check your URL.');
+        },
+        success: function(data) {
+            Playgrub.source.start(data);
+        }
+    });
+
 
 };
 
@@ -524,7 +535,7 @@ Playgrub.Util = {
             var n, v, json = [], arr = (obj && obj.constructor == Array);
             for (n in obj) {
                 v = obj[n]; t = typeof(v);
-                if (t == "string") v = '"'+v+'"';
+                if (t == "string") v = '"'+v.replace(/["]/g,'\\"')+'"';
                 else if (t == "object" && v !== null) v = JSON.stringify(v);
                 json.push((arr ? "" : '"' + n + '":') + String(v));
             }

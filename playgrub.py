@@ -98,6 +98,14 @@ class BookmarkletIframeHandler(webapp.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'html/bookmarklet-iframe.html')
     self.response.out.write(template.render(path, template_values))
 
+class RemoteXSPFHandler(webapp.RequestHandler):
+
+  def get(self):
+    url = self.request.get('xspf')
+    result = urlfetch.fetch(url, payload=None, method=urlfetch.GET, headers={})
+    self.response.headers['Content-Type'] = 'application/xspf+xml'
+    self.response.out.write(result.content)
+
 class PlayerHandler(webapp.RequestHandler):
 
   def get(self):
@@ -210,6 +218,7 @@ class TwitterPostHandler(webapp.RequestHandler):
 def main():
   application = webapp.WSGIApplication([('/bookmarklet_iframe', BookmarkletIframeHandler),
                                        ('/player', PlayerHandler),
+                                       ('/remote_xspf', RemoteXSPFHandler),
                                        ('/json-xspf/', JSONXSPFHandler),
                                        ('/twitter_post', TwitterPostHandler),
                                        ('/scraper.js', ScrapeHandler),

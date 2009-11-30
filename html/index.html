@@ -12,13 +12,27 @@ Playgrub.Events = {
 
     // Playgrub init
     init: function() {
+
+        // see if there's a xspf path specified in #xspf=
+        var xspf_url = '';
+        if(window.location.hash) {
+            hash_array = window.location.hash.split('=');
+            if(hash_array.length == 2) {
+                xspf_url = Playgrub.PGHOST+'remote_xspf?xspf='+hash_array[1];
+            }
+        }
+
+        // if there's no xspf specified, grab the most recent playlist
+        if(xspf_url == '')
+            xspf_url = Playgrub.PGHOST+'{{ headers.0.playlist }}.xspf';
+
         new Playgrub.Playlist();
         new Playgrub.Sidebar();
-        new Playgrub.XSPFSource(Playgrub.PGHOST+'{{ headers.0.playlist }}.xspf');  // TODO: extends PlaylistSource
+        new Playgrub.XSPFSource(xspf_url);  // TODO: extends PlaylistSource
         new Playgrub.Content();
     },
 
-    // scraper done finding songs
+    // source done finding songs
     foundSongs: function() {
         // tell bookmarklet it can show the playlist
         Playgrub.container.playlist_loaded();
@@ -28,8 +42,8 @@ Playgrub.Events = {
 
 // jquery is ready
 $(function() {
-    Playgrub.Events.init();
     $('#playgrub-supported-detail').hide();
+    Playgrub.Events.init();
 });
 </script>
 </head>
