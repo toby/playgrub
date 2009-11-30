@@ -158,6 +158,7 @@ Playgrub.Sidebar.prototype = {
     },
 
     playlist_loaded: function() {
+        this.set_title(Playgrub.playlist.title, Playgrub.playlist.url);
         // playlist loaded, setup iframe
         var iframe = window.frames['playgrub-server-iframe'];
         // TODO check to see if iframe is ready for postMessage with src # polling
