@@ -70,6 +70,10 @@ Playgrub.Playlist.prototype = {
         this.tracks.push([artist, song]);
     },
 
+    clear_tracks: function() {
+        this.tracks.length = 0;
+    },
+
     to_html: function() {
         var html ='';
         html = html+'<div class=\'playgrub-playlist\'>';
@@ -131,6 +135,7 @@ Playgrub.Sidebar = function() {
     this.title = '';
     this.url = '';
     this.playlists = [];
+    this.playlist_index = 0;
 
     Playgrub.Util.inject_css(Playgrub.PGHOST+'css/sidebar.css');
     $('body').prepend(this.base_html());
@@ -143,7 +148,7 @@ Playgrub.Sidebar.prototype = {
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
         +"<span id='playgrub-playlist-title' class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
-        +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='return false;'>"
+        +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='Playgrub.container.next_playlist(); return false;'>"
         +"Next"
         +"</div>"
         +"</div>"
@@ -182,6 +187,17 @@ Playgrub.Sidebar.prototype = {
     update_title: function() {
         var title_html = "<a href='"+this.url+"' target='_blank'>"+this.title+"</a>";
         $('#playgrub-playlist-title').html(title_html);
+    },
+
+    next_playlist: function() {
+        if(this.playlist_index < this.playlists.length-1) {
+            this.playlist_index++;
+            new Playgrub.XSPFSource(this.playlists[this.playlist_index]);
+        }
+
+        // last playlist
+        if(this.playlist_index == this.playlists.length-1) {
+        }
     }
 }
 
@@ -391,7 +407,8 @@ Playgrub.XSPFSource = function(xspf_url) {
     this.start = function(data) {
         var jspf = eval("("+xml2json(data,'')+")");
         var jplaylist = jspf.playlist;
-        Playgrub.playlist.url = Playgrub.source.url;
+        Playgrub.playlist.clear_tracks();
+        Playgrub.playlist.url = jplaylist.info;
         Playgrub.playlist.xspf = Playgrub.source.url;
         Playgrub.playlist.title = jplaylist.title;
         // Playgrub.playlist.id = rplaylist.id;
@@ -427,6 +444,7 @@ Playgrub.RemoteSource = function() {
     Playgrub.source = this;
 
     this.start = function(e) {
+        Playgrub.playlist.clear_tracks();
         var rplaylist = Playgrub.Util.JSONparse(e.data);
         Playgrub.playlist.id = rplaylist.id;
         Playgrub.playlist.xspf = rplaylist.xspf;
