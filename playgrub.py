@@ -97,7 +97,7 @@ class BookmarkletIframeHandler(webapp.RequestHandler):
   def get(self):
     template_values = {}
 
-    path = os.path.join(os.path.dirname(__file__), 'html/bookmarklet-iframe.html')
+    path = os.path.join(os.path.dirname(__file__), 'html/player-iframe.html')
     self.response.out.write(template.render(path, template_values))
 
 class RemoteXSPFHandler(webapp.RequestHandler):
