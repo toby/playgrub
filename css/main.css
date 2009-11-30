@@ -1,18 +1,23 @@
 body {
     font-family: Arial,Helvetica;
     color: #3A3A3A;
+    padding: 20px;
 }
 
 #page-frame {
-    padding: 20px;
-    min-height: 390px;
-    margin-bottom: -30px;
+    margin: 0 auto;
+    min-width: 500px;
 }
 
+#playgrub-main {
+    float: left;
+    width: 240px;
+    margin-left: 10px;
+}
+
+
 #playgrub-footer{
-    height: 20px;
-    margin: 10px 0px 0px 0px;
-    padding: 0px 0px 0px 30px;
+    padding: 15px 0px 0px 0px;
     font-size: 12px;
 }
 
@@ -115,17 +120,6 @@ h3 {
 h4 {
     margin-top: 5px;
     color: #000000;
-}
-
-#page-frame {
-    margin: 0 auto;
-    min-width: 500px;
-}
-
-#playgrub-main {
-    float: left;
-    width: 240px;
-    margin-left: 15px;
 }
 
 #bookmarklet {
