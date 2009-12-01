@@ -186,6 +186,7 @@ Playgrub.Sidebar.prototype = {
             $('#playgrub-playlist-title').html("");
             Playgrub.content.clear_playlist();
             new Playgrub.XSPFSource(this.playlists[this.playlist_index]);
+            document.location.hash = 'xspf='+this.playlists[this.playlist_index];
         }
 
         // last playlist
