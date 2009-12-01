@@ -149,6 +149,9 @@ Playgrub.Sidebar.prototype = {
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
         +"<span id='playgrub-playlist-title' class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
+        +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='Playgrub.container.next_playlist(); return false;'>"
+        +"Next"
+        +"</div>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
         +"<div id='playgrub-player-frame'><div id='playgrub-player-content'></div></div>"
@@ -178,6 +181,7 @@ Playgrub.Sidebar.prototype = {
     next_playlist: function() {
         if(this.playlist_index < this.playlists.length-1) {
             this.playlist_index++;
+            $('#playgrub-playlist-title').html("");
             Playgrub.content.clear_playlist();
             new Playgrub.XSPFSource(this.playlists[this.playlist_index]);
         }

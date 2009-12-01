@@ -27,6 +27,7 @@
 }
 
 #playgrub-bookmarklet-header {
+    height: 15px;
     padding: 12px 0px 10px 17px;
     border-bottom: 1px solid #ffffff;
 }
