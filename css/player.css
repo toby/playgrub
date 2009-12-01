@@ -19,6 +19,7 @@
 #playgrub-bookmarklet-buttons {
     position: absolute;
     bottom: 40px;
+    left: 15px;
 }
 
 #playgrub-bookmarklet-title {

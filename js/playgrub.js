@@ -138,6 +138,7 @@ Playgrub.Sidebar = function() {
     this.playlist_index = 0;
 
     Playgrub.Util.inject_css(Playgrub.PGHOST+'css/sidebar.css');
+    Playgrub.Util.inject_css(Playgrub.PGHOST+'css/player.css');
     $('body').prepend(this.base_html());
 };
 
@@ -150,26 +151,14 @@ Playgrub.Sidebar.prototype = {
         +"<span id='playgrub-playlist-title' class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
-        +'<iframe id=\'playgrub-server-iframe\' name=\'playgrub-server-iframe\' scrolling=\'no\' src=\''+Playgrub.PGHOST+'bookmarklet_iframe?\'></iframe>'
+        +"<div id='playgrub-player-frame'><div id='playgrub-player-content'></div></div>"
         +"</div>"
         +"</div>"
         +"</div>";
     },
 
-    iframe_loaded: function() {
-        var iframe = window.frames['playgrub-server-iframe'];
-        iframe.postMessage(Playgrub.Util.JSONstringify(Playgrub.playlist), '*');
-        $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
-    },
-
     playlist_loaded: function() {
         this.set_title(Playgrub.playlist.title, Playgrub.playlist.url);
-        // playlist loaded, setup iframe
-        var iframe = window.frames['playgrub-server-iframe'];
-        // TODO check to see if iframe is ready for postMessage with src # polling
-        if(typeof(iframe.postMessage) != undefined) {
-            setTimeout(Playgrub.container.iframe_loaded, 2000);
-        }
     },
 
     track_broadcast: function() {
@@ -353,12 +342,12 @@ Playgrub.Content = function() {
 
         // setup play button
         $('#playgrub-bookmarklet-play-button').click(function() {
-            PlaygrubFrame.play_playlist(); // TODO fix this
+            PlaygrubPlayer.play_playlist(); // TODO fix this
         });
 
         // setup next button
         $('#playgrub-bookmarklet-next-button').click(function() {
-            PlaygrubFrame.play_next(); // TODO fix this
+            PlaygrubPlayer.play_next(); // TODO fix this
         });
 
     };
