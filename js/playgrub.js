@@ -180,6 +180,8 @@ Playgrub.Sidebar.prototype = {
 
     next_playlist: function() {
         if(this.playlist_index < this.playlists.length-1) {
+            Playdar.client.cancel_resolve();
+            Playgrub.content.playdar_active();
             this.playlist_index++;
             $('#playgrub-playlist-title').html("");
             Playgrub.content.clear_playlist();
