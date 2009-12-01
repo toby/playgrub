@@ -149,7 +149,7 @@ Playgrub.Sidebar.prototype = {
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
         +"<span id='playgrub-playlist-title' class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
-        +"<div id='playgrub-bookmarklet-close' class='playgrub-clickable' onclick='Playgrub.container.next_playlist(); return false;'>"
+        +"<div id='playgrub-next' class='playgrub-clickable' onclick='Playgrub.container.next_playlist(); return false;'>"
         +"Next"
         +"</div>"
         +"</div>"
