@@ -3,6 +3,7 @@ PlaygrubPlayer = {
     resolve_current_playlist: function() {
         // look for tracks on playdar if authed
         if(Playdar.client && Playdar.client.is_authed() && Playgrub.playlist && Playgrub.playlist.tracks.length > 0) {
+            Playgrub.content.playdar_active();
             for (var i in Playgrub.playlist.tracks) {
                 Playdar.client.resolve(Playgrub.playlist.tracks[i][0], Playgrub.playlist.tracks[i][1]);
             }
@@ -75,7 +76,6 @@ PlaygrubPlayer = {
 
             // Called when the browser is authorised to query Playdar.
             onAuth: function () {
-                Playgrub.content.playdar_active();
                 Playgrub.content.display_playdar_status(Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
                 PlaygrubPlayer.resolve_current_playlist();
             },
@@ -93,6 +93,7 @@ PlaygrubPlayer = {
 
                             onload: function() {
                                 if (this.readyState == 2) { // failed/error
+                                    // removed resolved for this track?
                                     PlaygrubPlayer.play_next();
                                 }
                             }
