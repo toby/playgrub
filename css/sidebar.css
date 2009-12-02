@@ -40,6 +40,10 @@
     border: 0px;
 }
 
+.playgrub-nav-deactive {
+    color: #686868;
+}
+
 #playgrub-bookmarklet-content {
     position: absolute;
     top: 42px;

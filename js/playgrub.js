@@ -181,7 +181,9 @@ Playgrub.Sidebar.prototype = {
     update_playlist_nav: function() {
         // last playlist
         if(this.playlist_index == this.playlists.length-1) {
-            $('#playgrub-next').removeClass('playgrub-clickable');
+            $('#playgrub-next').addClass('playgrub-nav-deactive');
+        } else {
+            $('#playgrub-next').removeClass('playgrub-nav-deactive');
         }
     },
 
