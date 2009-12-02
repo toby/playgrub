@@ -178,19 +178,28 @@ Playgrub.Sidebar.prototype = {
         $('#playgrub-playlist-title').html(title_html);
     },
 
-    next_playlist: function() {
-        if(this.playlist_index < this.playlists.length-1) {
-            Playdar.client.cancel_resolve();
-            Playgrub.content.playdar_active();
-            this.playlist_index++;
-            $('#playgrub-playlist-title').html("");
-            Playgrub.content.clear_playlist();
-            new Playgrub.XSPFSource(this.playlists[this.playlist_index]);
-            document.location.hash = 'xspf='+this.playlists[this.playlist_index];
-        }
-
+    update_playlist_nav: function() {
         // last playlist
         if(this.playlist_index == this.playlists.length-1) {
+            $('#playgrub-next').removeClass('playgrub-clickable');
+        }
+    },
+
+    load_playlist: function(index) {
+        if(index < this.playlists.length-1) {
+            Playdar.client.cancel_resolve();
+            Playgrub.content.playdar_active();
+            $('#playgrub-playlist-title').html("");
+            Playgrub.content.clear_playlist();
+            new Playgrub.XSPFSource(this.playlists[index]);
+            document.location.hash = 'xspf='+this.playlists[index];
+            this.update_playlist_nav();
+        }
+    },
+
+    next_playlist: function() {
+        if(this.playlist_index < this.playlists.length-1) {
+            this.load_playlist(this.playlist_index++);
         }
     }
 }

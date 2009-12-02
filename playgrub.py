@@ -19,7 +19,7 @@ from models import PlaygrubAccount
 class IndexHandler(webapp.RequestHandler):
 
   def get(self):
-    heads = PlaylistHeader.gql("order by create_date desc limit 25");
+    heads = PlaylistHeader.gql("order by create_date desc limit 4");
     template_values = {
         'headers': heads,
         }
