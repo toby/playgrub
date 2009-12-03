@@ -136,10 +136,11 @@ Playgrub.Sidebar = function() {
     this.url = '';
     this.playlists = [];
     this.playlist_index = 0;
-
-    Playgrub.Util.inject_css(Playgrub.PGHOST+'css/sidebar.css');
-    Playgrub.Util.inject_css(Playgrub.PGHOST+'css/player.css');
-    $('body').prepend(this.base_html());
+    if($('#playgrub-bookmarklet').length < 1) {
+        Playgrub.Util.inject_css(Playgrub.PGHOST+'css/sidebar.css');
+        Playgrub.Util.inject_css(Playgrub.PGHOST+'css/player.css');
+        $('body').prepend(this.base_html());
+    }
 };
 
 Playgrub.Sidebar.prototype = {
@@ -394,7 +395,7 @@ Playgrub.Content = function() {
     };
 
     this.playdar_active = function() {
-        $('#playgrub-playdar-loading').html("<img src='"+Playgrub.PGHOST+"images/loading.gif' style='border: 0px;' />");
+        //$('#playgrub-playdar-loading').html("<img src='"+Playgrub.PGHOST+"images/loading.gif' style='border: 0px;' />");
     };
 
     this.playdar_idle = function() {
@@ -421,6 +422,13 @@ Playgrub.Content = function() {
             this.show_resolved_only = true;
         }
     };
+
+    this.toggle_play_button = function() {
+        if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active') && $(this).hasClass('playgrub-playlist-track-playing'))
+            $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
+        else
+            $('#playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
+    }
 
     $('#playgrub-player-frame').append(Playgrub.content.base_html());
     $('#playgrub-player-content').prepend(Playgrub.content.playlist_html());
@@ -545,10 +553,7 @@ Playgrub.Player.prototype = {
         if(!$(this).hasClass('playgrub-playlist-track-resolved'))
             return false;
         // toggle play button
-        if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active') && $(this).hasClass('playgrub-playlist-track-playing'))
-            $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
-        else
-            $('#playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
+        Playgrub.content.toggle_play_button();
 
         $('.playgrub-playlist-track-playing').removeClass('playgrub-playlist-track-playing');
         $(this).addClass('playgrub-playlist-track-playing');
