@@ -25,7 +25,7 @@ PlaygrubPlayer = {
 
     play_track: function() {
         // toggle play button
-        if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active'))
+        if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active') && $(this).hasClass('playgrub-playlist-track-playing'))
             $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
         else
             $('#playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
@@ -45,7 +45,6 @@ PlaygrubPlayer = {
             if($(this).hasClass('playgrub-playlist-track-resolved')){
                 $(this).click();
                 found_playable = true;
-                $('#playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
                 return false;
             }
         });
