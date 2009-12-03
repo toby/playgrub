@@ -20,13 +20,13 @@ html {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    margin: 0 auto -32px 0px;
+    margin: 0 auto -30px 0px;
     min-width: 500px;
     padding: 0px;
 }
 
 #playgrub-footer-push {
-    height: 32px;
+    height: 30px;
     clear: both;
 }
 
@@ -34,7 +34,7 @@ html {
     position: relative;
     height: 25px;
     background: gray;
-    padding: 7px 0px 0px 20px;
+    padding: 5px 0px 0px 20px;
     font-size: 12px;
 }
 
