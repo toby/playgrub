@@ -33,6 +33,10 @@
 }
 
 .playgrub-title-nav {
+    display: block;
+    width: 24px;
+    height: 27px;
+    padding-top: 10px;
     color: #686868;
 }
 
@@ -40,26 +44,31 @@
     color: #ffffff;
 }
 
+.playgrub-nav-active:hover {
+    background-color: #35353A;
+}
+
 #playgrub-previous {
     position: absolute;
-    top: 10px;
-    left: 15px;
+    top: 0px;
+    left: 0px;
     margin: 0px;
-    border: 0px;
+    padding-left: 13px;
 }
 
 #playgrub-next {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 0px;
+    right: 0px;
     margin: 0px;
-    border: 0px;
+    padding-right: 13px;
+    text-align: right;
 }
 
 #playgrub-playlist-title {
     position: absolute;
     top: 10px;
-    left: 35px;
+    left: 52px;
     margin: 0px;
     font-weight: bold;
 }

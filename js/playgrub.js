@@ -197,7 +197,8 @@ Playgrub.Sidebar.prototype = {
     },
 
     load_playlist: function(index) {
-        if(index < this.playlists.length-1) {
+        if(index < this.playlists.length && index >= 0) {
+            this.playlist_index = index;
             Playdar.client.cancel_resolve();
             Playgrub.content.playdar_active();
             $('#playgrub-playlist-title').html("");
@@ -209,14 +210,14 @@ Playgrub.Sidebar.prototype = {
     },
 
     next_playlist: function() {
-        if(this.playlist_index < this.playlists.length-1) {
-            this.load_playlist(this.playlist_index++);
+        if(this.playlist_index < this.playlists.length) {
+            this.load_playlist(this.playlist_index+1);
         }
     },
 
     previous_playlist: function() {
         if(this.playlist_index > 0) {
-            this.load_playlist(this.playlist_index--);
+            this.load_playlist(this.playlist_index-1);
         }
     }
 }
