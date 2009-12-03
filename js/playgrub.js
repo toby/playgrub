@@ -375,12 +375,12 @@ Playgrub.Content = function() {
         }
 
         // setup play button
-        $('#playgrub-bookmarklet-play-button').click(function() {
+        $('#playgrub-bookmarklet-play-button').unbind('click').click(function() {
             Playgrub.player.play_playlist(); // TODO fix this
         });
 
         // setup next button
-        $('#playgrub-bookmarklet-next-button').click(function() {
+        $('#playgrub-bookmarklet-next-button').unbind('click').click(function() {
             Playgrub.player.play_next(); // TODO fix this
         });
 
@@ -423,15 +423,20 @@ Playgrub.Content = function() {
         }
     };
 
-    this.toggle_play_button = function() {
-        if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active') && $(this).hasClass('playgrub-playlist-track-playing'))
+    this.toggle_play_button = function(current_track) {
+        if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active') &&
+            current_track.hasClass('playgrub-playlist-track-playing')) {
+
             $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
-        else
+        } else {
             $('#playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
+        }
     }
 
-    $('#playgrub-player-frame').append(Playgrub.content.base_html());
-    $('#playgrub-player-content').prepend(Playgrub.content.playlist_html());
+    if($('#playgrub-playdar-frame').length < 1) {
+        $('#playgrub-player-frame').append(Playgrub.content.base_html());
+        $('#playgrub-player-content').prepend(Playgrub.content.playlist_html());
+    }
 },
 
 Playgrub.XSPFSource = function(xspf_url) {
@@ -553,7 +558,7 @@ Playgrub.Player.prototype = {
         if(!$(this).hasClass('playgrub-playlist-track-resolved'))
             return false;
         // toggle play button
-        Playgrub.content.toggle_play_button();
+        Playgrub.content.toggle_play_button($(this));
 
         $('.playgrub-playlist-track-playing').removeClass('playgrub-playlist-track-playing');
         $(this).addClass('playgrub-playlist-track-playing');
