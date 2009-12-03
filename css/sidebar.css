@@ -69,7 +69,10 @@
     position: absolute;
     top: 10px;
     left: 52px;
+    right: 55px;
     margin: 0px;
+    overflow: hidden;
+    white-space: nowrap;
     font-weight: bold;
 }
 
