@@ -211,13 +211,13 @@ Playgrub.Sidebar.prototype = {
 
     next_playlist: function() {
         if(this.playlist_index < this.playlists.length) {
-            this.load_playlist(this.playlist_index+1);
+            this.load_playlist(++this.playlist_index);
         }
     },
 
     previous_playlist: function() {
         if(this.playlist_index > 0) {
-            this.load_playlist(this.playlist_index-1);
+            this.load_playlist(--this.playlist_index);
         }
     }
 }
