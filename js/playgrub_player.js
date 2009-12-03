@@ -24,11 +24,18 @@ PlaygrubPlayer = {
     },
 
     play_track: function() {
+        // toggle play button
+        if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active'))
+            $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
+        else
+            $('#playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
+
         $('.playgrub-playlist-track-playing').removeClass('playgrub-playlist-track-playing');
         $(this).addClass('playgrub-playlist-track-playing');
         sid = $(this).children(".playgrub-playlist-track-sid").text();
         // alert(Playdar.client.get_stream_url(sid));
         Playdar.player.play_stream(sid);
+
     },
 
     play_next: function() {
@@ -38,6 +45,7 @@ PlaygrubPlayer = {
             if($(this).hasClass('playgrub-playlist-track-resolved')){
                 $(this).click();
                 found_playable = true;
+                $('#playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
                 return false;
             }
         });
@@ -47,6 +55,8 @@ PlaygrubPlayer = {
     },
 
     play_playlist: function() {
+
+
         // if there aren't any songs playing, play first resolved
         if ($('.playgrub-playlist-track-playing').length == 0) {
             if (('.playgrub-playlist-track-resolved').length > 0)

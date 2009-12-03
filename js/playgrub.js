@@ -203,6 +203,12 @@ Playgrub.Sidebar.prototype = {
         if(this.playlist_index < this.playlists.length-1) {
             this.load_playlist(this.playlist_index++);
         }
+    },
+
+    previous_playlist: function() {
+        if(this.playlist_index < this.playlists.length-1) {
+            this.load_playlist(this.playlist_index++);
+        }
     }
 }
 
