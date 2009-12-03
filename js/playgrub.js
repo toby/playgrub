@@ -395,6 +395,7 @@ Playgrub.Content = function() {
 
     this.display_playlist = function() {
         this.clear_playlist();
+        this.display_playdar_status(Playgrub.player.playdar_status);
         $('#playgrub-playlist-frame').html(Playgrub.playlist.to_html());
 
         // set ui to show or hide unresolved songs
@@ -426,7 +427,7 @@ Playgrub.Content = function() {
     };
 
     this.playdar_active = function() {
-        //$('#playgrub-playdar-loading').html("<img src='"+Playgrub.PGHOST+"images/loading.gif' style='border: 0px;' />");
+        $('#playgrub-playdar-loading').html("<img src='"+Playgrub.PGHOST+"images/loading.gif' style='border: 0px;' />");
     };
 
     this.playdar_idle = function() {
@@ -559,6 +560,7 @@ Playgrub.Player = function() {
 };
 
 Playgrub.Player.prototype = {
+    playdar_status: '',
 
     resolve_current_playlist: function() {
         Playgrub.player.stop_current();
@@ -648,15 +650,18 @@ Playgrub.Player.prototype = {
                 if (detected) {
                     if (!detected.authenticated) {
                         var connect_link = Playdar.client.get_auth_link_html('Connect to Playdar');
-                        Playgrub.content.display_playdar_status(connect_link);
+                        Playgrub.player.playdar_status = connect_link;
+                        // Playgrub.content.display_playdar_status(connect_link);
                     }
                 } else {
-                    Playgrub.content.display_playdar_status('Playdar not available');
+                    Playgrub.player.playdar_status = 'Playdar not available';
+                    // Playgrub.content.display_playdar_status('Playdar not available');
                 }
             },
 
             // Called when the browser is authorised to query Playdar.
             onAuth: function () {
+                Playgrub.player.playdar_status = Playdar.client.get_disconnect_link_html('Disconnect from Playdar');
                 Playgrub.content.display_playdar_status(Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
                 Playgrub.player.resolve_current_playlist();
             },
