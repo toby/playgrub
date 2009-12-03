@@ -148,9 +148,12 @@ Playgrub.Sidebar.prototype = {
         +"<div id='playgrub-bookmarklet-background'></div>"
         +"<div id='playgrub-bookmarklet-body'>"
         +"<div id='playgrub-bookmarklet-header'>"
+        +"<div id='playgrub-previous' class='playgrub-clickable playgrub-title-nav' onclick='Playgrub.container.previous_playlist(); return false;'>"
+        +"&lt;"
+        +"</div>"
         +"<span id='playgrub-playlist-title' class='playgrub-clickable'><a href='"+this.url+"' target='_blank'>"+this.title+"</a></span>"
-        +"<div id='playgrub-next' class='playgrub-clickable' onclick='Playgrub.container.next_playlist(); return false;'>"
-        +"Next"
+        +"<div id='playgrub-next' class='playgrub-clickable playgrub-title-nav' onclick='Playgrub.container.next_playlist(); return false;'>"
+        +"&gt;"
         +"</div>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
@@ -162,6 +165,7 @@ Playgrub.Sidebar.prototype = {
 
     playlist_loaded: function() {
         this.set_title(Playgrub.playlist.title, Playgrub.playlist.url);
+        this.update_playlist_nav();
     },
 
     track_broadcast: function() {
@@ -179,11 +183,16 @@ Playgrub.Sidebar.prototype = {
     },
 
     update_playlist_nav: function() {
-        // last playlist
         if(this.playlist_index == this.playlists.length-1) {
-            $('#playgrub-next').addClass('playgrub-nav-deactive');
+            $('#playgrub-next').removeClass('playgrub-nav-active');
         } else {
-            $('#playgrub-next').removeClass('playgrub-nav-deactive');
+            $('#playgrub-next').addClass('playgrub-nav-active');
+        }
+
+        if(this.playlist_index == 0) {
+            $('#playgrub-previous').removeClass('playgrub-nav-active');
+        } else {
+            $('#playgrub-previous').addClass('playgrub-nav-active');
         }
     },
 
@@ -206,8 +215,8 @@ Playgrub.Sidebar.prototype = {
     },
 
     previous_playlist: function() {
-        if(this.playlist_index < this.playlists.length-1) {
-            this.load_playlist(this.playlist_index++);
+        if(this.playlist_index > 0) {
+            this.load_playlist(this.playlist_index--);
         }
     }
 }
