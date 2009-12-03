@@ -464,10 +464,9 @@ Playgrub.Content = function() {
         }
     }
 
-    if($('#playgrub-playdar-frame').length < 1) {
-        $('#playgrub-player-frame').append(Playgrub.content.base_html());
-        $('#playgrub-player-content').prepend(Playgrub.content.playlist_html());
-    }
+    $('#playgrub-player-frame').html('');
+    $('#playgrub-player-frame').append(Playgrub.content.base_html());
+    $('#playgrub-player-content').prepend(Playgrub.content.playlist_html());
 },
 
 Playgrub.XSPFSource = function(xspf_url) {
