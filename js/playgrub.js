@@ -382,13 +382,13 @@ Playgrub.Content = function() {
         +'<param name="quality" value="high" />'
         +'<param name="scale" value="noscale" />'
         +'<param NAME="FlashVars" value="text='+Playgrub.PGHOST+'#xspf='+Playgrub.playlist.xspf_url()+'">'
-        +'<param name="bgcolor" value="#000000">'
+        +'<param name="wmode" value="transparent">'
         +'<embed src="static/clippy.swf" '
         +'width="110" height="14" '
         +'name="clippy" quality="high" allowScriptAccess="always" '
         +'type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"'
         +'FlashVars="text='+Playgrub.PGHOST+'#xspf='+Playgrub.playlist.xspf_url()+'"'
-        +'bgcolor="#000000"'
+        +'wmode="transparent"'
         +'/>'
         +'</object>';
     }
