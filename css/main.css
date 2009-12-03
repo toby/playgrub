@@ -1,23 +1,40 @@
 body {
+    height: 100%;
     font-family: Arial,Helvetica;
     color: #3A3A3A;
-    padding: 20px;
+    margin: 0px;
 }
 
-#page-frame {
-    margin: 0 auto;
-    min-width: 500px;
+html {
+    height: 100%;
 }
 
 #playgrub-main {
     float: left;
     width: 240px;
-    margin-left: 10px;
+    padding: 25px 20px 20px 25px;
 }
 
+#page-frame {
+    position: relative;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -32px 0px;
+    min-width: 500px;
+    padding: 0px;
+}
+
+#playgrub-footer-push {
+    height: 32px;
+    clear: both;
+}
 
 #playgrub-footer{
-    padding: 15px 0px 0px 0px;
+    position: relative;
+    height: 25px;
+    background: gray;
+    padding: 7px 0px 0px 20px;
     font-size: 12px;
 }
 
