@@ -47,7 +47,7 @@ class PlaylistHeaderHandler(webapp.RequestHandler):
 
     playlist_header.put()
     # logging.error("playlist_header --> %s", playlist_header.title)
-    self.response.out.write("Playgrub.playlist.id = '"+rplaylist+"'; Playgrub.client.broadcast_index++; Playgrub.client.write_playlist(Playgrub.playlist);")
+    self.response.out.write("Playgrub.client.header_callback('"+rplaylist+"');")
 
 class PlaylistTrackHandler(webapp.RequestHandler):
 

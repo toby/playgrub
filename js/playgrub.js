@@ -41,6 +41,10 @@ Playgrub.Events = {
 
     },
 
+    // Playgrub.client has set the playlist.id
+    setPlaylistId: function() {
+    },
+
     // Playgrub.client is done broadcasting playlist
     clientPlaylistPublished: function() {
         // Post to Twitter
@@ -126,6 +130,13 @@ Playgrub.Client = function() {
             Playgrub.Util.inject_script(data);
             Playgrub.Events.clientTrackPublished();
         }
+    };
+
+    this.header_callback = function(id) {
+        Playgrub.playlist.id = id;
+        Playgrub.Events.setPlaylistId();
+        Playgrub.client.broadcast_index++;
+        Playgrub.client.write_playlist(Playgrub.playlist);
     }
 };
 
@@ -158,7 +169,7 @@ Playgrub.Sidebar.prototype = {
         +"</div>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
-        +"<div id='playgrub-player-frame'><div id='playgrub-player-content'><div id='playgrub-playlist-frame'></div></div></div>"
+        +"<div id='playgrub-player-frame'></div>"
         +"</div>"
         +"</div>"
         +"</div>";
@@ -330,6 +341,7 @@ Playgrub.Content = function() {
 
     this.base_html = function() {
         return ""
+        +"<div id='playgrub-player-content'><div id='playgrub-playlist-frame'></div></div>"
         +"<div id='playgrub-playdar-frame'>"
         +"<div id='playgrub-playdar-status'></div>"
         +"<div id='playgrub-playdar-loading'></div>"
@@ -369,13 +381,13 @@ Playgrub.Content = function() {
         +'<param name="allowScriptAccess" value="always" />'
         +'<param name="quality" value="high" />'
         +'<param name="scale" value="noscale" />'
-        +'<param NAME="FlashVars" value="text='+window.location+'">'
+        +'<param NAME="FlashVars" value="text='+Playgrub.PGHOST+'#xspf='+Playgrub.playlist.xspf_url()+'">'
         +'<param name="bgcolor" value="#000000">'
         +'<embed src="static/clippy.swf" '
         +'width="110" height="14" '
         +'name="clippy" quality="high" allowScriptAccess="always" '
         +'type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"'
-        +'FlashVars="text='+window.location+'"'
+        +'FlashVars="text='+Playgrub.PGHOST+'#xspf='+Playgrub.playlist.xspf_url()+'"'
         +'bgcolor="#000000"'
         +'/>'
         +'</object>';

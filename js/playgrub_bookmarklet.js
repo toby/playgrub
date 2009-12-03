@@ -35,11 +35,14 @@ PlaygrubLoader.init = function() {
 
         // scraper done finding songs
         foundSongs: function() {
-            // tell bookmarklet it can show the playlist
-            Playgrub.container.playlist_loaded();
             // write to playgrub server
             Playgrub.client.write_playlist(Playgrub.playlist);
 
+        },
+
+        setPlaylistId: function() {
+            // tell bookmarklet it can show the playlist
+            Playgrub.container.playlist_loaded();
         },
 
         // Playgrub.client is done broadcasting playlist
