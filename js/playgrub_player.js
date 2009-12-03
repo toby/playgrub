@@ -25,6 +25,8 @@ PlaygrubPlayer = {
     },
 
     play_track: function() {
+        if(!$(this).hasClass('playgrub-playlist-track-resolved'))
+            return false;
         // toggle play button
         if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active') && $(this).hasClass('playgrub-playlist-track-playing'))
             $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
@@ -116,6 +118,8 @@ PlaygrubPlayer = {
                             onload: function() {
                                 if (this.readyState == 2) { // failed/error
                                     // removed resolved for this track?
+                                    $('.playgrub-playlist-track-playing').removeClass('playgrub-playlist-track-resolved');
+                                    $('.playgrub-playlist-track-playing').click(function(){});
                                     PlaygrubPlayer.play_next();
                                 }
                             }
