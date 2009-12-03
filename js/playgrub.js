@@ -345,13 +345,12 @@ Playgrub.Content = function() {
         +"<span id='playgrub-bookmarklet-next-button' class='playgrub-clickable playgrub-button'>"
         +"&#9654;l"
         +"</span>"
-        +"<span class='playgrub-clickable playgrub-button' "
-        +"onClick='window.open(\"http://j.mp/?v=3&u="+encodeURIComponent(Playgrub.Util.playgrub_link(Playgrub.playlist.xspf_url()))+"&s="+encodeURIComponent(Playgrub.playlist.title)+"\");'>"
-        +"Share"
-        +"</span>"
         +"<span id='playgrub-tracks-toggle' class='playgrub-clickable playgrub-button' "
         +"onClick='Playgrub.content.toggle_tracks();'>"
         +"Playable"
+        +"</span>"
+        +"<span>"
+        +this.clippy_embed()
         +"</span>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-links'>"
@@ -361,6 +360,26 @@ Playgrub.Content = function() {
         +"<span class='playgrub-clickable playgrub-link' onClick='window.open(\""+Playgrub.playlist.xspf_url()+"\");'>Download XSPF</span>"
         +"</div>";
     };
+
+    this.clippy_embed = function() {
+        return ''
+        +'<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"'
+        +'width="110" height="14" id="clippy" >'
+        +'<param name="movie" value="static/clippy.swf"/>'
+        +'<param name="allowScriptAccess" value="always" />'
+        +'<param name="quality" value="high" />'
+        +'<param name="scale" value="noscale" />'
+        +'<param NAME="FlashVars" value="text='+window.location+'">'
+        +'<param name="bgcolor" value="#000000">'
+        +'<embed src="static/clippy.swf" '
+        +'width="110" height="14" '
+        +'name="clippy" quality="high" allowScriptAccess="always" '
+        +'type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"'
+        +'FlashVars="text='+window.location+'"'
+        +'bgcolor="#000000"'
+        +'/>'
+        +'</object>';
+    }
 
     this.display_playlist = function() {
         this.clear_playlist();
