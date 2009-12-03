@@ -1,7 +1,7 @@
 PlaygrubPlayer = {
 
     resolve_current_playlist: function() {
-        $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
+        PlaygrubPlayer.stop_current();
         // look for tracks on playdar if authed
         if(Playdar.client && Playdar.client.is_authed() && Playgrub.playlist && Playgrub.playlist.tracks.length > 0) {
             Playgrub.content.playdar_active();
@@ -42,16 +42,23 @@ PlaygrubPlayer = {
     play_next: function() {
         var found_playable = false;
 
-        $('.playgrub-playlist-track-playing').nextAll().each(function(){
-            if($(this).hasClass('playgrub-playlist-track-resolved')){
-                $(this).click();
-                found_playable = true;
-                return false;
-            }
-        });
+        if($('.playgrub-playlist-track-playing').size() == 0) {
+            this.play_playlist();
+            return false;
+        } else {
+            $('.playgrub-playlist-track-playing').nextAll().each(function(){
+                if($(this).hasClass('playgrub-playlist-track-resolved')){
+                    $(this).click();
+                    found_playable = true;
+                    return false;
+                }
+            });
+        }
 
-        if(!found_playable)
+        if(!found_playable) {
+            this.stop_current();
             $('.playgrub-playlist-track-playing').removeClass('playgrub-playlist-track-playing');
+        }
     },
 
     play_playlist: function() {
@@ -64,6 +71,11 @@ PlaygrubPlayer = {
         } else {
             $('.playgrub-playlist-track-playing').click();
         }
+    },
+
+    stop_current: function() {
+        $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
+        Playdar.player.stop_current(false);
     },
 
     setup_playdar: function() {

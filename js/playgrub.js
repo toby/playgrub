@@ -157,7 +157,7 @@ Playgrub.Sidebar.prototype = {
         +"</div>"
         +"</div>"
         +"<div id='playgrub-bookmarklet-content'>"
-        +"<div id='playgrub-player-frame'><div id='playgrub-player-content'></div></div>"
+        +"<div id='playgrub-player-frame'><div id='playgrub-player-content'><div id='playgrub-playlist-frame'></div></div></div>"
         +"</div>"
         +"</div>"
         +"</div>";
@@ -363,7 +363,7 @@ Playgrub.Content = function() {
 
     this.display_playlist = function() {
         this.clear_playlist();
-        $('#playgrub-player-content').prepend(Playgrub.playlist.to_html());
+        $('#playgrub-playlist-frame').html(Playgrub.playlist.to_html());
 
         // set ui to show or hide unresolved songs
         if(this.show_resolved_only) {
@@ -386,7 +386,7 @@ Playgrub.Content = function() {
     };
 
     this.clear_playlist = function() {
-        $('.playgrub-playlist').remove();
+        $('#playgrub-playlist-frame').html('');
     }
 
     this.display_playdar_status = function(pstatus) {
