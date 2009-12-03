@@ -4,7 +4,6 @@
 <title>Playgrub</title>
 <script src='js/playgrub.js' type='text/javascript'></script>
 <script src='js/soundmanager2.js' type='text/javascript'></script>
-<script src='js/playgrub_player.js' type='text/javascript'></script>
 <script type='text/javascript'>
 // Setup Playgrub
 Playgrub.Events = {
@@ -17,8 +16,9 @@ Playgrub.Events = {
         new Playgrub.Playlist();
         new Playgrub.Content();
         new Playgrub.RemoteSource();  // TODO: extends PlaylistSource
+        new Playgrub.Player();
+        Playgrub.player.setup_playdar();
 
-        PlaygrubPlayer.setup_playdar();
     },
 
     // no scraper found for this domain
@@ -68,6 +68,6 @@ soundManager.flashLoadTimeout = 0;
 <link rel="stylesheet" type="text/css" href="css/player.css" />
 </head>
 <body>
-<div id='playgrub-player-frame'><div id='playgrub-player-content'></div></div>
+<div id='playgrub-player-frame'><div id='playgrub-player-content'><div id='playgrub-playlist-frame'></div></div></div>
 </body>
 </html>
