@@ -1,6 +1,7 @@
 PlaygrubPlayer = {
 
     resolve_current_playlist: function() {
+        $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
         // look for tracks on playdar if authed
         if(Playdar.client && Playdar.client.is_authed() && Playgrub.playlist && Playgrub.playlist.tracks.length > 0) {
             Playgrub.content.playdar_active();
