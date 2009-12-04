@@ -3,6 +3,7 @@ body {
     font-family: Arial,Helvetica;
     color: #3A3A3A;
     margin: 0px;
+    background: #a4a7ac;
 }
 
 html {
@@ -10,9 +11,15 @@ html {
 }
 
 #playgrub-main {
-    float: left;
+
+    position: absolute;
+    overflow: hidden;
+    top: 30px;
+    bottom: 50px;
+    left: 15px;
     width: 240px;
     padding: 25px 20px 20px 25px;
+    background: #ffffff;
 }
 
 #page-frame {
@@ -20,7 +27,7 @@ html {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    margin: 0 auto -30px 0px;
+    margin: 0 auto -30px auto;
     min-width: 500px;
     padding: 0px;
 }
@@ -32,10 +39,27 @@ html {
 
 #playgrub-footer{
     position: relative;
-    height: 25px;
-    background: gray;
-    padding: 5px 0px 0px 20px;
+    height: 24px;
+    background: #555658;
+    color: #727375;
+    padding: 6px 0px 0px 20px;
     font-size: 12px;
+}
+#playgrub-footer a:link {
+    color: #ffffff;
+    text-decoration: none;
+}
+#playgrub-footer a:visited {
+    color: #ffffff;
+    text-decoration: none;
+}
+#playgrub-footer a:active {
+    color: #ffffff;
+    text-decoration: none;
+}
+#playgrub-footer a:hover {
+    color: #ffffff;
+    text-decoration: underline;
 }
 
 #playgrub-main a:link {
@@ -48,20 +72,6 @@ html {
     color: #000000;
 }
 #playgrub-main a:hover {
-    color: #ffffff;
-    background-color: #000000
-}
-
-#playgrub-footer a:link {
-    color: #000000;
-}
-#playgrub-footer a:visited {
-    color: #000000;
-}
-#playgrub-footer a:active {
-    color: #000000;
-}
-#playgrub-footer a:hover {
     color: #ffffff;
     background-color: #000000
 }

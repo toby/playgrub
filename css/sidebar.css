@@ -34,10 +34,12 @@
 
 .playgrub-title-nav {
     display: block;
-    width: 24px;
-    height: 27px;
-    padding-top: 10px;
+    width: 17px;
+    height: 21px;
+    margin-top: 5px;
+    padding-top: 3px;
     color: #686868;
+    border: 1px solid #7b7b7b;
 }
 
 .playgrub-nav-active {
@@ -48,28 +50,29 @@
     background-color: #35353A;
 }
 
-#playgrub-previous {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin: 0px;
-    padding-left: 13px;
+#playlist-nav-buttons {
+    margin-top: -12px;
+    margin-right: 5px;
+    float: right;
+    width: 55px;
 }
 
 #playgrub-next {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    margin: 0px;
-    padding-right: 13px;
+    float: right;
     text-align: right;
+    padding-right: 7px;
+}
+
+#playgrub-previous {
+    float: left;
+    padding-left: 7px;
 }
 
 #playgrub-playlist-title {
     position: absolute;
     top: 10px;
-    left: 52px;
-    right: 55px;
+    left: 10px;
+    right: 80px;
     margin: 0px;
     overflow: hidden;
     white-space: nowrap;
