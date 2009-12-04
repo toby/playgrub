@@ -64,14 +64,14 @@
 }
 
 .playgrub-button-active {
-    background-image: url('/images/Play_btn-active.png');
+    background-image: url('/images/Pause_btn.png');
 }
 .playgrub-button-active:hover {
-    background-image: url('/images/Play_btn-active.png');
+    background-image: url('/images/Pause_btn-hover.png');
 }
 
 .playgrub-tracks-toggle-on {
-    background-image: url('/images/Playable_btn-active.png');
+    background-image: url('/images/Playable_btn-hover.png');
 }
 
 .playgrub-rounded {
