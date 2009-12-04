@@ -568,7 +568,6 @@ Playgrub.Player.prototype = {
         Playgrub.player.stop_current();
         // look for tracks on playdar if authed
         if(Playdar.client && Playdar.client.is_authed() && Playgrub.playlist && Playgrub.playlist.tracks.length > 0) {
-            Playgrub.content.playdar_active();
             for (var i in Playgrub.playlist.tracks) {
                 Playdar.client.resolve(Playgrub.playlist.tracks[i][0], Playgrub.playlist.tracks[i][1]);
             }
