@@ -654,11 +654,11 @@ Playgrub.Player.prototype = {
                     if (!detected.authenticated) {
                         var connect_link = Playdar.client.get_auth_link_html('Connect to Playdar');
                         Playgrub.player.playdar_status = connect_link;
-                        // Playgrub.content.display_playdar_status(connect_link);
+                        Playgrub.content.display_playdar_status(connect_link);
                     }
                 } else {
                     Playgrub.player.playdar_status = 'Playdar not available';
-                    // Playgrub.content.display_playdar_status('Playdar not available');
+                    Playgrub.content.display_playdar_status('Playdar not available');
                 }
             },
 
