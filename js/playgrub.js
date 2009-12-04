@@ -214,7 +214,6 @@ Playgrub.Sidebar.prototype = {
         if(index < this.playlists.length && index >= 0) {
             this.playlist_index = index;
             Playdar.client.cancel_resolve();
-            Playgrub.content.playdar_active();
             $('#playgrub-playlist-title').html("");
             Playgrub.content.clear_playlist();
             new Playgrub.XSPFSource(this.playlists[index]);
@@ -657,8 +656,9 @@ Playgrub.Player.prototype = {
                         Playgrub.content.display_playdar_status(connect_link);
                     }
                 } else {
-                    Playgrub.player.playdar_status = 'Playdar not available';
-                    Playgrub.content.display_playdar_status('Playdar not available');
+                    var playdar_not = "<a href='http://www.playdar.org/download/'>Playdar not available</a>";
+                    Playgrub.player.playdar_status = playdar_not;
+                    Playgrub.content.display_playdar_status(playdar_not);
                 }
             },
 
@@ -671,6 +671,7 @@ Playgrub.Player.prototype = {
 
             // Called in response to each poll with the results so far.
             onResults: function (response, lastPoll) {
+                Playgrub.content.playdar_active();
                 if (lastPoll) {
                     // Take a look at the final response.
                     if(response.results.length > 0) {
