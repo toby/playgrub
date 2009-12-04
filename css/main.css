@@ -11,7 +11,6 @@ html {
 }
 
 #playgrub-main {
-
     position: absolute;
     overflow: hidden;
     top: 30px;
@@ -20,6 +19,7 @@ html {
     width: 240px;
     padding: 25px 20px 20px 25px;
     background: #ffffff;
+    font-size: 14px;
 }
 
 #page-frame {
@@ -90,7 +90,18 @@ img {
 
 
 #playgrub-icon {
+    height: 70px;
+    width: 208px;
+    background: #dbffb5;
     margin-bottom: 10px;
+    -moz-border-radius-topleft: 7px;
+    -moz-border-radius-topright: 7px;
+    -moz-border-radius-bottomleft: 7px;
+    -moz-border-radius-bottomright: 7px;
+    -webkit-border-top-left-radius: 7px;
+    -webkit-border-top-right-radius: 7px;
+    -webkit-border-bottom-left-radius: 7px;
+    -webkit-border-bottom-right-radius: 7px;
 }
 
 #playgrub-icon img{
@@ -104,7 +115,7 @@ img {
 
 #playgrub-icon-description {
     display: block;
-    padding-top: 15px;
+    padding-top: 13px;
     margin-bottom: 20px;
     text-align: left;
     font-size: 18px;
@@ -127,6 +138,9 @@ img {
 }
 
 #get-playdar {
+    position: absolute;
+    bottom: 5px;
+    left: 20px;
     padding-top: 5px;
 }
 

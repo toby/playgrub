@@ -353,15 +353,12 @@ Playgrub.Content = function() {
     this.playlist_html = function() {
         return ""
         +"<div id='playgrub-bookmarklet-buttons'>"
-        +"<span id='playgrub-bookmarklet-play-button' class='playgrub-clickable playgrub-button'>"
-        +"&#9654;"
+        +"<span class='playgrub-clickable playgrub-button playgrub-bookmarklet-play-button'>"
         +"</span>"
-        +"<span id='playgrub-bookmarklet-next-button' class='playgrub-clickable playgrub-button'>"
-        +"&#9654;l"
+        +"<span class='playgrub-clickable playgrub-button playgrub-bookmarklet-next-button'>"
         +"</span>"
-        +"<span id='playgrub-tracks-toggle' class='playgrub-clickable playgrub-button' "
+        +"<span class='playgrub-clickable playgrub-button playgrub-tracks-toggle' "
         +"onClick='Playgrub.content.toggle_tracks();'>"
-        +"Playable"
         +"</span>"
         +"<span>"
         +this.clippy_embed()
@@ -378,7 +375,7 @@ Playgrub.Content = function() {
     this.clippy_embed = function() {
         return ''
         +'<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"'
-        +'width="110" height="14" id="clippy" >'
+        +'width="190" height="34" id="clippy" >'
         +'<param name="movie" value="static/clippy.swf"/>'
         +'<param name="allowScriptAccess" value="always" />'
         +'<param name="quality" value="high" />'
@@ -386,7 +383,7 @@ Playgrub.Content = function() {
         +'<param NAME="FlashVars" value="text='+Playgrub.PGHOST+'#xspf='+Playgrub.playlist.xspf_url()+'">'
         +'<param name="wmode" value="transparent">'
         +'<embed src="static/clippy.swf" '
-        +'width="110" height="14" '
+        +'width="190" height="34" '
         +'name="clippy" quality="high" allowScriptAccess="always" '
         +'type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"'
         +'FlashVars="text='+Playgrub.PGHOST+'#xspf='+Playgrub.playlist.xspf_url()+'"'
@@ -403,18 +400,20 @@ Playgrub.Content = function() {
         // set ui to show or hide unresolved songs
         if(this.show_resolved_only) {
             $('.playgrub-playlist-track').hide();
-            $("#playgrub-tracks-toggle").addClass("playgrub-tracks-toggle-on");
+            $(".playgrub-tracks-toggle").addClass("playgrub-tracks-toggle-on");
+            $(".playgrub-tracks-toggle").removeClass("playgrub-tracks-toggle");
         } else {
-            $("#playgrub-tracks-toggle").removeClass("playgrub-tracks-toggle-on");
+            $(".playgrub-tracks-toggle-on").addClass("playgrub-tracks-toggle");
+            $(".playgrub-tracks-toggle-on").removeClass("playgrub-tracks-toggle-on");
         }
 
         // setup play button
-        $('#playgrub-bookmarklet-play-button').unbind('click').click(function() {
+        $('.playgrub-bookmarklet-play-button').unbind('click').click(function() {
             Playgrub.player.play_playlist(); // TODO fix this
         });
 
         // setup next button
-        $('#playgrub-bookmarklet-next-button').unbind('click').click(function() {
+        $('.playgrub-bookmarklet-next-button').unbind('click').click(function() {
             Playgrub.player.play_next(); // TODO fix this
         });
 
@@ -447,23 +446,25 @@ Playgrub.Content = function() {
 
     this.toggle_tracks = function() {
         if(this.show_resolved_only) {
-            $("#playgrub-tracks-toggle").removeClass("playgrub-tracks-toggle-on");
+            $(".playgrub-tracks-toggle-on").addClass("playgrub-tracks-toggle");
+            $(".playgrub-tracks-toggle-on").removeClass("playgrub-tracks-toggle-on");
             this.show_all_tracks();
             this.show_resolved_only = false;
         } else {
-            $("#playgrub-tracks-toggle").addClass("playgrub-tracks-toggle-on");
+            $(".playgrub-tracks-toggle").addClass("playgrub-tracks-toggle-on");
+            $(".playgrub-tracks-toggle").removeClass("playgrub-tracks-toggle");
             this.hide_unresolved_tracks();
             this.show_resolved_only = true;
         }
     };
 
     this.toggle_play_button = function(current_track) {
-        if ($('#playgrub-bookmarklet-play-button').hasClass('playgrub-button-active') &&
+        if ($('.playgrub-bookmarklet-play-button').hasClass('playgrub-button-active') &&
             current_track.hasClass('playgrub-playlist-track-playing')) {
 
-            $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
+            $('.playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
         } else {
-            $('#playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
+            $('.playgrub-bookmarklet-play-button').addClass('playgrub-button-active');
         }
     }
 
@@ -636,7 +637,7 @@ Playgrub.Player.prototype = {
     },
 
     stop_current: function() {
-        $('#playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
+        $('.playgrub-bookmarklet-play-button').removeClass('playgrub-button-active');
         if(Playdar.player)
             Playdar.player.stop_current(false);
     },

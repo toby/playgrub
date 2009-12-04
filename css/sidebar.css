@@ -71,7 +71,7 @@
 #playgrub-playlist-title {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 13px;
     right: 80px;
     margin: 0px;
     overflow: hidden;
@@ -126,3 +126,16 @@
     text-decoration: underline;
 }
 
+#playgrub-logo a:link {
+    text-decoration: none;
+}
+#playgrub-logo a:visited {
+    text-decoration: none;
+}
+#playgrub-logo a:active {
+    text-decoration: none;
+}
+#playgrub-logo a:hover {
+    background: #ffffff;
+    text-decoration: none;
+}

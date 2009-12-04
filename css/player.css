@@ -36,30 +36,42 @@
 .playgrub-button {
     display: block;
     float: left;
-    height: 24px;
-    width: 75px;
-    padding-top: 5px;
+    height: 34px;
+    width: 88px;
     margin-right: 5px;
-    color: #000000;
-    background-color: #BBBBBB;
     text-align: center;
 }
 
+.playgrub-bookmarklet-play-button {
+    background-image: url('/images/Play_btn.png');
+}
+.playgrub-bookmarklet-play-button:hover {
+    background-image: url('/images/Play_btn-hover.png');
+}
+
+.playgrub-bookmarklet-next-button {
+    background-image: url('/images/Play_next_btn.png');
+}
+.playgrub-bookmarklet-next-button:hover {
+    background-image: url('/images/Play_next_btn-hover.png');
+}
+
+.playgrub-tracks-toggle {
+    background-image: url('/images/Playable_btn.png');
+}
+.playgrub-tracks-toggle:hover {
+    background-image: url('/images/Playable_btn-hover.png');
+}
+
 .playgrub-button-active {
-    background-color: #FFFFFF;
+    background-image: url('/images/Play_btn-active.png');
 }
-
-.playgrub-button:hover {
-    color: #FFFFFF;
-}
-
-
-#playgrub-tracks-toggle:hover {
-    color: #FFFFFF;
+.playgrub-button-active:hover {
+    background-image: url('/images/Play_btn-active.png');
 }
 
 .playgrub-tracks-toggle-on {
-    color: #FFFFFF;
+    background-image: url('/images/Playable_btn-active.png');
 }
 
 .playgrub-rounded {
