@@ -180,7 +180,7 @@ class TwitterPostHandler(webapp.RequestHandler):
           return
       bitly_account = q.fetch(1)[0]
 
-      play_url = 'http://www.playgrub.com/player'+urllib.quote('?xspf=http://www.playgrub.com/'+head.playlist+'.xspf')
+      play_url = 'http://www.playgrub.com/#xspf=http://www.playgrub.com/'+head.playlist+'.xspf'
       login = bitly_account.user
       password = bitly_account.password
       shorten_url = 'http://api.bit.ly/shorten?version=2.0.1&login='+login+'&apiKey='+password+'&history=1&longUrl='+play_url
