@@ -15,6 +15,8 @@ Playgrub.Events = {
         // new Playgrub.Bookmarklet();
         new Playgrub.Playlist();
         new Playgrub.RemoteSource();  // TODO: extends PlaylistSource
+        new Playgrub.Player();
+        Playgrub.player.setup_playdar();
 
     },
 
@@ -29,8 +31,6 @@ Playgrub.Events = {
     // source done finding songs
     foundSongs: function() {
         new Playgrub.Content();
-        new Playgrub.Player();
-        Playgrub.player.setup_playdar();
         Playgrub.content.display_playlist();
         PlaygrubPlayer.resolve_current_playlist();
     },
