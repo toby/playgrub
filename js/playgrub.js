@@ -78,6 +78,15 @@ Playgrub.Playlist.prototype = {
         this.tracks.length = 0;
     },
 
+    set_title: function(title) {
+        this.title = title;
+    },
+
+    set_empty_title: function(title) {
+        if(this.title == '')
+            this.title = title;
+    },
+
     to_html: function() {
         var html ='';
         html = html+'<div class=\'playgrub-playlist\'>';
@@ -539,7 +548,7 @@ Playgrub.ScraperSource = function() {
             this.scrape();
             if(Playgrub.playlist.tracks.length > 0){
                 Playgrub.playlist.url = window.location;
-                Playgrub.playlist.title = document.title;
+                Playgrub.playlist.set_empty_title(document.title);
 
                 Playgrub.Events.foundSongs();
                 return true;
