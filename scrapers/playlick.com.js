@@ -11,7 +11,7 @@
 Playgrub.source.url = 'http://.*playlick\.com.*/.*';
 Playgrub.source.error = 'Please check your Playlick playlist.';
 Playgrub.source.scrape = function() {
-    var title = $("#playlistMetadata").children('h1').children('a').text();
+    var title = $("#playlistMetadata").children('h1').text();
     Playgrub.playlist.set_title('Playlick: '+title);
     $(".haudio").each(function () {
         var artist = $(this).children('.contributor').text();
