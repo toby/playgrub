@@ -2,7 +2,7 @@ PlaygrubLoader = {
 
     remotes:  [
         ['jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'],
-        ['Playgrub', 'http://www.playgrub.com/js/playgrub.js']
+        ['Playgrub', 'http://localhost:8080/js/playgrub.js']
     ],
 
     init: function() {}
