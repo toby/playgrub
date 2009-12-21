@@ -2,7 +2,7 @@ PlaygrubLoader = {
 
     remotes:  [
         ['jQuery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'],
-        ['Playgrub', 'http://localhost:8080/js/playgrub.js']
+        ['Playgrub', 'http://www.playgrub.com/js/playgrub.js']
     ],
 
     init: function() {}
@@ -112,7 +112,6 @@ PlaygrubLoader.Util = {
 
 if (typeof(Playgrub) == 'undefined')
     PlaygrubLoader.Util.load_remotes(PlaygrubLoader.remotes, function() { PlaygrubLoader.init(); });
-
-if (typeof(Playgrub.bookmarklet) != 'undefined')
+else if (typeof(Playgrub.bookmarklet) != 'undefined')
     $("#playgrub-bookmarklet").show();
 
