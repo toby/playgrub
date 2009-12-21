@@ -112,3 +112,7 @@ PlaygrubLoader.Util = {
 
 if (typeof(Playgrub) == 'undefined')
     PlaygrubLoader.Util.load_remotes(PlaygrubLoader.remotes, function() { PlaygrubLoader.init(); });
+
+if (typeof(Playgrub.bookmarklet) != 'undefined')
+    $("#playgrub-bookmarklet").show();
+
