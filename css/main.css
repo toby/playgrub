@@ -148,9 +148,9 @@ img {
 
 #get-playdar {
     position: absolute;
-    bottom: 5px;
+    bottom: 15px;
     left: 20px;
-    padding-top: 5px;
+    padding-top: 0px;
 }
 
 #get-playdar a:link {}
