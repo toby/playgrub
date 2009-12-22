@@ -1,5 +1,5 @@
 Playgrub = {
-    PGHOST: 'http://www.playgrub.com/',
+    PGHOST: 'http://localhost:8080/',
     VERSION: '0.9.2',
     playlist: {},
     client: {},
@@ -575,6 +575,7 @@ Playgrub.Player.prototype = {
 
     resolve_current_playlist: function() {
         Playgrub.player.stop_current();
+        $('div.playgrub-playlist-track').click(Playgrub.player.play_track);
         // look for tracks on playdar if authed
         if(Playdar.client && Playdar.client.is_authed() && Playgrub.playlist && Playgrub.playlist.tracks.length > 0) {
             for (var i in Playgrub.playlist.tracks) {
@@ -589,7 +590,6 @@ Playgrub.Player.prototype = {
             if($(this).text() == track_key) {
                 $(this).addClass('playgrub-playlist-track-resolved');
                 $(this).append("<span class='playgrub-playlist-track-sid'>"+sid+"</span>");
-                $(this).click(Playgrub.player.play_track);
                 $(this).show();
             }
         });
@@ -597,8 +597,11 @@ Playgrub.Player.prototype = {
     },
 
     play_track: function() {
-        if(!$(this).hasClass('playgrub-playlist-track-resolved'))
+        if(!$(this).hasClass('playgrub-playlist-track-resolved')) {
+            var keywords = $(this).text().replace(/-/g,'\+');
+            window.open('http://www.amazon.com/gp/search?ie=UTF8&keywords='+keywords+'&tag=playgrub-20&index=digital-music&linkCode=ur2&camp=1789&creative=9325');
             return false;
+        }
         // toggle play button
         Playgrub.content.toggle_play_button($(this));
 
