@@ -1,5 +1,5 @@
 Playgrub = {
-    PGHOST: 'http://localhost:8080/',
+    PGHOST: 'http://www.playgrub.com/',
     VERSION: '0.9.3',
     playlist: {},
     client: {},
@@ -352,6 +352,7 @@ Playgrub.Content = function() {
     // cache button hover states
     new Image().src = '/images/Play_btn-hover.png';
     new Image().src = '/images/Play_next_btn-hover.png';
+    new Image().src = '/images/Pause_btn.png';
     new Image().src = '/images/Pause_btn-hover.png';
     new Image().src = '/images/Playable_btn-hover.png';
 
