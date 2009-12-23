@@ -21,7 +21,6 @@ Playgrub.Events = {
 
         var xspf_url = Playgrub.Util.xspf_hash();
         var axspf = '';
-
         // if there's no xspf specified, grab the most recent playlist
         if(xspf_url == '')
             xspf_url = Playgrub.PGHOST+'{{ headers.0.playlist }}.xspf';
@@ -30,6 +29,7 @@ Playgrub.Events = {
             document.location.hash = 'xspf='+xspf_url;
 
         new Playgrub.Playlist();
+        new Playgrub.Content();
         new Playgrub.Sidebar();
         new Playgrub.XSPFSource(xspf_url);  // TODO: extends PlaylistSource
         new Playgrub.Player();

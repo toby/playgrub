@@ -514,7 +514,7 @@ Playgrub.XSPFSource = function(xspf_url) {
         url: this.url,
         dataType: 'xml',
         error: function (xhr, textStatus, errorThrown) {
-            alert('Bad XSPF. Please check your URL.');
+            alert('Bad XSPF. Please check your URL. ');
         },
         success: function(data) {
             Playgrub.source.start(data);
@@ -684,7 +684,8 @@ Playgrub.Player.prototype = {
             // Called when the browser is authorised to query Playdar.
             onAuth: function () {
                 Playgrub.player.playdar_status = Playdar.client.get_disconnect_link_html('Disconnect from Playdar');
-                Playgrub.content.display_playdar_status(Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
+                if(typeof(Playgrub.content) != 'undefined')
+                    Playgrub.content.display_playdar_status(Playdar.client.get_disconnect_link_html('Disconnect from Playdar'));
                 Playgrub.player.resolve_current_playlist();
             },
 
@@ -820,13 +821,15 @@ Playgrub.Util = {
         var xspf_url = '';
         if(window.location.hash) {
             hash_array = window.location.hash.split('=');
-            if(hash_array.length == 2) {
+            if(hash_array.length >= 2) {
+                hash_array.shift();
+                xspf_value = hash_array.join('=');
                 var pghost = Playgrub.PGHOST.split('/')[2];
                 var pgreg = new RegExp('^http[:]\/\/'+pghost,'i');
-                if(hash_array[1].match(pgreg))
-                    xspf_url = hash_array[1];
+                if(xspf_value.match(pgreg))
+                    xspf_url = xspf_value;
                 else
-                    xspf_url = Playgrub.PGHOST+'remote_xspf?xspf='+hash_array[1];
+                    xspf_url = Playgrub.PGHOST+'remote_xspf?xspf='+encodeURIComponent(xspf_value);
             }
         }
         return xspf_url;

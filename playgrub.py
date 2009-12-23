@@ -66,7 +66,7 @@ class LatestXSPFHandler(webapp.RequestHandler):
 
   def get(self):
     playlist_key = self.request.get('url')
-    logging.error("url -> %s",playlist_key)
+    # logging.error("url -> %s",playlist_key)
 
     q = PlaylistHeader.gql('WHERE url = :1 order by create_date desc limit 1', playlist_key)
     if q.count() == 0:
