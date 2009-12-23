@@ -10,6 +10,18 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: PlaylistHeader
+  properties:
+  - name: url
+  - name: create_date
+    direction: desc
+
+- kind: PlaylistHeader
+  properties:
+  - name: url
+  - name: date_added
+    direction: desc
+
 - kind: PlaylistTrack
   properties:
   - name: playlist

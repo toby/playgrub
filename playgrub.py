@@ -62,6 +62,34 @@ class PlaylistTrackHandler(webapp.RequestHandler):
     # logging.error("playlist_track --> %s", playlist_track.artist)
     self.response.out.write('Playgrub.client.broadcast_index++; Playgrub.client.write_playlist(Playgrub.playlist);')
 
+class LatestXSPFHandler(webapp.RequestHandler):
+
+  def get(self):
+    playlist_key = self.request.get('url')
+    logging.error("url -> %s",playlist_key)
+
+    q = PlaylistHeader.gql('WHERE url = :1 order by create_date desc limit 1', playlist_key)
+    if q.count() == 0:
+        return
+    head = q.fetch(1)[0]
+    # logging.error("head -> %s",head.title)
+
+    q = PlaylistTrack.gql('WHERE playlist = :1 ORDER BY index ASC', head.playlist)
+    songs = q.fetch(250)
+    # for r in songs:
+        # logging.error("index -> %s", r.index)
+        # logging.error("artist -> %s", r.artist)
+        # logging.error("track -> %s", r.track)
+
+    template_values = {
+        'header': head,
+        'songs': songs,
+        }
+
+    path = os.path.join(os.path.dirname(__file__), 'html/xspf-template.xspf')
+    self.response.headers['Content-Type'] = 'application/xspf+xml'
+    self.response.out.write(template.render(path, template_values))
+
 class XSPFHandler(webapp.RequestHandler):
 
   def get(self):
@@ -220,6 +248,7 @@ class TwitterPostHandler(webapp.RequestHandler):
 def main():
   application = webapp.WSGIApplication([('/bookmarklet_iframe', BookmarkletIframeHandler),
                                        ('/player', PlayerHandler),
+                                       ('/latest', LatestXSPFHandler),
                                        ('/remote_xspf', RemoteXSPFHandler),
                                        ('/json-xspf/', JSONXSPFHandler),
                                        ('/twitter_post', TwitterPostHandler),
