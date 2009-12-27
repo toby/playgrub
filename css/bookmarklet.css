@@ -8,7 +8,7 @@
 
 #playgrub-bookmarklet-background {
     position: absolute;
-    z-index: 100000;
+    z-index: 1000000;
     width: 100%;
     height: 100%;
     opacity: .85;
@@ -17,7 +17,7 @@
 
 #playgrub-bookmarklet-body {
     position: relative;
-    z-index: 100001;
+    z-index: 1000001;
     color: #ffffff;
     text-align: left;
     font-size: 16px;
@@ -56,7 +56,7 @@
     height: 100%;
     width: 100%;
     border: 0px;
-    z-index: 100002;
+    z-index: 1000002;
 }
 
 .playgrub-clickable {
