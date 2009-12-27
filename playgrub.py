@@ -184,8 +184,8 @@ class ScrapeHandler(webapp.RequestHandler):
 
     for root, dirs, files in os.walk(scraper_path):
 		
-		files.sort() # May not be needed
-		files.reverse() # To make more specific filenames preferable
+        files.sort() # May not be needed
+        files.reverse() # To make more specific filenames preferable
 		
         for filename in files:
             if filename.endswith('.js'):
