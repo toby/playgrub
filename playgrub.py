@@ -191,7 +191,7 @@ class ScrapeHandler(webapp.RequestHandler):
             if filename.endswith('.js'):
                 # logging.error("filename -> %s",filename.split('.js')[0])
                 sre = re.compile('(.+\.)?'+re.escape(filename.split('.js')[0].replace('>','/')).replace('\*','.+'))
-				if sre.match(domain):
+                if sre.match(domain):
                     # logging.error("match -> %s",domain)
                     self.response.headers['Content-Type'] = 'text/javascript'
                     self.response.out.write(template.render(scraper_path+filename, {}))
