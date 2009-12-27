@@ -809,7 +809,6 @@ Playgrub.Util = {
     },
 
     JSONparse: function(str) {
-        alert(str);
         if (str === "") str = '""';
         try{
             eval("var p=" + str + ";");
