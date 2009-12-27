@@ -1,5 +1,5 @@
 Playgrub = {
-    PGHOST: 'http://www.playgrub.com/',
+    PGHOST: 'http://localhost:8080/',
     VERSION: '0.9.3',
     playlist: {},
     client: {},
@@ -555,9 +555,8 @@ Playgrub.ScraperSource = function() {
         if(this.scrape && regex.exec(window.location)) {
             this.scrape();
             if(Playgrub.playlist.tracks.length > 0){
-                Playgrub.playlist.url = window.location;
+                Playgrub.playlist.url = ''+window.location+'';
                 Playgrub.playlist.set_empty_title(document.title);
-
                 Playgrub.Events.foundSongs();
                 return true;
             }
@@ -802,7 +801,7 @@ Playgrub.Util = {
             for (n in obj) {
                 v = obj[n]; t = typeof(v);
                 if (t == "string") v = '"'+v.replace(/["]/g,'\\"')+'"';
-                else if (t == "object" && v !== null) v = JSON.stringify(v);
+                else if (t == "object" && v !== null) v = Playgrub.Util.JSONstringify(v);
                 json.push((arr ? "" : '"' + n + '":') + String(v));
             }
             return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
@@ -811,7 +810,11 @@ Playgrub.Util = {
 
     JSONparse: function(str) {
         if (str === "") str = '""';
+        try{
         eval("var p=" + str + ";");
+        } catch(err) {
+            // alert(err);
+        }
         return p;
     },
 
