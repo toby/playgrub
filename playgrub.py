@@ -179,8 +179,8 @@ class ScrapeHandler(webapp.RequestHandler):
 
   def get(self):
     url = self.request.get('url')
-    domain = urlparse.urlparse(url)
-    domain = domain.netloc + domain.path
+    url = urlparse.urlparse(url)
+    domain = url.netloc + url.path
     scraper_path = os.path.join(os.path.dirname(__file__), 'scrapers/')
 
     for root, dirs, files in os.walk(scraper_path):
@@ -190,10 +190,10 @@ class ScrapeHandler(webapp.RequestHandler):
 		
         for filename in files:
             if filename.endswith('.js'):
-                logging.error("filename -> %s",filename.split('.js')[0])
+                # logging.error("filename -> %s",filename.split('.js')[0])
                 sre = re.compile('(.+\.)?'+re.escape(filename.split('.js')[0].replace('>','/')).replace('\*','.+'))
                 if sre.match(domain):
-                    logging.error("match -> %s",domain)
+                    # logging.error("match -> %s",domain)
                     self.response.headers['Content-Type'] = 'text/javascript'
                     self.response.out.write(template.render(scraper_path+filename, {}))
                     return
