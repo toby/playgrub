@@ -183,11 +183,15 @@ class ScrapeHandler(webapp.RequestHandler):
     scraper_path = os.path.join(os.path.dirname(__file__), 'scrapers/')
 
     for root, dirs, files in os.walk(scraper_path):
+		
+		files.sort() # May not be needed
+		files.reverse() # To make more specific filenames preferable
+		
         for filename in files:
             if filename.endswith('.js'):
                 # logging.error("filename -> %s",filename.split('.js')[0])
-                sre = re.compile('.*'+filename.split('.js')[0])
-                if sre.match(domain):
+                sre = re.compile('(.+\.)?'+re.escape(filename.split('.js')[0].replace('>','/')).replace('\*','.+'))
+				if sre.match(domain):
                     # logging.error("match -> %s",domain)
                     self.response.headers['Content-Type'] = 'text/javascript'
                     self.response.out.write(template.render(scraper_path+filename, {}))
@@ -208,7 +212,7 @@ class TwitterPostHandler(webapp.RequestHandler):
           return
       bitly_account = q.fetch(1)[0]
 
-      play_url = 'http://www.playgrub.com/'+urllib.quote('#xspf=http://www.playgrub.com/'+head.playlist+'.xspf')
+      play_url = 'http://localhost:8082/'+urllib.quote('#xspf=http://localhost:8082/'+head.playlist+'.xspf')
       login = bitly_account.user
       password = bitly_account.password
       shorten_url = 'http://api.bit.ly/shorten?version=2.0.1&login='+login+'&apiKey='+password+'&history=1&longUrl='+play_url
