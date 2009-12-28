@@ -25,4 +25,4 @@ Playgrub.source.scrape = function() {
 	});
 }
 
-//Playgrub.source.start();
+Playgrub.source.start();
