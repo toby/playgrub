@@ -201,7 +201,7 @@ Playgrub.Sidebar.prototype = {
     },
 
     update_title: function() {
-        var title_html = "<a href='"+this.url+"' target='_blank'>"+this.title+"</a>";
+        var title_html = "<a class='permalink' href='#xspf="+Playgrub.PGHOST+"latest?url="+encodeURIComponent(this.url)+"' title='Permalink to the latest version of this playlist'>&#9835;</a> <a href='"+this.url+"' target='_blank'>"+this.title+"</a>";
         $('#playgrub-playlist-title').html(title_html);
     },
 
