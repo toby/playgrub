@@ -1,0 +1,4 @@
+cron:
+- description: Hourly charts update
+  url: /cron/charts
+  schedule: every 1 hours

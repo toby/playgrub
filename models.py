@@ -6,6 +6,7 @@ class PlaylistTrack(db.Model):
   index = db.IntegerProperty(required=True)
   playlist = db.StringProperty(required=True)
   create_date = db.DateTimeProperty(required=True)
+  charted = db.BooleanProperty(required=True,default=False)
 
 class PlaylistHeader(db.Model):
   title = db.StringProperty(required=True)
@@ -18,3 +19,8 @@ class PlaygrubAccount(db.Model):
   service = db.StringProperty()
   user = db.StringProperty()
   password = db.StringProperty()
+
+class PlaygrubChartEntry(db.Model):
+	artist = db.StringProperty(required=True)
+	track = db.StringProperty(required=True)
+	score = db.FloatProperty(required=True)
