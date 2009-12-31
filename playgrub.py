@@ -17,7 +17,7 @@ from models import PlaylistTrack
 from models import PlaygrubAccount
 from models import PlaygrubChartEntry
 
-pghost = "http://localhost:8082/"
+pghost = "http://www.playgrub.com/"
 
 class IndexHandler(webapp.RequestHandler):
 
