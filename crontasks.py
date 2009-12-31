@@ -26,6 +26,10 @@ class GenerateCharts(webapp.RequestHandler):
 				entry = entries.fetch(1)[0]
 				entry.score += 1
 			entry.put()
+			try:
+				print "Incremented \""+entry.track+"\" - "+entry.artist+" to "+str(entry.score)
+			except:
+				print "Some UTF-8 encoded track name, CBA to figure out how to echo them :P"
 			track.charted = True
 			track.put()
 	
