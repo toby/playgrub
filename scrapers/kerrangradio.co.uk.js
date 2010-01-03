@@ -15,7 +15,6 @@ Playgrub.source.scrape = function() {
 	$("form table tr td font.Text").each(function () {
 		var artist = $(this).find('b').text();
 		var title = $(this).find('br')[0].nextSibling.nodeValue;
-		console.log(title);
 		if( artist && title && artist != "" && title != "")
 			Playgrub.playlist.add_track(artist,title);
 	});
