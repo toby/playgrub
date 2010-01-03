@@ -313,7 +313,8 @@ Playgrub.Bookmarklet.prototype = {
 
     iframe_loaded: function() {
         var iframe = window.frames['playgrub-server-iframe'];
-        iframe.postMessage(Playgrub.Util.JSONstringify(Playgrub.playlist), '*');
+        var jplaylist = Playgrub.Util.JSONstringify(Playgrub.playlist);
+        iframe.postMessage(jplaylist, '*');
         Playgrub.container.hide_status();
         $("#playgrub-bookmarklet-content").slideDown("normal", function(){ });
     },
@@ -802,7 +803,8 @@ Playgrub.Util = {
                 v = obj[n]; t = typeof(v);
                 if (t == "string") v = '"'+v.replace(/["]/g,'\\"')+'"';
                 else if (t == "object" && v !== null) v = Playgrub.Util.JSONstringify(v);
-                json.push((arr ? "" : '"' + n + '":') + String(v));
+                if(t != "function")
+                    json.push((arr ? "" : '"' + n + '":') + String(v));
             }
             return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
         }
