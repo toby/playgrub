@@ -552,8 +552,7 @@ Playgrub.ScraperSource = function() {
     Playgrub.Util.inject_script(Playgrub.PGHOST+'scraper.js?url='+encodeURIComponent(window.location));
 
     this.start = function() {
-        var regex = new RegExp(this.url);
-        if(this.scrape && regex.exec(window.location)) {
+        if(this.scrape) {
             this.scrape();
             if(Playgrub.playlist.tracks.length > 0){
                 Playgrub.playlist.url = ''+window.location+'';
@@ -563,6 +562,15 @@ Playgrub.ScraperSource = function() {
             }
         }
         Playgrub.Events.noSongs();
+        return false;
+    };
+
+    this.set_url = function(url) {
+        var regex = new RegExp(url);
+        if(regex.exec(window.location)) {
+            this.url = url;
+            return true;
+        }
         return false;
     }
 
