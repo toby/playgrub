@@ -211,20 +211,17 @@ class ScrapeHandler(webapp.RequestHandler):
     scraper_path = os.path.join(os.path.dirname(__file__), 'scrapers/')
 
     for root, dirs, files in os.walk(scraper_path):
-		
-        files.sort() # May not be needed
-        files.reverse() # To make more specific filenames preferable
-		
+
+        self.response.headers['Content-Type'] = 'text/javascript'
         for filename in files:
             if filename.endswith('.js'):
                 # logging.error("filename -> %s",filename.split('.js')[0])
-                sre = re.compile('(.+\.)?'+re.escape(filename.split('.js')[0].replace('>','/')).replace('\*','.+'))
+                sre = re.compile('(.+\.)?'+re.escape(filename.split('.js')[0].replace('>','/')))
                 if sre.match(domain):
                     # logging.error("match -> %s",domain)
-                    self.response.headers['Content-Type'] = 'text/javascript'
                     self.response.out.write(template.render(scraper_path+filename, {}))
                     return
-    self.response.out.write('Playgrub.Events.noScraper();')
+    self.response.out.write(template.render(scraper_path+'default.js', {}))
 
 class TwitterPostHandler(webapp.RequestHandler):
 

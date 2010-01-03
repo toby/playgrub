@@ -8,12 +8,13 @@
  * To test, go to http://www.classicfm.co.uk/on-air/playlist/
  * and pick a recent show.
  */
-Playgrub.source.url = '*';
+Playgrub.source.url = '.*';
 Playgrub.source.error = 'Sorry, no suitable haudio tags could be found on this page';
 Playgrub.source.scrape = function() {
     $(".haudio").each(function () {
 		var artist = $(this).find("span.contributor").text();
 		var title = $(this).find("span.title").text();
+        title = title?title:$(this).find("span.fn").text();
 		if( artist && title && artist != "" && title != "" )
 	    	Playgrub.playlist.add_track(artist,title);
     });
