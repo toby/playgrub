@@ -8,6 +8,10 @@ handlers:
   script: admin.py
   login: admin
 
+- url: /cron/.*
+  script: crontasks.py
+  login: admin
+    
 - url: /js
   static_dir: js
 

@@ -15,6 +15,9 @@ from google.appengine.ext import db
 from models import PlaylistHeader
 from models import PlaylistTrack
 from models import PlaygrubAccount
+from models import PlaygrubChartEntry
+
+pghost = "http://www.playgrub.com/"
 
 class IndexHandler(webapp.RequestHandler):
 
@@ -85,6 +88,30 @@ class LatestXSPFHandler(webapp.RequestHandler):
         'header': head,
         'songs': songs,
         }
+
+    path = os.path.join(os.path.dirname(__file__), 'html/xspf-template.xspf')
+    self.response.headers['Content-Type'] = 'application/xspf+xml'
+    self.response.out.write(template.render(path, template_values))
+
+class ChartXSPFHandler(webapp.RequestHandler):
+
+  def get(self):
+    q = PlaygrubChartEntry.all()
+    q.order('-score')
+    if q.count() == 0:
+      return
+    
+    songs = q.fetch(50)
+    class ChartHeader(object):
+      title = "The Latest Playgrub Chart" # Include the local time maybe?
+      url = pghost+"#xspf="+pghost+"charts"
+    
+    head = ChartHeader()
+    
+    template_values = {
+      'header': head,
+      'songs': songs,
+    }
 
     path = os.path.join(os.path.dirname(__file__), 'html/xspf-template.xspf')
     self.response.headers['Content-Type'] = 'application/xspf+xml'
@@ -213,7 +240,7 @@ class TwitterPostHandler(webapp.RequestHandler):
           return
       bitly_account = q.fetch(1)[0]
 
-      play_url = 'http://www.playgrub.com/'+urllib.quote('#xspf=http://www.playgrub.com/'+head.playlist+'.xspf')
+      play_url = pghost+urllib.quote('#xspf='+pghost+head.playlist+'.xspf')
       login = bitly_account.user
       password = bitly_account.password
       shorten_url = 'http://api.bit.ly/shorten?version=2.0.1&login='+login+'&apiKey='+password+'&history=1&longUrl='+play_url
@@ -254,6 +281,7 @@ def main():
   application = webapp.WSGIApplication([('/bookmarklet_iframe', BookmarkletIframeHandler),
                                        ('/player', PlayerHandler),
                                        ('/latest', LatestXSPFHandler),
+                                       ('/charts', ChartXSPFHandler),
                                        ('/remote_xspf', RemoteXSPFHandler),
                                        ('/json-xspf/', JSONXSPFHandler),
                                        ('/twitter_post', TwitterPostHandler),
