@@ -21,6 +21,6 @@ class PlaygrubAccount(db.Model):
   password = db.StringProperty()
 
 class PlaygrubChartEntry(db.Model):
-	artist = db.StringProperty(required=True)
-	track = db.StringProperty(required=True)
-	score = db.FloatProperty(required=True)
+  artist = db.StringProperty(required=True)
+  track = db.StringProperty(required=True)
+  score = db.FloatProperty(required=True)
