@@ -1,6 +1,7 @@
 import logging
 import os
 import wsgiref.handlers
+import datetime
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
@@ -18,7 +19,7 @@ class GenerateCharts(webapp.RequestHandler):
 				entry.delete()
 		
 		# List all tracks that haven't been processed for charts
-		for track in PlaylistTrack.gql('where charted = :1', False):
+		for track in PlaylistTrack.gql('where create_date > :1', datetime.datetime.now() - datetime.timedelta(3600)):
 			entries = PlaygrubChartEntry.gql('where artist = :1 and track = :2',track.artist,track.track)
 			if (entries.count() == 0):
 				entry = PlaygrubChartEntry(artist = track.artist,track = track.track,score = 1.0)
@@ -30,8 +31,6 @@ class GenerateCharts(webapp.RequestHandler):
 				print "Incremented \""+entry.track+"\" - "+entry.artist+" to "+str(entry.score)
 			except:
 				print "Some UTF-8 encoded track name, CBA to figure out how to echo them :P"
-			track.charted = True
-			track.put()
 	
 def main():
   application = webapp.WSGIApplication([('/cron/charts', GenerateCharts)],
