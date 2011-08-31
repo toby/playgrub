@@ -8,26 +8,26 @@
  * This scraper will work on YouTube Disco and YouTube playlist pages (in "Play All" mode)
  */
 Playgrub.source.url = 'http://.*\.youtube.com.*';
-Playgrub.source.error = 'Check your YouTube page - only YouTube Disco/playlist playback pages are supported.'
+Playgrub.source.error = 'Check YouTube page - no playlist found.'
 Playgrub.source.scrape = function() { 
 
-    var quicklist = $("#quicklist");
-
-    if (quicklist.size() == 0) {
-        return;
-    }
-
-    quicklist.find("ol.video-list li.quicklist-item").each(function() {
-        var title = $(this).find("span.title > span").clone();
-        title.children().remove();
-        title = title.text().split(" - ");
+	var addByTitle = function(title) {
+        var title = $(this).attr("title").split(" - ")
         var artist = title[0];
         var song = title[1];
 
         if (artist && song) {
             Playgrub.playlist.add_track(artist, song);
         }
-    });
+	}
+
+    /* regular playlist */
+
+    $("#playlist-bar .playlist-bar-item a[title]").each(addByTitle);
+
+    /* cosmic panda playlist */
+
+    $("#watch-tray-playlist .watch-tray-playlist-item a[title]").each(addByTitle);
 }
 
 Playgrub.source.start();
