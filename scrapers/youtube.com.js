@@ -11,7 +11,7 @@ Playgrub.source.url = 'http://.*\.youtube.com.*';
 Playgrub.source.error = 'Check YouTube page - no playlist found.'
 Playgrub.source.scrape = function() { 
 
-	var addByTitle = function(title) {
+    var addByTitle = function(title) {
         var title = $(this).attr("title").split(" - ")
         var artist = title[0];
         var song = title[1];
@@ -19,7 +19,7 @@ Playgrub.source.scrape = function() {
         if (artist && song) {
             Playgrub.playlist.add_track(artist, song);
         }
-	}
+    }
 
     /* regular playlist */
 
